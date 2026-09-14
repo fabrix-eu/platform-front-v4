@@ -13,7 +13,9 @@
   font-display: swap;
 }
 
-@theme {
+/* `static`: emit every token as a CSS variable, used or not — the /design page
+   and inline `var(--color-fx-…)` references read them directly. */
+@theme static {
   --font-fx-display: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-fx-text: "Plus Jakarta Sans", system-ui, sans-serif;
 
@@ -46,6 +48,9 @@
   --color-fx-rose: #cb4a86;
   --color-fx-indigo: #554cc4;
   --color-fx-orange: #e4572e;
+
+  /* Text on a solid accent fill (orange count, teal avatar, rose button). */
+  --color-fx-on-accent: #ffffff;
 
   /* Block fills — always with ink on top. */
   --color-fx-teal-soft: #e2f3f2;

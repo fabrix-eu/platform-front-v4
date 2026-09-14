@@ -1,4 +1,5 @@
 import { ApiError } from "@/lib/api";
+import { Banner } from "@/components/ui/Banner";
 
 // Shared form components only need these two fields, so any concrete useMutation result fits.
 export interface AnyMutation {
@@ -6,29 +7,38 @@ export interface AnyMutation {
   isPending: boolean;
 }
 
-export function FieldError({ mutation, field }: { mutation: AnyMutation; field: string }) {
-  const error = mutation.error;
-  if (!(error instanceof ApiError)) return null;
-  const message = error.errors[field]?.[0];
-  return message ? <p className="mt-1.5 text-fx-small text-fx-rose">{message}</p> : null;
+/** The first server error for a field, if any. */
+export function fieldError(mutation: AnyMutation, field: string): string | undefined {
+  return mutation.error instanceof ApiError ? mutation.error.errors[field]?.[0] : undefined;
 }
 
-const BANNER = "mb-4 rounded-fx-sm bg-fx-rose-soft px-4 py-3 text-fx-body text-fx-ink";
+export function FieldError({ mutation, field, id }: { mutation: AnyMutation; field: string; id?: string }) {
+  const message = fieldError(mutation, field);
+  return message ? (
+    <p id={id} className="mt-1.5 text-fx-small text-fx-rose">
+      {message}
+    </p>
+  ) : null;
+}
 
 // Global / base-level error (validation key `base`, or a non-API failure).
 export function FormError({ mutation }: { mutation: AnyMutation }) {
   const error = mutation.error;
   if (!error) return null;
 
+  let message = "Something went wrong. Please try again.";
   if (error instanceof ApiError) {
     const base = error.errors.base?.[0];
-    if (base) return <div role="alert" className={BANNER}>{base}</div>;
-    // Business error with no per-field errors (e.g. invalid credentials) — show its message.
-    if (Object.keys(error.errors).length === 0) {
-      return <div role="alert" className={BANNER}>{error.message}</div>;
-    }
-    return null; // field errors are rendered next to each field
+    // A business error with no per-field errors (e.g. invalid credentials) shows its own message;
+    // field errors are rendered next to each field.
+    if (base) message = base;
+    else if (Object.keys(error.errors).length === 0) message = error.message;
+    else return null;
   }
 
-  return <div role="alert" className={BANNER}>Something went wrong. Please try again.</div>;
+  return (
+    <Banner tone="danger" className="mb-4">
+      {message}
+    </Banner>
+  );
 }
