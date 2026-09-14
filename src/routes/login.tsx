@@ -5,7 +5,6 @@ import { Field } from "@/components/Field";
 import { FormError } from "@/components/FieldError";
 import { AuthShell, linkClass, submitClass } from "@/features/auth/AuthShell";
 import { PasswordInput } from "@/features/auth/PasswordInput";
-import { SIGNUP_URL } from "@/features/auth/api";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -24,9 +23,9 @@ function LoginPage() {
       footer={
         <>
           New to FABRIX?{" "}
-          <a href={SIGNUP_URL} className={linkClass}>
+          <Link to="/register" className={linkClass}>
             Create an account
-          </a>
+          </Link>
         </>
       }
     >

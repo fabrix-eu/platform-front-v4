@@ -14,7 +14,10 @@ Built next to `platform-front` (which is frozen: bug fixes only) and switched ov
    endpoints it calls.
 2. **The `fx-*` tokens are the only theme.** No raw Tailwind palette (`gray-*`, `violet-*`…), no hex in
    components. If a value is missing, add a token to `src/index.css`.
-3. **Gates**: `npm run typecheck && npm run lint && npm run build` — all green, CI replays them.
+3. **Internal links stay on the site they are served from.** Always `<Link to="/…">` (or a root-relative
+   path) — never an absolute `https://platform.fabrixproject.eu/…` URL, which throws a beta visitor back onto
+   the old front. If a page is not rebuilt yet, build it (or ask) rather than linking out.
+4. **Gates**: `npm run typecheck && npm run lint && npm run build` — all green, CI replays them.
    `max-lines: 200` per file is enforced by eslint.
 
 ## Differences from the boilerplate (the Fabrix API contract)
