@@ -14,9 +14,12 @@ Built next to `platform-front` (which is frozen: bug fixes only) and switched ov
    endpoints it calls.
 2. **The `fx-*` tokens are the only theme.** No raw Tailwind palette (`gray-*`, `violet-*`…), no hex in
    components. If a value is missing, add a token to `src/index.css`.
-3. **Build pages from `src/components/ui`** (Button/ButtonLink, Pill/PillLink, Badge, Card, Avatar, Switch/Checkbox,
-   NavLink, TabList/TabLink, Banner, EmptyState, Eyebrow, SearchInput) and the form fields in `src/components`
-   (Field, SelectField, TextareaField). A new shared component is added to the `/design` catalog
+3. **Build pages from `src/components/ui`** (PageHeader, Button/ButtonLink, Pill/PillLink, Badge, Card, Avatar,
+   Switch/Checkbox, NavLink/ExternalNavLink, TabList/TabLink, Banner, EmptyState, Eyebrow, SearchInput, `menu`
+   classes for Radix DropdownMenu) and the form fields in `src/components` (Field, SelectField, TextareaField).
+   Every signed-in page renders inside `components/shell/AppShell` (via `routes/_auth.tsx`) and starts with a
+   `PageHeader`; the current org comes from `useCurrentOrg()` (`lib/activeOrg.ts`).
+   `PagePlaceholder` is temporary — replace it route by route. A new shared component is added to the `/design` catalog
    (`src/features/design/`) in the same commit. Merge classes with `cn()` — it knows the `fx-*` scale.
 4. **Internal links stay on the site they are served from.** Always `<Link to="/…">` (or a root-relative
    path) — never an absolute `https://platform.fabrixproject.eu/…` URL, which throws a beta visitor back onto

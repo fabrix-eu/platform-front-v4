@@ -1,5 +1,5 @@
 import { useSearch } from "@tanstack/react-router";
-import { Bell, Compass, Home, MapPin, Plus, ShoppingBag } from "lucide-react";
+import { Bell, Compass, GraduationCap, Home, MapPin, Plus, ShoppingBag } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { NavLink } from "@/components/ui/NavLink";
+import { ExternalNavLink, NavLink } from "@/components/ui/NavLink";
 import { TabLink, TabList } from "@/components/ui/Tabs";
 import { Row } from "./Section";
 import { capitalize, TABS } from "./search";
@@ -32,7 +32,7 @@ export function CatalogSurfaces() {
         <Avatar name="De Vezel" size="sm" />
       </Row>
 
-      <Row label="NavLink" source="components/ui/NavLink" hint="the active entry is filled, not tinted — the router sets it on real routes">
+      <Row label="NavLink" source="components/ui/NavLink" hint="the active entry is filled, not tinted — the router sets it on real routes · ExternalNavLink for another site">
         <nav aria-label="Demo navigation" className="w-64 rounded-fx-lg border border-fx-line bg-fx-paper p-3">
           {NAV_ITEMS.map((item) => (
             <NavLink
@@ -49,6 +49,9 @@ export function CatalogSurfaces() {
               {capitalize(item.key)}
             </NavLink>
           ))}
+          <ExternalNavLink href="https://learn.fabrixproject.eu" icon={GraduationCap}>
+            Learning Hub
+          </ExternalNavLink>
         </nav>
       </Row>
 

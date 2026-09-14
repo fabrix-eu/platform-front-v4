@@ -1,23 +1,40 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { meQueryOptions } from "@/lib/auth";
+import { resolveCurrentOrg } from "@/lib/activeOrg";
+import { ButtonLink } from "@/components/ui/Button";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { PageHeader } from "@/components/ui/PageHeader";
 
 export const Route = createFileRoute("/_auth/")({
+  // A member's home is their organisation's dashboard.
+  beforeLoad: async ({ context }) => {
+    const me = await context.queryClient.ensureQueryData(meQueryOptions);
+    const org = resolveCurrentOrg(me);
+    if (org) throw redirect({ to: "/$orgSlug/dashboard", params: { orgSlug: org.organization_slug } });
+  },
   component: HomePage,
 });
 
-// Scaffold placeholder: proves the auth round-trip against the Fabrix API.
+// Signed in, no organisation: everything on FABRIX starts with one.
 function HomePage() {
   const { data: me } = useSuspenseQuery(meQueryOptions);
 
   return (
-    <div className="mx-auto max-w-5xl">
-      <p className="font-fx-display text-fx-label text-fx-muted uppercase">platform-front-v4</p>
-      <h1 className="mt-4 text-fx-display text-fx-ink">Hello, {me.name}.</h1>
-      <p className="mt-4 max-w-2xl text-fx-lead text-fx-ink2">
-        The new front is wired to the API. {me.organizations.length} organisation
-        {me.organizations.length === 1 ? "" : "s"} on your account.
-      </p>
-    </div>
+    <>
+      <PageHeader title={`Welcome, ${me.name}`} lede="Find partners, materials and services in the circular textile ecosystem." />
+      <EmptyState
+        className="mt-10"
+        title="Add your organisation"
+        description="Create its profile, or claim the one that already exists — then list what you offer and invite the partners you work with."
+        action={
+          <ButtonLink to="/organizations/new">
+            <Plus className="size-4" strokeWidth={2.6} />
+            Add your organisation
+          </ButtonLink>
+        }
+      />
+    </>
   );
 }

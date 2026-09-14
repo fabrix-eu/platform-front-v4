@@ -1,6 +1,6 @@
 import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
 import { meQueryOptions } from "@/lib/auth";
-import { AppLayout } from "@/components/AppLayout";
+import { AppShell } from "@/components/shell/AppShell";
 
 export const Route = createFileRoute("/_auth")({
   // Guard on server state (the `me` query), never on token presence.
@@ -12,8 +12,8 @@ export const Route = createFileRoute("/_auth")({
     }
   },
   component: () => (
-    <AppLayout>
+    <AppShell>
       <Outlet />
-    </AppLayout>
+    </AppShell>
   ),
 });

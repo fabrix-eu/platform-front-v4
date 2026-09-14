@@ -18,6 +18,24 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as VerifyInstructionsRouteImport } from './routes/verify-instructions'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
+import { Route as AuthOrgSlugRouteImport } from './routes/_auth/$orgSlug'
+import { Route as AuthEventsRouteImport } from './routes/_auth/events'
+import { Route as AuthFacilitatorRouteImport } from './routes/_auth/facilitator'
+import { Route as AuthGlobalRouteImport } from './routes/_auth/global'
+import { Route as AuthMarketplaceRouteImport } from './routes/_auth/marketplace'
+import { Route as AuthMessagesRouteImport } from './routes/_auth/messages'
+import { Route as AuthNotificationsRouteImport } from './routes/_auth/notifications'
+import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
+import { Route as AuthOrgSlugAssessmentsRouteImport } from './routes/_auth/$orgSlug/assessments'
+import { Route as AuthOrgSlugDashboardRouteImport } from './routes/_auth/$orgSlug/dashboard'
+import { Route as AuthOrgSlugListingsRouteImport } from './routes/_auth/$orgSlug/listings'
+import { Route as AuthOrgSlugMessagesRouteImport } from './routes/_auth/$orgSlug/messages'
+import { Route as AuthOrgSlugProfileRouteImport } from './routes/_auth/$orgSlug/profile'
+import { Route as AuthOrgSlugRelationsRouteImport } from './routes/_auth/$orgSlug/relations'
+import { Route as AuthFacilitatorIndexRouteImport } from './routes/_auth/facilitator/index'
+import { Route as AuthFacilitatorNetworkRouteImport } from './routes/_auth/facilitator/network'
+import { Route as AuthOrganizationsNewRouteImport } from './routes/_auth/organizations/new'
+import { Route as AuthOrgSlugSettingsMembersRouteImport } from './routes/_auth/$orgSlug/settings/members'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -63,6 +81,97 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthOrgSlugRoute = AuthOrgSlugRouteImport.update({
+  id: '/$orgSlug',
+  path: '/$orgSlug',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthEventsRoute = AuthEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthFacilitatorRoute = AuthFacilitatorRouteImport.update({
+  id: '/facilitator',
+  path: '/facilitator',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthGlobalRoute = AuthGlobalRouteImport.update({
+  id: '/global',
+  path: '/global',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMarketplaceRoute = AuthMarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthMessagesRoute = AuthMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthNotificationsRoute = AuthNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthSettingsRoute = AuthSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthOrgSlugAssessmentsRoute = AuthOrgSlugAssessmentsRouteImport.update({
+  id: '/assessments',
+  path: '/assessments',
+  getParentRoute: () => AuthOrgSlugRoute,
+} as any)
+const AuthOrgSlugDashboardRoute = AuthOrgSlugDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthOrgSlugRoute,
+} as any)
+const AuthOrgSlugListingsRoute = AuthOrgSlugListingsRouteImport.update({
+  id: '/listings',
+  path: '/listings',
+  getParentRoute: () => AuthOrgSlugRoute,
+} as any)
+const AuthOrgSlugMessagesRoute = AuthOrgSlugMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AuthOrgSlugRoute,
+} as any)
+const AuthOrgSlugProfileRoute = AuthOrgSlugProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthOrgSlugRoute,
+} as any)
+const AuthOrgSlugRelationsRoute = AuthOrgSlugRelationsRouteImport.update({
+  id: '/relations',
+  path: '/relations',
+  getParentRoute: () => AuthOrgSlugRoute,
+} as any)
+const AuthFacilitatorIndexRoute = AuthFacilitatorIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthFacilitatorRoute,
+} as any)
+const AuthFacilitatorNetworkRoute = AuthFacilitatorNetworkRouteImport.update({
+  id: '/network',
+  path: '/network',
+  getParentRoute: () => AuthFacilitatorRoute,
+} as any)
+const AuthOrganizationsNewRoute = AuthOrganizationsNewRouteImport.update({
+  id: '/organizations/new',
+  path: '/organizations/new',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthOrgSlugSettingsMembersRoute =
+  AuthOrgSlugSettingsMembersRouteImport.update({
+    id: '/settings/members',
+    path: '/settings/members',
+    getParentRoute: () => AuthOrgSlugRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
@@ -73,6 +182,24 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
+  '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/events': typeof AuthEventsRoute
+  '/facilitator': typeof AuthFacilitatorRouteWithChildren
+  '/global': typeof AuthGlobalRoute
+  '/marketplace': typeof AuthMarketplaceRoute
+  '/messages': typeof AuthMessagesRoute
+  '/notifications': typeof AuthNotificationsRoute
+  '/settings': typeof AuthSettingsRoute
+  '/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
+  '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
+  '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
+  '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
+  '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
+  '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/facilitator/network': typeof AuthFacilitatorNetworkRoute
+  '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
 }
 export interface FileRoutesByTo {
   '/design': typeof DesignRoute
@@ -82,7 +209,24 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
+  '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/events': typeof AuthEventsRoute
+  '/global': typeof AuthGlobalRoute
+  '/marketplace': typeof AuthMarketplaceRoute
+  '/messages': typeof AuthMessagesRoute
+  '/notifications': typeof AuthNotificationsRoute
+  '/settings': typeof AuthSettingsRoute
   '/': typeof AuthIndexRoute
+  '/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
+  '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
+  '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
+  '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
+  '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
+  '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/facilitator/network': typeof AuthFacilitatorNetworkRoute
+  '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/facilitator': typeof AuthFacilitatorIndexRoute
+  '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -94,7 +238,25 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
+  '/_auth/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/_auth/events': typeof AuthEventsRoute
+  '/_auth/facilitator': typeof AuthFacilitatorRouteWithChildren
+  '/_auth/global': typeof AuthGlobalRoute
+  '/_auth/marketplace': typeof AuthMarketplaceRoute
+  '/_auth/messages': typeof AuthMessagesRoute
+  '/_auth/notifications': typeof AuthNotificationsRoute
+  '/_auth/settings': typeof AuthSettingsRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
+  '/_auth/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
+  '/_auth/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
+  '/_auth/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
+  '/_auth/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
+  '/_auth/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/_auth/facilitator/network': typeof AuthFacilitatorNetworkRoute
+  '/_auth/organizations/new': typeof AuthOrganizationsNewRoute
+  '/_auth/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/_auth/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -107,6 +269,24 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-email'
     | '/verify-instructions'
+    | '/$orgSlug'
+    | '/events'
+    | '/facilitator'
+    | '/global'
+    | '/marketplace'
+    | '/messages'
+    | '/notifications'
+    | '/settings'
+    | '/$orgSlug/assessments'
+    | '/$orgSlug/dashboard'
+    | '/$orgSlug/listings'
+    | '/$orgSlug/messages'
+    | '/$orgSlug/profile'
+    | '/$orgSlug/relations'
+    | '/facilitator/network'
+    | '/organizations/new'
+    | '/facilitator/'
+    | '/$orgSlug/settings/members'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/design'
@@ -116,7 +296,24 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-email'
     | '/verify-instructions'
+    | '/$orgSlug'
+    | '/events'
+    | '/global'
+    | '/marketplace'
+    | '/messages'
+    | '/notifications'
+    | '/settings'
     | '/'
+    | '/$orgSlug/assessments'
+    | '/$orgSlug/dashboard'
+    | '/$orgSlug/listings'
+    | '/$orgSlug/messages'
+    | '/$orgSlug/profile'
+    | '/$orgSlug/relations'
+    | '/facilitator/network'
+    | '/organizations/new'
+    | '/facilitator'
+    | '/$orgSlug/settings/members'
   id:
     | '__root__'
     | '/_auth'
@@ -127,7 +324,25 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verify-email'
     | '/verify-instructions'
+    | '/_auth/$orgSlug'
+    | '/_auth/events'
+    | '/_auth/facilitator'
+    | '/_auth/global'
+    | '/_auth/marketplace'
+    | '/_auth/messages'
+    | '/_auth/notifications'
+    | '/_auth/settings'
     | '/_auth/'
+    | '/_auth/$orgSlug/assessments'
+    | '/_auth/$orgSlug/dashboard'
+    | '/_auth/$orgSlug/listings'
+    | '/_auth/$orgSlug/messages'
+    | '/_auth/$orgSlug/profile'
+    | '/_auth/$orgSlug/relations'
+    | '/_auth/facilitator/network'
+    | '/_auth/organizations/new'
+    | '/_auth/facilitator/'
+    | '/_auth/$orgSlug/settings/members'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,15 +421,197 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/$orgSlug': {
+      id: '/_auth/$orgSlug'
+      path: '/$orgSlug'
+      fullPath: '/$orgSlug'
+      preLoaderRoute: typeof AuthOrgSlugRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/events': {
+      id: '/_auth/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof AuthEventsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/facilitator': {
+      id: '/_auth/facilitator'
+      path: '/facilitator'
+      fullPath: '/facilitator'
+      preLoaderRoute: typeof AuthFacilitatorRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/global': {
+      id: '/_auth/global'
+      path: '/global'
+      fullPath: '/global'
+      preLoaderRoute: typeof AuthGlobalRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/marketplace': {
+      id: '/_auth/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof AuthMarketplaceRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/messages': {
+      id: '/_auth/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AuthMessagesRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/notifications': {
+      id: '/_auth/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthNotificationsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/settings': {
+      id: '/_auth/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthSettingsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/$orgSlug/assessments': {
+      id: '/_auth/$orgSlug/assessments'
+      path: '/assessments'
+      fullPath: '/$orgSlug/assessments'
+      preLoaderRoute: typeof AuthOrgSlugAssessmentsRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/$orgSlug/dashboard': {
+      id: '/_auth/$orgSlug/dashboard'
+      path: '/dashboard'
+      fullPath: '/$orgSlug/dashboard'
+      preLoaderRoute: typeof AuthOrgSlugDashboardRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/$orgSlug/listings': {
+      id: '/_auth/$orgSlug/listings'
+      path: '/listings'
+      fullPath: '/$orgSlug/listings'
+      preLoaderRoute: typeof AuthOrgSlugListingsRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/$orgSlug/messages': {
+      id: '/_auth/$orgSlug/messages'
+      path: '/messages'
+      fullPath: '/$orgSlug/messages'
+      preLoaderRoute: typeof AuthOrgSlugMessagesRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/$orgSlug/profile': {
+      id: '/_auth/$orgSlug/profile'
+      path: '/profile'
+      fullPath: '/$orgSlug/profile'
+      preLoaderRoute: typeof AuthOrgSlugProfileRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/$orgSlug/relations': {
+      id: '/_auth/$orgSlug/relations'
+      path: '/relations'
+      fullPath: '/$orgSlug/relations'
+      preLoaderRoute: typeof AuthOrgSlugRelationsRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/facilitator/': {
+      id: '/_auth/facilitator/'
+      path: '/'
+      fullPath: '/facilitator/'
+      preLoaderRoute: typeof AuthFacilitatorIndexRouteImport
+      parentRoute: typeof AuthFacilitatorRoute
+    }
+    '/_auth/facilitator/network': {
+      id: '/_auth/facilitator/network'
+      path: '/network'
+      fullPath: '/facilitator/network'
+      preLoaderRoute: typeof AuthFacilitatorNetworkRouteImport
+      parentRoute: typeof AuthFacilitatorRoute
+    }
+    '/_auth/organizations/new': {
+      id: '/_auth/organizations/new'
+      path: '/organizations/new'
+      fullPath: '/organizations/new'
+      preLoaderRoute: typeof AuthOrganizationsNewRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/$orgSlug/settings/members': {
+      id: '/_auth/$orgSlug/settings/members'
+      path: '/settings/members'
+      fullPath: '/$orgSlug/settings/members'
+      preLoaderRoute: typeof AuthOrgSlugSettingsMembersRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
   }
 }
 
+interface AuthOrgSlugRouteChildren {
+  AuthOrgSlugAssessmentsRoute: typeof AuthOrgSlugAssessmentsRoute
+  AuthOrgSlugDashboardRoute: typeof AuthOrgSlugDashboardRoute
+  AuthOrgSlugListingsRoute: typeof AuthOrgSlugListingsRoute
+  AuthOrgSlugMessagesRoute: typeof AuthOrgSlugMessagesRoute
+  AuthOrgSlugProfileRoute: typeof AuthOrgSlugProfileRoute
+  AuthOrgSlugRelationsRoute: typeof AuthOrgSlugRelationsRoute
+  AuthOrgSlugSettingsMembersRoute: typeof AuthOrgSlugSettingsMembersRoute
+}
+
+const AuthOrgSlugRouteChildren: AuthOrgSlugRouteChildren = {
+  AuthOrgSlugAssessmentsRoute: AuthOrgSlugAssessmentsRoute,
+  AuthOrgSlugDashboardRoute: AuthOrgSlugDashboardRoute,
+  AuthOrgSlugListingsRoute: AuthOrgSlugListingsRoute,
+  AuthOrgSlugMessagesRoute: AuthOrgSlugMessagesRoute,
+  AuthOrgSlugProfileRoute: AuthOrgSlugProfileRoute,
+  AuthOrgSlugRelationsRoute: AuthOrgSlugRelationsRoute,
+  AuthOrgSlugSettingsMembersRoute: AuthOrgSlugSettingsMembersRoute,
+}
+
+const AuthOrgSlugRouteWithChildren = AuthOrgSlugRoute._addFileChildren(
+  AuthOrgSlugRouteChildren,
+)
+
+interface AuthFacilitatorRouteChildren {
+  AuthFacilitatorNetworkRoute: typeof AuthFacilitatorNetworkRoute
+  AuthFacilitatorIndexRoute: typeof AuthFacilitatorIndexRoute
+}
+
+const AuthFacilitatorRouteChildren: AuthFacilitatorRouteChildren = {
+  AuthFacilitatorNetworkRoute: AuthFacilitatorNetworkRoute,
+  AuthFacilitatorIndexRoute: AuthFacilitatorIndexRoute,
+}
+
+const AuthFacilitatorRouteWithChildren = AuthFacilitatorRoute._addFileChildren(
+  AuthFacilitatorRouteChildren,
+)
+
 interface AuthRouteChildren {
+  AuthOrgSlugRoute: typeof AuthOrgSlugRouteWithChildren
+  AuthEventsRoute: typeof AuthEventsRoute
+  AuthFacilitatorRoute: typeof AuthFacilitatorRouteWithChildren
+  AuthGlobalRoute: typeof AuthGlobalRoute
+  AuthMarketplaceRoute: typeof AuthMarketplaceRoute
+  AuthMessagesRoute: typeof AuthMessagesRoute
+  AuthNotificationsRoute: typeof AuthNotificationsRoute
+  AuthSettingsRoute: typeof AuthSettingsRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthOrganizationsNewRoute: typeof AuthOrganizationsNewRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthOrgSlugRoute: AuthOrgSlugRouteWithChildren,
+  AuthEventsRoute: AuthEventsRoute,
+  AuthFacilitatorRoute: AuthFacilitatorRouteWithChildren,
+  AuthGlobalRoute: AuthGlobalRoute,
+  AuthMarketplaceRoute: AuthMarketplaceRoute,
+  AuthMessagesRoute: AuthMessagesRoute,
+  AuthNotificationsRoute: AuthNotificationsRoute,
+  AuthSettingsRoute: AuthSettingsRoute,
   AuthIndexRoute: AuthIndexRoute,
+  AuthOrganizationsNewRoute: AuthOrganizationsNewRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CatalogControls } from "./CatalogControls";
+import { CatalogShell } from "./CatalogShell";
 import { CatalogSurfaces } from "./CatalogSurfaces";
 import { Radii, Swatches, TypeScale } from "./Foundations";
 import { Section } from "./Section";
@@ -60,6 +61,7 @@ export function DesignPage() {
 
           <Section n="05" title="Components" lede="The pieces every page is assembled from, each with its import path. Pills, tabs and nav entries here are live: their state is in the URL, exactly as on a real page.">
             <div className="rounded-fx-lg border border-fx-line bg-fx-paper px-8 py-2">
+              <CatalogShell />
               <CatalogControls />
               <CatalogSurfaces />
             </div>
