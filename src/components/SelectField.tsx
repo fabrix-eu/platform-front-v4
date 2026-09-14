@@ -17,10 +17,12 @@ interface SelectFieldProps {
   /** Shown as an empty first option; read it back as "" and coerce to null before sending. */
   placeholder?: string;
   required?: boolean;
+  /** Still uncontrolled: lets a parent react to the choice (e.g. narrow the next select). */
+  onChange?: (value: string) => void;
 }
 
 // Native <select> (uncontrolled): read with fd.get(name).
-export function SelectField({ label, name, mutation, options, defaultValue, placeholder, required }: SelectFieldProps) {
+export function SelectField({ label, name, mutation, options, defaultValue, placeholder, required, onChange }: SelectFieldProps) {
   const invalid = !!fieldError(mutation, name);
   return (
     <div>
@@ -34,6 +36,7 @@ export function SelectField({ label, name, mutation, options, defaultValue, plac
           name={name}
           required={required}
           defaultValue={defaultValue ?? ""}
+          onChange={onChange && ((e) => onChange(e.currentTarget.value))}
           aria-invalid={invalid || undefined}
           className={cn(inputClass, "appearance-none pr-10")}
         >

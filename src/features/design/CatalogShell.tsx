@@ -1,6 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, LogOut, Pencil, Plus, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { menuContentClass, menuDangerItemClass, menuItemClass, menuLabelClass, menuSeparatorClass } from "@/components/ui/menu";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Row } from "./Section";
@@ -23,6 +24,25 @@ export function CatalogShell() {
             }
           />
         </div>
+      </Row>
+
+      <Row label="Dialog" source="components/ui/Dialog" hint="Radix Dialog — focus trapped, Escape and the overlay close it">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">Contact Maasstad Textiles</Button>
+          </DialogTrigger>
+          <DialogContent title="Message Maasstad Textiles" description="They receive it in their FABRIX messages.">
+            <p className="text-fx-body text-fx-ink2">A form goes here — fields, then the actions right-aligned.</p>
+            <div className="mt-6 flex justify-end gap-3">
+              <DialogClose asChild>
+                <Button variant="ghost">Cancel</Button>
+              </DialogClose>
+              <DialogClose asChild>
+                <Button>Send message</Button>
+              </DialogClose>
+            </div>
+          </DialogContent>
+        </Dialog>
       </Row>
 
       <Row label="Menu" source="components/ui/menu" hint="Radix DropdownMenu styled by these classes — the org switcher and the user menu use them">

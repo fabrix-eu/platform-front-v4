@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as OpenRouteImport } from './routes/_open'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
@@ -22,7 +23,6 @@ import { Route as AuthOrgSlugRouteImport } from './routes/_auth/$orgSlug'
 import { Route as AuthEventsRouteImport } from './routes/_auth/events'
 import { Route as AuthFacilitatorRouteImport } from './routes/_auth/facilitator'
 import { Route as AuthGlobalRouteImport } from './routes/_auth/global'
-import { Route as AuthMarketplaceRouteImport } from './routes/_auth/marketplace'
 import { Route as AuthMessagesRouteImport } from './routes/_auth/messages'
 import { Route as AuthNotificationsRouteImport } from './routes/_auth/notifications'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
@@ -34,11 +34,19 @@ import { Route as AuthOrgSlugProfileRouteImport } from './routes/_auth/$orgSlug/
 import { Route as AuthOrgSlugRelationsRouteImport } from './routes/_auth/$orgSlug/relations'
 import { Route as AuthFacilitatorIndexRouteImport } from './routes/_auth/facilitator/index'
 import { Route as AuthFacilitatorNetworkRouteImport } from './routes/_auth/facilitator/network'
+import { Route as AuthMarketplaceNewRouteImport } from './routes/_auth/marketplace/new'
 import { Route as AuthOrganizationsNewRouteImport } from './routes/_auth/organizations/new'
+import { Route as OpenMarketplaceIndexRouteImport } from './routes/_open/marketplace/index'
+import { Route as OpenMarketplaceIdRouteImport } from './routes/_open/marketplace/$id'
 import { Route as AuthOrgSlugSettingsMembersRouteImport } from './routes/_auth/$orgSlug/settings/members'
+import { Route as AuthMarketplaceIdEditRouteImport } from './routes/_auth/marketplace/$id.edit'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OpenRoute = OpenRouteImport.update({
+  id: '/_open',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DesignRoute = DesignRouteImport.update({
@@ -101,11 +109,6 @@ const AuthGlobalRoute = AuthGlobalRouteImport.update({
   path: '/global',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthMarketplaceRoute = AuthMarketplaceRouteImport.update({
-  id: '/marketplace',
-  path: '/marketplace',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthMessagesRoute = AuthMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
@@ -161,10 +164,25 @@ const AuthFacilitatorNetworkRoute = AuthFacilitatorNetworkRouteImport.update({
   path: '/network',
   getParentRoute: () => AuthFacilitatorRoute,
 } as any)
+const AuthMarketplaceNewRoute = AuthMarketplaceNewRouteImport.update({
+  id: '/marketplace/new',
+  path: '/marketplace/new',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthOrganizationsNewRoute = AuthOrganizationsNewRouteImport.update({
   id: '/organizations/new',
   path: '/organizations/new',
   getParentRoute: () => AuthRoute,
+} as any)
+const OpenMarketplaceIndexRoute = OpenMarketplaceIndexRouteImport.update({
+  id: '/marketplace/',
+  path: '/marketplace/',
+  getParentRoute: () => OpenRoute,
+} as any)
+const OpenMarketplaceIdRoute = OpenMarketplaceIdRouteImport.update({
+  id: '/marketplace/$id',
+  path: '/marketplace/$id',
+  getParentRoute: () => OpenRoute,
 } as any)
 const AuthOrgSlugSettingsMembersRoute =
   AuthOrgSlugSettingsMembersRouteImport.update({
@@ -172,6 +190,11 @@ const AuthOrgSlugSettingsMembersRoute =
     path: '/settings/members',
     getParentRoute: () => AuthOrgSlugRoute,
   } as any)
+const AuthMarketplaceIdEditRoute = AuthMarketplaceIdEditRouteImport.update({
+  id: '/marketplace/$id/edit',
+  path: '/marketplace/$id/edit',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthIndexRoute
@@ -186,7 +209,6 @@ export interface FileRoutesByFullPath {
   '/events': typeof AuthEventsRoute
   '/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/global': typeof AuthGlobalRoute
-  '/marketplace': typeof AuthMarketplaceRoute
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
@@ -197,11 +219,16 @@ export interface FileRoutesByFullPath {
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
   '/facilitator/network': typeof AuthFacilitatorNetworkRoute
+  '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/marketplace/': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
+  '/marketplace/$id/edit': typeof AuthMarketplaceIdEditRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof AuthIndexRoute
   '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -212,11 +239,9 @@ export interface FileRoutesByTo {
   '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
   '/events': typeof AuthEventsRoute
   '/global': typeof AuthGlobalRoute
-  '/marketplace': typeof AuthMarketplaceRoute
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
-  '/': typeof AuthIndexRoute
   '/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
   '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
@@ -224,13 +249,18 @@ export interface FileRoutesByTo {
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
   '/facilitator/network': typeof AuthFacilitatorNetworkRoute
+  '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/facilitator': typeof AuthFacilitatorIndexRoute
+  '/marketplace': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
+  '/marketplace/$id/edit': typeof AuthMarketplaceIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
+  '/_open': typeof OpenRouteWithChildren
   '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -242,7 +272,6 @@ export interface FileRoutesById {
   '/_auth/events': typeof AuthEventsRoute
   '/_auth/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/_auth/global': typeof AuthGlobalRoute
-  '/_auth/marketplace': typeof AuthMarketplaceRoute
   '/_auth/messages': typeof AuthMessagesRoute
   '/_auth/notifications': typeof AuthNotificationsRoute
   '/_auth/settings': typeof AuthSettingsRoute
@@ -254,9 +283,13 @@ export interface FileRoutesById {
   '/_auth/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/_auth/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
   '/_auth/facilitator/network': typeof AuthFacilitatorNetworkRoute
+  '/_auth/marketplace/new': typeof AuthMarketplaceNewRoute
   '/_auth/organizations/new': typeof AuthOrganizationsNewRoute
+  '/_open/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/_auth/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/_open/marketplace/': typeof OpenMarketplaceIndexRoute
   '/_auth/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
+  '/_auth/marketplace/$id/edit': typeof AuthMarketplaceIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -273,7 +306,6 @@ export interface FileRouteTypes {
     | '/events'
     | '/facilitator'
     | '/global'
-    | '/marketplace'
     | '/messages'
     | '/notifications'
     | '/settings'
@@ -284,11 +316,16 @@ export interface FileRouteTypes {
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
     | '/facilitator/network'
+    | '/marketplace/new'
     | '/organizations/new'
+    | '/marketplace/$id'
     | '/facilitator/'
+    | '/marketplace/'
     | '/$orgSlug/settings/members'
+    | '/marketplace/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/design'
     | '/forgot-password'
     | '/login'
@@ -299,11 +336,9 @@ export interface FileRouteTypes {
     | '/$orgSlug'
     | '/events'
     | '/global'
-    | '/marketplace'
     | '/messages'
     | '/notifications'
     | '/settings'
-    | '/'
     | '/$orgSlug/assessments'
     | '/$orgSlug/dashboard'
     | '/$orgSlug/listings'
@@ -311,12 +346,17 @@ export interface FileRouteTypes {
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
     | '/facilitator/network'
+    | '/marketplace/new'
     | '/organizations/new'
+    | '/marketplace/$id'
     | '/facilitator'
+    | '/marketplace'
     | '/$orgSlug/settings/members'
+    | '/marketplace/$id/edit'
   id:
     | '__root__'
     | '/_auth'
+    | '/_open'
     | '/design'
     | '/forgot-password'
     | '/login'
@@ -328,7 +368,6 @@ export interface FileRouteTypes {
     | '/_auth/events'
     | '/_auth/facilitator'
     | '/_auth/global'
-    | '/_auth/marketplace'
     | '/_auth/messages'
     | '/_auth/notifications'
     | '/_auth/settings'
@@ -340,13 +379,18 @@ export interface FileRouteTypes {
     | '/_auth/$orgSlug/profile'
     | '/_auth/$orgSlug/relations'
     | '/_auth/facilitator/network'
+    | '/_auth/marketplace/new'
     | '/_auth/organizations/new'
+    | '/_open/marketplace/$id'
     | '/_auth/facilitator/'
+    | '/_open/marketplace/'
     | '/_auth/$orgSlug/settings/members'
+    | '/_auth/marketplace/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
+  OpenRoute: typeof OpenRouteWithChildren
   DesignRoute: typeof DesignRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
@@ -363,6 +407,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_open': {
+      id: '/_open'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof OpenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/design': {
@@ -449,13 +500,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthGlobalRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/marketplace': {
-      id: '/_auth/marketplace'
-      path: '/marketplace'
-      fullPath: '/marketplace'
-      preLoaderRoute: typeof AuthMarketplaceRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/messages': {
       id: '/_auth/messages'
       path: '/messages'
@@ -533,6 +577,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthFacilitatorNetworkRouteImport
       parentRoute: typeof AuthFacilitatorRoute
     }
+    '/_auth/marketplace/new': {
+      id: '/_auth/marketplace/new'
+      path: '/marketplace/new'
+      fullPath: '/marketplace/new'
+      preLoaderRoute: typeof AuthMarketplaceNewRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/organizations/new': {
       id: '/_auth/organizations/new'
       path: '/organizations/new'
@@ -540,12 +591,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrganizationsNewRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_open/marketplace/': {
+      id: '/_open/marketplace/'
+      path: '/marketplace'
+      fullPath: '/marketplace/'
+      preLoaderRoute: typeof OpenMarketplaceIndexRouteImport
+      parentRoute: typeof OpenRoute
+    }
+    '/_open/marketplace/$id': {
+      id: '/_open/marketplace/$id'
+      path: '/marketplace/$id'
+      fullPath: '/marketplace/$id'
+      preLoaderRoute: typeof OpenMarketplaceIdRouteImport
+      parentRoute: typeof OpenRoute
+    }
     '/_auth/$orgSlug/settings/members': {
       id: '/_auth/$orgSlug/settings/members'
       path: '/settings/members'
       fullPath: '/$orgSlug/settings/members'
       preLoaderRoute: typeof AuthOrgSlugSettingsMembersRouteImport
       parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/marketplace/$id/edit': {
+      id: '/_auth/marketplace/$id/edit'
+      path: '/marketplace/$id/edit'
+      fullPath: '/marketplace/$id/edit'
+      preLoaderRoute: typeof AuthMarketplaceIdEditRouteImport
+      parentRoute: typeof AuthRoute
     }
   }
 }
@@ -593,12 +665,13 @@ interface AuthRouteChildren {
   AuthEventsRoute: typeof AuthEventsRoute
   AuthFacilitatorRoute: typeof AuthFacilitatorRouteWithChildren
   AuthGlobalRoute: typeof AuthGlobalRoute
-  AuthMarketplaceRoute: typeof AuthMarketplaceRoute
   AuthMessagesRoute: typeof AuthMessagesRoute
   AuthNotificationsRoute: typeof AuthNotificationsRoute
   AuthSettingsRoute: typeof AuthSettingsRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthMarketplaceNewRoute: typeof AuthMarketplaceNewRoute
   AuthOrganizationsNewRoute: typeof AuthOrganizationsNewRoute
+  AuthMarketplaceIdEditRoute: typeof AuthMarketplaceIdEditRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -606,18 +679,32 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthEventsRoute: AuthEventsRoute,
   AuthFacilitatorRoute: AuthFacilitatorRouteWithChildren,
   AuthGlobalRoute: AuthGlobalRoute,
-  AuthMarketplaceRoute: AuthMarketplaceRoute,
   AuthMessagesRoute: AuthMessagesRoute,
   AuthNotificationsRoute: AuthNotificationsRoute,
   AuthSettingsRoute: AuthSettingsRoute,
   AuthIndexRoute: AuthIndexRoute,
+  AuthMarketplaceNewRoute: AuthMarketplaceNewRoute,
   AuthOrganizationsNewRoute: AuthOrganizationsNewRoute,
+  AuthMarketplaceIdEditRoute: AuthMarketplaceIdEditRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface OpenRouteChildren {
+  OpenMarketplaceIdRoute: typeof OpenMarketplaceIdRoute
+  OpenMarketplaceIndexRoute: typeof OpenMarketplaceIndexRoute
+}
+
+const OpenRouteChildren: OpenRouteChildren = {
+  OpenMarketplaceIdRoute: OpenMarketplaceIdRoute,
+  OpenMarketplaceIndexRoute: OpenMarketplaceIndexRoute,
+}
+
+const OpenRouteWithChildren = OpenRoute._addFileChildren(OpenRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
+  OpenRoute: OpenRouteWithChildren,
   DesignRoute: DesignRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,

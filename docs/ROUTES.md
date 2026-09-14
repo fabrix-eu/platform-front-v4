@@ -10,6 +10,21 @@ decides.** Lines = page + main components it relies on (excluding `src/lib`).
 | **POSTPONE** — after the switch | 3,870 | data pilots, docs, admin, discussions, value-chain, feedback |
 | **DROP** | 3,170 | /design v3, changelog, test page, dead files, duplicates, redirects |
 
+## Rebuilt in v4
+
+| Path | Notes |
+|---|---|
+| `/login`, `/register` (account only), `/verify-*`, `/forgot-password`, `/reset-password` | org signup (claim or create) still to do |
+| `/design` | the v4 catalog |
+| shell (sidebar, org switcher, user menu, unread counts) | every other entry lands on a temporary `PagePlaceholder` |
+| `/marketplace`, `/marketplace/$id` | open to visitors; filters: search, type → category → speciality, near my org + radius, country; cards / list |
+| `/marketplace/new`, `/marketplace/$id/edit` | photos upload after create / immediately on edit |
+| `/$orgSlug/listings` | now in the sidebar |
+
+**Marketplace — left for later:** map view and "near a city" search (with events/directory, same explore
+frame); closed or expired listings of your own org are not listed (the API index returns available ones only);
+"Posted by" does not link to the org yet (public profile not rebuilt).
+
 ## P1
 
 | Path | Guard | Notes |

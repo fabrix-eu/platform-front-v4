@@ -59,8 +59,14 @@ src/
 ├── lib/                cross-cutting: api, auth (meQueryOptions), queryClient, toastBus, analytics, utils
 ├── components/         shared UI (Field, FieldError, Toast, AppLayout…)
 ├── features/<name>/    types.ts, hooks.ts, components — one folder per domain
-└── routes/             thin, file-based; `_auth` = guarded area
+└── routes/             thin, file-based
+    ├── _auth/          signed-in only (redirects to /login), rendered in AppShell
+    └── _open/          open to visitors (marketplace): AppShell when signed in, PublicShell otherwise —
+                        use `useOptionalMe()` there, never `useSuspenseQuery(meQueryOptions)`
 ```
+
+Links whose target has a loader (a listing, an organisation) in a long list use `preload="intent"`:
+the router's default `"render"` would fetch every item of the page.
 
 ## Migration order
 

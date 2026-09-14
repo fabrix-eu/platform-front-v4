@@ -109,3 +109,17 @@ export const api = {
   patch: <T>(path: string, body?: unknown) => request<T>("PATCH", path, body),
   delete: <T>(path: string, body?: unknown) => request<T>("DELETE", path, body),
 };
+
+export interface PageMeta {
+  current_page: number;
+  total_pages: number;
+  total_count: number;
+  next_page?: number | null;
+  prev_page?: number | null;
+}
+
+/** A paginated index: `{ data, meta }` is kept whole by `request` (only a sole `{ data }` is unwrapped). */
+export interface Paginated<T> {
+  data: T[];
+  meta: PageMeta;
+}
