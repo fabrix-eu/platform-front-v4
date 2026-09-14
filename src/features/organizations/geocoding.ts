@@ -30,7 +30,9 @@ function label({ name, street, housenumber, postcode, city, country }: PhotonFea
 }
 
 export async function searchAddress(query: string, limit = 5): Promise<AddressSuggestion[]> {
-  const params = new URLSearchParams({ q: query, limit: String(limit) });
+  // lang=en: addresses are stored as picked, so the directory reads the same for everyone
+  // (otherwise Photon answers in the browser's language — "Pays-Bas" for one, "Nederland" for another).
+  const params = new URLSearchParams({ q: query, limit: String(limit), lang: "en" });
   const res = await fetch(`${PHOTON_URL}/api?${params}`);
   if (!res.ok) return [];
   const data: { features: PhotonFeature[] } = await res.json();
