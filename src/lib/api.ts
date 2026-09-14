@@ -2,7 +2,9 @@
 const API_BASE =
   import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? "https://api.fabrixproject.eu" : "/api");
 
-type ErrorBody = { error?: string | { message?: string }; errors?: Record<string, string[]> };
+// `errors` is usually { field: [msg] }, but some endpoints (registrations/with_organization)
+// render a bare string — it becomes a `base` error so FormError still shows it.
+type ErrorBody = { error?: string | { message?: string }; errors?: Record<string, string[]> | string };
 
 export class ApiError extends Error {
   status: number;
@@ -14,7 +16,7 @@ export class ApiError extends Error {
     super(message ?? "Request failed");
     this.name = "ApiError";
     this.status = status;
-    this.errors = data.errors ?? {};
+    this.errors = typeof data.errors === "string" ? { base: [data.errors] } : (data.errors ?? {});
   }
 }
 

@@ -14,7 +14,9 @@ decides.** Lines = page + main components it relies on (excluding `src/lib`).
 
 | Path | Notes |
 |---|---|
-| `/login`, `/register` (account only), `/verify-*`, `/forgot-password`, `/reset-password` | org signup (claim or create) still to do |
+| `/login`, `/verify-*`, `/forgot-password`, `/reset-password` | |
+| `/register` | one wizard: find your organisation → claim it / create it (details, address on the map, specialties) / "I'm not part of one" → account. Replaces the old hub, `/register-basic` and `/register-with-org` |
+| `/organizations/new` | search → claim an unclaimed one, or create: **mine** (`owner_email: ""`, I own it) or **a partner** (`owner_email` = their email → they are invited to claim it) |
 | `/design` | the v4 catalog |
 | shell (sidebar, org switcher, user menu, unread counts) | every other entry lands on a temporary `PagePlaceholder` |
 | `/marketplace`, `/marketplace/$id` | open to visitors; filters: search, type → category → speciality, near my org + radius, country; cards / list |

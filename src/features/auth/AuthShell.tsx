@@ -6,16 +6,18 @@ interface AuthShellProps {
   lede?: string;
   children: ReactNode;
   footer?: ReactNode;
+  /** A wider card, for multi-step signup. */
+  wide?: boolean;
 }
 
 // The frame of every logged-out auth page: logo above the card, a secondary line under it.
-export function AuthShell({ title, lede, children, footer }: AuthShellProps) {
+export function AuthShell({ title, lede, children, footer, wide }: AuthShellProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-fx-panel px-4 py-12">
       <Link to="/login" aria-label="FABRIX">
         <img src="/fabrix-logo.svg" alt="FABRIX" className="h-9" />
       </Link>
-      <div className="mt-8 w-full max-w-sm rounded-fx-lg border border-fx-line bg-fx-paper p-8">
+      <div className={`mt-8 w-full rounded-fx-lg border border-fx-line bg-fx-paper p-6 sm:p-8 ${wide ? "max-w-2xl" : "max-w-sm"}`}>
         <h1 className="text-fx-title text-fx-ink">{title}</h1>
         {lede && <p className="mt-2 text-fx-body text-fx-ink2">{lede}</p>}
         <div className="mt-6">{children}</div>
