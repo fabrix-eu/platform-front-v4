@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/shell/PagePlaceholder";
+import { DashboardPage } from "@/features/dashboard/DashboardPage";
+import { organizationProfileQueryOptions } from "@/features/organizations/api";
 
 export const Route = createFileRoute("/_auth/$orgSlug/dashboard")({
-  component: () => <PagePlaceholder title="Home" lede="What is happening around your organisation." />,
+  loader: ({ context, params }) => context.queryClient.ensureQueryData(organizationProfileQueryOptions(params.orgSlug)),
+  component: DashboardPage,
 });
