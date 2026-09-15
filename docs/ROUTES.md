@@ -22,6 +22,7 @@ decides.** Lines = page + main components it relies on (excluding `src/lib`).
 | `/marketplace`, `/marketplace/$id` | open to visitors; filters: search, type → category → speciality, near my org + radius, country; cards / list |
 | `/marketplace/new`, `/marketplace/$id/edit` | photos upload after create / immediately on edit |
 | `/$orgSlug/listings` | now in the sidebar |
+| `/organizations/$id` | public profile (slug or UUID), open to visitors: header, about, listings, photos, connections, contact / specialties / networks. Actions by viewer: member → edit + add a listing; visitor → sign in; other member → connect (relation), message (claimed), request to join (claimed) or claim (unclaimed). Private data (workers, turnover, NACE…) is **not displayed** — but the API still returns it publicly |
 
 **Marketplace — left for later:** map view and "near a city" search (with events/directory, same explore
 frame); closed or expired listings of your own org are not listed (the API index returns available ones only);

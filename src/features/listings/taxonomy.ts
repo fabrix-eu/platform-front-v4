@@ -67,6 +67,10 @@ export const categoryLabel = (category: string) => CATEGORY_LABELS[category] ?? 
 export const subcategoryLabel = (category: string, subcategory: string) =>
   SUBCATEGORY_LABELS[category]?.[subcategory] ?? subcategory;
 
+/** An organisation's specialty is a category or a subcategory key — the same vocabulary. */
+export const specialtyLabel = (key: string): string | null =>
+  CATEGORY_LABELS[key] ?? Object.values(SUBCATEGORY_LABELS).find((subs) => key in subs)?.[key] ?? null;
+
 export const categoryOptions = (type: string) =>
   (isListingType(type) ? CATEGORIES_BY_TYPE[type] : []).map((value) => ({ value, label: categoryLabel(value) }));
 

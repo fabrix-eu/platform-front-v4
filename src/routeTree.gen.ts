@@ -38,6 +38,7 @@ import { Route as AuthMarketplaceNewRouteImport } from './routes/_auth/marketpla
 import { Route as AuthOrganizationsNewRouteImport } from './routes/_auth/organizations/new'
 import { Route as OpenMarketplaceIndexRouteImport } from './routes/_open/marketplace/index'
 import { Route as OpenMarketplaceIdRouteImport } from './routes/_open/marketplace/$id'
+import { Route as OpenOrganizationsIdRouteImport } from './routes/_open/organizations/$id'
 import { Route as AuthOrgSlugSettingsMembersRouteImport } from './routes/_auth/$orgSlug/settings/members'
 import { Route as AuthMarketplaceIdEditRouteImport } from './routes/_auth/marketplace/$id.edit'
 
@@ -184,6 +185,11 @@ const OpenMarketplaceIdRoute = OpenMarketplaceIdRouteImport.update({
   path: '/marketplace/$id',
   getParentRoute: () => OpenRoute,
 } as any)
+const OpenOrganizationsIdRoute = OpenOrganizationsIdRouteImport.update({
+  id: '/organizations/$id',
+  path: '/organizations/$id',
+  getParentRoute: () => OpenRoute,
+} as any)
 const AuthOrgSlugSettingsMembersRoute =
   AuthOrgSlugSettingsMembersRouteImport.update({
     id: '/settings/members',
@@ -222,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
+  '/organizations/$id': typeof OpenOrganizationsIdRoute
   '/facilitator/': typeof AuthFacilitatorIndexRoute
   '/marketplace/': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
@@ -252,6 +259,7 @@ export interface FileRoutesByTo {
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
+  '/organizations/$id': typeof OpenOrganizationsIdRoute
   '/facilitator': typeof AuthFacilitatorIndexRoute
   '/marketplace': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
@@ -286,6 +294,7 @@ export interface FileRoutesById {
   '/_auth/marketplace/new': typeof AuthMarketplaceNewRoute
   '/_auth/organizations/new': typeof AuthOrganizationsNewRoute
   '/_open/marketplace/$id': typeof OpenMarketplaceIdRoute
+  '/_open/organizations/$id': typeof OpenOrganizationsIdRoute
   '/_auth/facilitator/': typeof AuthFacilitatorIndexRoute
   '/_open/marketplace/': typeof OpenMarketplaceIndexRoute
   '/_auth/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/marketplace/new'
     | '/organizations/new'
     | '/marketplace/$id'
+    | '/organizations/$id'
     | '/facilitator/'
     | '/marketplace/'
     | '/$orgSlug/settings/members'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/marketplace/new'
     | '/organizations/new'
     | '/marketplace/$id'
+    | '/organizations/$id'
     | '/facilitator'
     | '/marketplace'
     | '/$orgSlug/settings/members'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/_auth/marketplace/new'
     | '/_auth/organizations/new'
     | '/_open/marketplace/$id'
+    | '/_open/organizations/$id'
     | '/_auth/facilitator/'
     | '/_open/marketplace/'
     | '/_auth/$orgSlug/settings/members'
@@ -605,6 +617,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpenMarketplaceIdRouteImport
       parentRoute: typeof OpenRoute
     }
+    '/_open/organizations/$id': {
+      id: '/_open/organizations/$id'
+      path: '/organizations/$id'
+      fullPath: '/organizations/$id'
+      preLoaderRoute: typeof OpenOrganizationsIdRouteImport
+      parentRoute: typeof OpenRoute
+    }
     '/_auth/$orgSlug/settings/members': {
       id: '/_auth/$orgSlug/settings/members'
       path: '/settings/members'
@@ -692,11 +711,13 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface OpenRouteChildren {
   OpenMarketplaceIdRoute: typeof OpenMarketplaceIdRoute
+  OpenOrganizationsIdRoute: typeof OpenOrganizationsIdRoute
   OpenMarketplaceIndexRoute: typeof OpenMarketplaceIndexRoute
 }
 
 const OpenRouteChildren: OpenRouteChildren = {
   OpenMarketplaceIdRoute: OpenMarketplaceIdRoute,
+  OpenOrganizationsIdRoute: OpenOrganizationsIdRoute,
   OpenMarketplaceIndexRoute: OpenMarketplaceIndexRoute,
 }
 

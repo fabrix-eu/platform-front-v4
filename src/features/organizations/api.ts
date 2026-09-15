@@ -1,6 +1,18 @@
 import { queryOptions } from "@tanstack/react-query";
 import { api } from "@/lib/api";
-import type { OrganizationDraft, OrganizationSummary } from "./types";
+import type { OrganizationDraft, OrganizationProfile, OrganizationSummary } from "./types";
+
+/** GET /organizations/:id accepts a UUID or a slug. */
+export const organizationProfileQueryOptions = (idOrSlug: string) =>
+  queryOptions({
+    queryKey: ["organizations", "profile", idOrSlug],
+    queryFn: () => api.get<OrganizationProfile>(`/organizations/${idOrSlug}`),
+  });
+
+/** PATCH /organizations/:id — members and system admins only (403 otherwise). */
+export function updateOrganization(id: string, organization: Partial<Omit<OrganizationProfile, "id">>) {
+  return api.patch<OrganizationProfile>(`/organizations/${id}`, { organization });
+}
 
 export const organizationSearchQueryOptions = (term: string) =>
   queryOptions({

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { MapPin, Pencil, Trash2 } from "lucide-react";
 import type { User } from "@/lib/auth";
 import { useToast } from "@/components/Toast";
@@ -54,13 +54,13 @@ export function ListingAside({ listing, me }: { listing: Listing; me: User | und
     <aside className="space-y-4 lg:sticky lg:top-8">
       <Card>
         <Eyebrow>Posted by</Eyebrow>
-        <div className="mt-4 flex items-center gap-3">
+        <Link to="/organizations/$id" params={{ id: org.slug || org.id }} className="group mt-4 flex items-center gap-3">
           <Avatar name={org.name} src={org.image_url} />
           <div className="min-w-0">
-            <p className="truncate text-fx-body font-bold text-fx-ink">{org.name}</p>
+            <p className="truncate text-fx-body font-bold text-fx-ink group-hover:text-fx-emphasis">{org.name}</p>
             <p className="truncate text-fx-small text-fx-muted">{orgKindLabel(org.kind)}</p>
           </div>
-        </div>
+        </Link>
         {org.address && (
           <p className="mt-4 flex items-start gap-2 text-fx-small text-fx-ink2">
             <MapPin aria-hidden className="mt-0.5 size-3.5 shrink-0 text-fx-muted" />
