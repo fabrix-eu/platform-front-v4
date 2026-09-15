@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as OpenRouteImport } from './routes/_open'
 import { Route as DesignRouteImport } from './routes/design'
@@ -18,11 +19,11 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as VerifyInstructionsRouteImport } from './routes/verify-instructions'
-import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as AuthOrgSlugRouteImport } from './routes/_auth/$orgSlug'
 import { Route as AuthEventsRouteImport } from './routes/_auth/events'
 import { Route as AuthFacilitatorRouteImport } from './routes/_auth/facilitator'
 import { Route as AuthGlobalRouteImport } from './routes/_auth/global'
+import { Route as AuthHomeRouteImport } from './routes/_auth/home'
 import { Route as AuthMessagesRouteImport } from './routes/_auth/messages'
 import { Route as AuthNotificationsRouteImport } from './routes/_auth/notifications'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
@@ -42,6 +43,11 @@ import { Route as OpenOrganizationsIdRouteImport } from './routes/_open/organiza
 import { Route as AuthOrgSlugSettingsMembersRouteImport } from './routes/_auth/$orgSlug/settings/members'
 import { Route as AuthMarketplaceIdEditRouteImport } from './routes/_auth/marketplace/$id.edit'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
@@ -85,11 +91,6 @@ const VerifyInstructionsRoute = VerifyInstructionsRouteImport.update({
   path: '/verify-instructions',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthIndexRoute = AuthIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthOrgSlugRoute = AuthOrgSlugRouteImport.update({
   id: '/$orgSlug',
   path: '/$orgSlug',
@@ -108,6 +109,11 @@ const AuthFacilitatorRoute = AuthFacilitatorRouteImport.update({
 const AuthGlobalRoute = AuthGlobalRouteImport.update({
   id: '/global',
   path: '/global',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthHomeRoute = AuthHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthMessagesRoute = AuthMessagesRouteImport.update({
@@ -203,7 +209,7 @@ const AuthMarketplaceIdEditRoute = AuthMarketplaceIdEditRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof AuthIndexRoute
+  '/': typeof IndexRoute
   '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof AuthEventsRoute
   '/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/global': typeof AuthGlobalRoute
+  '/home': typeof AuthHomeRoute
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
@@ -235,7 +242,7 @@ export interface FileRoutesByFullPath {
   '/marketplace/$id/edit': typeof AuthMarketplaceIdEditRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof AuthIndexRoute
+  '/': typeof IndexRoute
   '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByTo {
   '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
   '/events': typeof AuthEventsRoute
   '/global': typeof AuthGlobalRoute
+  '/home': typeof AuthHomeRoute
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
@@ -267,6 +275,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_open': typeof OpenRouteWithChildren
   '/design': typeof DesignRoute
@@ -280,10 +289,10 @@ export interface FileRoutesById {
   '/_auth/events': typeof AuthEventsRoute
   '/_auth/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/_auth/global': typeof AuthGlobalRoute
+  '/_auth/home': typeof AuthHomeRoute
   '/_auth/messages': typeof AuthMessagesRoute
   '/_auth/notifications': typeof AuthNotificationsRoute
   '/_auth/settings': typeof AuthSettingsRoute
-  '/_auth/': typeof AuthIndexRoute
   '/_auth/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
   '/_auth/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/_auth/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
@@ -315,6 +324,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/facilitator'
     | '/global'
+    | '/home'
     | '/messages'
     | '/notifications'
     | '/settings'
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
     | '/$orgSlug'
     | '/events'
     | '/global'
+    | '/home'
     | '/messages'
     | '/notifications'
     | '/settings'
@@ -366,6 +377,7 @@ export interface FileRouteTypes {
     | '/marketplace/$id/edit'
   id:
     | '__root__'
+    | '/'
     | '/_auth'
     | '/_open'
     | '/design'
@@ -379,10 +391,10 @@ export interface FileRouteTypes {
     | '/_auth/events'
     | '/_auth/facilitator'
     | '/_auth/global'
+    | '/_auth/home'
     | '/_auth/messages'
     | '/_auth/notifications'
     | '/_auth/settings'
-    | '/_auth/'
     | '/_auth/$orgSlug/assessments'
     | '/_auth/$orgSlug/dashboard'
     | '/_auth/$orgSlug/listings'
@@ -401,6 +413,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
   OpenRoute: typeof OpenRouteWithChildren
   DesignRoute: typeof DesignRoute
@@ -414,6 +427,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -477,13 +497,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerifyInstructionsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_auth/': {
-      id: '/_auth/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/$orgSlug': {
       id: '/_auth/$orgSlug'
       path: '/$orgSlug'
@@ -510,6 +523,13 @@ declare module '@tanstack/react-router' {
       path: '/global'
       fullPath: '/global'
       preLoaderRoute: typeof AuthGlobalRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/home': {
+      id: '/_auth/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AuthHomeRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/messages': {
@@ -684,10 +704,10 @@ interface AuthRouteChildren {
   AuthEventsRoute: typeof AuthEventsRoute
   AuthFacilitatorRoute: typeof AuthFacilitatorRouteWithChildren
   AuthGlobalRoute: typeof AuthGlobalRoute
+  AuthHomeRoute: typeof AuthHomeRoute
   AuthMessagesRoute: typeof AuthMessagesRoute
   AuthNotificationsRoute: typeof AuthNotificationsRoute
   AuthSettingsRoute: typeof AuthSettingsRoute
-  AuthIndexRoute: typeof AuthIndexRoute
   AuthMarketplaceNewRoute: typeof AuthMarketplaceNewRoute
   AuthOrganizationsNewRoute: typeof AuthOrganizationsNewRoute
   AuthMarketplaceIdEditRoute: typeof AuthMarketplaceIdEditRoute
@@ -698,10 +718,10 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthEventsRoute: AuthEventsRoute,
   AuthFacilitatorRoute: AuthFacilitatorRouteWithChildren,
   AuthGlobalRoute: AuthGlobalRoute,
+  AuthHomeRoute: AuthHomeRoute,
   AuthMessagesRoute: AuthMessagesRoute,
   AuthNotificationsRoute: AuthNotificationsRoute,
   AuthSettingsRoute: AuthSettingsRoute,
-  AuthIndexRoute: AuthIndexRoute,
   AuthMarketplaceNewRoute: AuthMarketplaceNewRoute,
   AuthOrganizationsNewRoute: AuthOrganizationsNewRoute,
   AuthMarketplaceIdEditRoute: AuthMarketplaceIdEditRoute,
@@ -724,6 +744,7 @@ const OpenRouteChildren: OpenRouteChildren = {
 const OpenRouteWithChildren = OpenRoute._addFileChildren(OpenRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   OpenRoute: OpenRouteWithChildren,
   DesignRoute: DesignRoute,

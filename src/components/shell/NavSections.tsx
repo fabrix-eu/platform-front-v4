@@ -49,7 +49,7 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
             Home
           </NavLink>
         ) : (
-          <NavLink to="/" activeOptions={{ exact: true }} icon={Home}>
+          <NavLink to="/home" icon={Home}>
             Home
           </NavLink>
         )}

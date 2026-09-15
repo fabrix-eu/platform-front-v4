@@ -7,7 +7,8 @@ import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 
-export const Route = createFileRoute("/_auth/")({
+// "/" is the public landing; a signed-in user without an organisation lands here.
+export const Route = createFileRoute("/_auth/home")({
   // A member's home is their organisation's dashboard.
   beforeLoad: async ({ context }) => {
     const me = await context.queryClient.ensureQueryData(meQueryOptions);

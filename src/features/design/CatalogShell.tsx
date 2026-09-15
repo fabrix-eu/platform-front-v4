@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/Button";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { menuContentClass, menuDangerItemClass, menuItemClass, menuLabelClass, menuSeparatorClass } from "@/components/ui/menu";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { PublicHeader } from "@/components/shell/PublicHeader";
+import { SiteFooter } from "@/components/shell/SiteFooter";
 import { Row } from "./Section";
 
 // The pieces that frame a page: its header, and the menus of the shell.
@@ -72,6 +74,18 @@ export function CatalogShell() {
             </DropdownMenu.Content>
           </DropdownMenu.Portal>
         </DropdownMenu.Root>
+      </Row>
+
+      <Row label="PublicHeader" source="components/shell/PublicHeader" hint="what a visitor sees on top of the landing and the marketplace · the mark goes to the landing">
+        <div className="w-full overflow-hidden rounded-fx border border-fx-line">
+          <PublicHeader />
+        </div>
+      </Row>
+
+      <Row label="SiteFooter" source="components/shell/SiteFooter" hint="public pages only · the EU emblem and the grant disclaimer stay in full (reviewed by the project officer)">
+        <div className="w-full overflow-hidden rounded-fx border border-fx-line">
+          <SiteFooter />
+        </div>
       </Row>
     </>
   );

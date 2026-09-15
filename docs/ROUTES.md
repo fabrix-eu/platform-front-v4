@@ -14,6 +14,8 @@ decides.** Lines = page + main components it relies on (excluding `src/lib`).
 
 | Path | Notes |
 |---|---|
+| `/` | public landing (the design system's Landing screen: hero, three audiences → `/register`, pilot notice, about, footer with the EU acknowledgement in full). Signed in → the org dashboard, or `/home` without an org. Pending actions and the activity feed of the old `/` are not rebuilt (they belong to the dashboard) |
+| `/home` | signed in without an organisation: "Add your organisation" |
 | `/login`, `/verify-*`, `/forgot-password`, `/reset-password` | |
 | `/register` | one wizard: find your organisation → claim it / create it (details, address on the map, specialties) / "I'm not part of one" → account. Replaces the old hub, `/register-basic` and `/register-with-org` |
 | `/organizations/new` | search → claim an unclaimed one, or create: **mine** (`owner_email: ""`, I own it) or **a partner** (`owner_email` = their email → they are invited to claim it) |
