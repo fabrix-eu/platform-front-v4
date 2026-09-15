@@ -7,6 +7,7 @@ import { editorSections, type SectionGroup } from "./completion";
 import { CompletionCard } from "./CompletionCard";
 import { SectionCard } from "./SectionCard";
 import { IdentityForm } from "./sections/IdentityForm";
+import { OffersNeedsForm } from "./sections/OffersNeedsForm";
 import { PhotosMediaForm } from "./sections/PhotosMediaForm";
 import { SizeReachForm } from "./sections/SizeReachForm";
 import type { EditorSectionKey } from "./search";
@@ -15,6 +16,7 @@ import type { EditorSectionKey } from "./search";
 const FORMS: Partial<Record<EditorSectionKey, (props: { org: OrganizationProfile }) => ReactNode>> = {
   identity: IdentityForm,
   "size-reach": SizeReachForm,
+  "offers-needs": OffersNeedsForm,
   photos: PhotosMediaForm,
 };
 
