@@ -9,12 +9,16 @@ import { useToast } from "@/components/Toast";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { updateOrganization } from "../../api";
+import { ORG_KIND_LABELS } from "../../kinds";
 import type { OrganizationProfile } from "../../types";
 import { AddressField } from "../../wizard/AddressField";
 import { FormGroup } from "./FormGroup";
 import { legalFormOptions } from "./legalForms";
 
-const FIELDS = ["name", "description", "address", "country_code", "lat", "lon", "website", "email", "phone", "linkedin", "instagram", "legal_form", "vat_code"];
+const FIELDS = ["name", "description", "address", "country_code", "lat", "lon", "website", "email", "phone", "linkedin", "instagram", "kind", "legal_form", "vat_code"];
+
+// Organization::KINDS — the same list as signup and the directory.
+const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
 
 // A · Identity — who you are, where, how to reach you. Every field is an existing
 // organisation attribute; the prototype's tagline, site name, founding year,
@@ -62,6 +66,7 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
           phone: text("phone"),
           linkedin: text("linkedin"),
           instagram: text("instagram"),
+          kind: text("kind"),
           legal_form: text("legal_form"),
           vat_code: text("vat_code"),
         });
@@ -113,6 +118,15 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
         <div className="grid gap-5 sm:grid-cols-2">
           <SelectField
             label="What kind of organisation are you?"
+            name="kind"
+            required
+            placeholder="Choose a type"
+            defaultValue={org.kind}
+            options={KIND_OPTIONS}
+            mutation={mutation}
+          />
+          <SelectField
+            label="Legal form"
             name="legal_form"
             placeholder="Choose one"
             defaultValue={org.legal_form}
