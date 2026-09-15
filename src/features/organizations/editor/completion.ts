@@ -85,7 +85,7 @@ export function editorSections(org: OrganizationProfile): EditorSection[] {
       key: "photos",
       title: "Photos & media",
       group: "portrait",
-      status: org.organization_photos.length > 0 ? "complete" : "not_started",
+      status: statusOf([org.organization_photos.length > 0, !!org.image_url]),
       description: "The first thing people look at. One good photo of the workshop does more than a paragraph — the cheapest way to look real.",
     },
     {

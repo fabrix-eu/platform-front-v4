@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { useSearch } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -6,7 +7,21 @@ import { editorSections, type SectionGroup } from "./completion";
 import { CompletionCard } from "./CompletionCard";
 import { SectionCard } from "./SectionCard";
 import { IdentityForm } from "./sections/IdentityForm";
+import { PhotosMediaForm } from "./sections/PhotosMediaForm";
 import { SizeReachForm } from "./sections/SizeReachForm";
+import type { EditorSectionKey } from "./search";
+
+// The sections built so far; the others show a "comes next" placeholder.
+const FORMS: Partial<Record<EditorSectionKey, (props: { org: OrganizationProfile }) => ReactNode>> = {
+  identity: IdentityForm,
+  "size-reach": SizeReachForm,
+  photos: PhotosMediaForm,
+};
+
+function renderForm(key: EditorSectionKey, org: OrganizationProfile) {
+  const Form = FORMS[key];
+  return Form ? <Form org={org} /> : null;
+}
 
 const GROUPS: { key: SectionGroup; title: string; lede: string }[] = [
   { key: "required", title: "Required to go live", lede: "The six fields that put you on the map." },
@@ -39,7 +54,7 @@ export function EditProfileTab({ org, orgSlug }: { org: OrganizationProfile; org
               .filter((s) => s.group === group.key)
               .map((s) => (
                 <SectionCard key={s.key} section={s} orgSlug={orgSlug} open={open === s.key}>
-                  {s.key === "identity" ? <IdentityForm org={org} /> : s.key === "size-reach" ? <SizeReachForm org={org} /> : null}
+                  {renderForm(s.key, org)}
                 </SectionCard>
               ))}
           </div>
