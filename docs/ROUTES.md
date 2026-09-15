@@ -14,7 +14,7 @@ decides.** Lines = page + main components it relies on (excluding `src/lib`).
 
 | Path | Notes |
 |---|---|
-| `/` | public landing (the design system's Landing screen: hero, three audiences → `/register`, pilot notice, about, footer with the EU acknowledgement in full). Signed in → the org dashboard, or `/home` without an org. Pending actions and the activity feed of the old `/` are not rebuilt (they belong to the dashboard) |
+| `/` | public landing (the design system's Landing screen: hero + "Browse the marketplace", three audiences — organisations and viewers → `/register`, facilitators → an email to the FABRIX team — pilot notice, about, footer with the EU acknowledgement in full). Signed in → the org dashboard, or `/home` without an org. Pending actions and the activity feed of the old `/` go to the dashboard. An expired session on a public page (landing, marketplace, public profile) just means "visitor"; on a signed-in page it goes to `/login` (`lib/session.ts`) |
 | `/home` | signed in without an organisation: "Add your organisation" |
 | `/login`, `/verify-*`, `/forgot-password`, `/reset-password` | |
 | `/register` | one wizard: find your organisation → claim it / create it (details, address on the map, specialties) / "I'm not part of one" → account. Replaces the old hub, `/register-basic` and `/register-with-org` |

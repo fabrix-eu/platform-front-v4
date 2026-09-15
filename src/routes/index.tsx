@@ -6,8 +6,8 @@ import { LandingPage } from "@/features/landing/LandingPage";
 
 export const Route = createFileRoute("/")({
   // Visitors get the landing. Signed in, "/" is still the way home: the organisation's
-  // dashboard, or /home without one. (An expired session is sent to /login by the API
-  // client when its refresh fails.)
+  // dashboard, or /home without one. An expired session just means "visitor"
+  // (lib/session.ts).
   beforeLoad: async ({ context }) => {
     if (!tokens.access()) return;
     const me = await context.queryClient.ensureQueryData(meQueryOptions).catch(() => undefined);

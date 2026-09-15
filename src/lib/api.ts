@@ -33,6 +33,16 @@ export const tokens = {
   },
 };
 
+// What happens once the refresh token is refused too. The client knows nothing about
+// pages, so the app decides (lib/session.ts); until it does, go to /login.
+let onSessionExpired: () => void = () => {
+  window.location.href = "/login";
+};
+
+export function setSessionExpiredHandler(handler: () => void) {
+  onSessionExpired = handler;
+}
+
 // Single in-flight refresh shared across concurrent 401s.
 let refreshPromise: Promise<boolean> | null = null;
 
@@ -88,7 +98,7 @@ async function request<T>(method: string, path: string, body?: unknown, params?:
       res = await send();
     } else {
       tokens.clear();
-      window.location.href = "/login";
+      onSessionExpired();
       throw new ApiError(401, { error: "Session expired" });
     }
   }

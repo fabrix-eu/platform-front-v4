@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { queryClient } from "@/lib/queryClient";
 import { startAnalytics } from "@/lib/analytics";
+import { handleExpiredSessions } from "@/lib/session";
 import { routeTree } from "./routeTree.gen";
 import "./index.css";
 
@@ -33,6 +34,7 @@ declare module "@tanstack/react-router" {
 }
 
 startAnalytics(router);
+handleExpiredSessions(router);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

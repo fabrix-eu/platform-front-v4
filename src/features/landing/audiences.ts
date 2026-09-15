@@ -8,10 +8,13 @@ export interface Audience {
   blurb: string;
   points: { icon: LucideIcon; text: string }[];
   cta: string;
+  /** Set when the way in is an email to the team rather than /register. */
+  contactEmail?: string;
 }
 
-// The three ways into FABRIX. They all start at /register: its first step asks for the
-// organisation, and offers an account without one.
+// The three ways into FABRIX. Organisations and viewers start at /register: its first
+// step asks for the organisation, and offers an account without one. Facilitators are
+// set up by the FABRIX team, so their card is an email.
 export const AUDIENCES: Audience[] = [
   {
     icon: Building2,
@@ -35,7 +38,8 @@ export const AUDIENCES: Audience[] = [
       { icon: Network, text: "Match members into real partnerships" },
       { icon: TrendingUp, text: "Measure the connections you create" },
     ],
-    cta: "Sign up as a facilitator",
+    cta: "Contact us to become a facilitator",
+    contactEmail: "adrian@osmosnetwork.com",
   },
   {
     icon: Compass,

@@ -63,9 +63,18 @@ export function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <ButtonLink to="/register" size="sm" className="mt-auto justify-center">
-                  {a.cta}
-                </ButtonLink>
+                {a.contactEmail ? (
+                  <a
+                    href={`mailto:${a.contactEmail}?subject=${encodeURIComponent("Becoming a FABRIX facilitator")}`}
+                    className={buttonClass({ size: "sm", className: "mt-auto justify-center text-center" })}
+                  >
+                    {a.cta}
+                  </a>
+                ) : (
+                  <ButtonLink to="/register" size="sm" className="mt-auto justify-center">
+                    {a.cta}
+                  </ButtonLink>
+                )}
               </div>
             ))}
           </div>
