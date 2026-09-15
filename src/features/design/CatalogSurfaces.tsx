@@ -37,6 +37,7 @@ export function CatalogSurfaces() {
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.key}
+              from="/design"
               to="/design"
               search={(prev) => ({ ...prev, nav: item.key })}
               active={nav === item.key}

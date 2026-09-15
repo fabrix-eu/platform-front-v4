@@ -1,6 +1,7 @@
-import { MapPin } from "lucide-react";
+import { Handshake, MapPin, MessageSquare } from "lucide-react";
 import type { MeOrganization, User } from "@/lib/auth";
 import { Avatar } from "@/components/ui/Avatar";
+import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { orgKindLabel } from "../kinds";
@@ -11,9 +12,26 @@ interface ProfileHeaderProps {
   org: OrganizationProfile;
   me: User | undefined;
   membership: MeOrganization | undefined;
+  /** The editor's "Public view": show what another member would get, inert. */
+  preview?: boolean;
 }
 
-export function ProfileHeader({ org, me, membership }: ProfileHeaderProps) {
+function PreviewActions() {
+  return (
+    <div className="flex flex-wrap gap-3" aria-label="Actions others see (preview)">
+      <Button variant="outline" disabled>
+        <MessageSquare className="size-4" />
+        Message
+      </Button>
+      <Button disabled>
+        <Handshake className="size-4" />
+        Connect
+      </Button>
+    </div>
+  );
+}
+
+export function ProfileHeader({ org, me, membership, preview }: ProfileHeaderProps) {
   return (
     <section className="overflow-hidden rounded-fx-xl border border-fx-line bg-fx-paper">
       {org.cover_url ? (
@@ -38,7 +56,7 @@ export function ProfileHeader({ org, me, membership }: ProfileHeaderProps) {
               </p>
             )}
           </div>
-          <ProfileActions org={org} me={me} membership={membership} />
+          {preview ? <PreviewActions /> : <ProfileActions org={org} me={me} membership={membership} />}
         </div>
       </div>
     </section>

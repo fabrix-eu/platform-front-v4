@@ -42,7 +42,7 @@ export function CatalogControls() {
 
       <Row label="Pill" source="components/ui/Pill" hint="PillLink writes the filter to the URL — click one, watch ?kind= change">
         {KINDS.map((k) => (
-          <PillLink key={k} to="/design" search={(prev) => ({ ...prev, kind: k })} active={kind === k} resetScroll={false} replace>
+          <PillLink key={k} from="/design" to="/design" search={(prev) => ({ ...prev, kind: k })} active={kind === k} resetScroll={false} replace>
             {capitalize(k)}
           </PillLink>
         ))}

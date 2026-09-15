@@ -5,7 +5,9 @@ import { cn } from "@/lib/utils";
 /** A row of tabs. Tabs are links: the active tab is a URL (path or search param), never local state. */
 export function TabList({ label, children, className }: { label: string; children: ReactNode; className?: string }) {
   return (
-    <nav aria-label={label} className={cn("flex gap-8 overflow-x-auto border-b border-fx-line", className)}>
+    // overflow-y-hidden: the active tab's border sits 1px over the list's, which would
+    // otherwise make the row scroll vertically and show a scrollbar.
+    <nav aria-label={label} className={cn("flex gap-8 overflow-x-auto overflow-y-hidden border-b border-fx-line", className)}>
       {children}
     </nav>
   );

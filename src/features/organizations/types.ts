@@ -48,19 +48,21 @@ export interface OrganizationProfile {
   specialties: string[];
   claimed: boolean;
   relations_count: number;
-  number_of_workers: number | null;
-  turnover: number | null;
-  development_stage: string | null;
-  nace_code: string | null;
-  secondary_nace_codes: string[] | null;
-  facility_types: string[] | null;
-  processing_types: string[] | null;
+  sector: string | null;
+  // Private data: only returned to members and system admins (absent for everyone else).
+  number_of_workers?: number | null;
+  turnover?: number | null;
+  development_stage?: string | null;
+  nace_code?: string | null;
+  secondary_nace_codes?: string[] | null;
+  facility_types?: string[] | null;
+  processing_types?: string[] | null;
   relations: OrganizationRelation[];
   /** :basic view, which also carries the default fields (slug, claimed…). */
   related_organizations: (OrganizationSummary & { slug: string })[];
   organization_photos: OrganizationPhoto[];
   networks: { id: string; name: string; slug: string }[];
-  profile_completion: { sections: Record<string, boolean>; completed: number; total: number };
+  profile_completion?: { sections: Record<string, boolean>; completed: number; total: number };
 }
 
 /** The fields a new organisation needs (Organization validates name, kind, address, country_code). */

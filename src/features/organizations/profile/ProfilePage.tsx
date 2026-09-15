@@ -4,6 +4,7 @@ import { useOptionalMe } from "@/lib/useOptionalMe";
 import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { organizationProfileQueryOptions } from "../api";
+import type { OrganizationProfile } from "../types";
 import { OrgListingsSection } from "./OrgListingsSection";
 import { ProfileAside } from "./ProfileAside";
 import { ProfileHeader } from "./ProfileHeader";
@@ -20,16 +21,23 @@ export function ProfilePage() {
   return (
     <>
       <ProfileHeader org={org} me={me} membership={membership} />
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="min-w-0 space-y-8">
-          <AboutSection org={org} />
-          <OrgListingsSection org={org} isMember={!!membership} />
-          <PhotosSection photos={org.organization_photos} />
-          <ConnectionsSection org={org} />
-        </div>
-        <ProfileAside org={org} />
-      </div>
+      <ProfileBody org={org} isMember={!!membership} />
     </>
+  );
+}
+
+/** Everything under the header — shared with the editor's "Public view" tab. */
+export function ProfileBody({ org, isMember }: { org: OrganizationProfile; isMember: boolean }) {
+  return (
+    <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="min-w-0 space-y-8">
+        <AboutSection org={org} />
+        <OrgListingsSection org={org} isMember={isMember} />
+        <PhotosSection photos={org.organization_photos} />
+        <ConnectionsSection org={org} />
+      </div>
+      <ProfileAside org={org} />
+    </div>
   );
 }
 
