@@ -9,6 +9,7 @@ import type { OrganizationProfile } from "../types";
 import { roleLabel, teamInvitationsQueryOptions, teamMembersQueryOptions } from "./api";
 import { InviteColleagueDialog } from "./InviteColleagueDialog";
 import { RolesPanel } from "./RolesPanel";
+import { InvitationActions, MemberActions } from "./TeamActions";
 
 const daysAgo = (iso: string) => {
   const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
@@ -48,6 +49,7 @@ export function TeamTab({ org }: { org: OrganizationProfile }) {
                   <span className="text-fx-muted"> · {m.user.email}{m.user.id === me.id && " · you"}</span>
                 </span>
                 <Badge tone={m.role === "owner" ? "violet" : "slate"}>{roleLabel(m.role)}</Badge>
+                {isOwner && <MemberActions organizationId={org.id} member={m} isSelf={m.user.id === me.id} />}
               </li>
             ))}
             {pending.map((i) => (
@@ -58,6 +60,7 @@ export function TeamTab({ org }: { org: OrganizationProfile }) {
                   <span className="text-fx-muted"> · invitation sent {daysAgo(i.created_at)}</span>
                 </span>
                 <Badge tone="amber">Pending · {roleLabel(i.role)}</Badge>
+                <InvitationActions organizationId={org.id} invitation={i} />
               </li>
             ))}
           </ul>

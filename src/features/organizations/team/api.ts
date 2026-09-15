@@ -38,6 +38,24 @@ export function inviteColleague(organizationId: string, email: string) {
   return api.post<{ message: string }>(`/organizations/${organizationId}/invitations`, { invitation: { email, role: "member" } });
 }
 
+// Owners only. The API refuses to remove or demote the last owner.
+export function updateMemberRole(organizationId: string, membershipId: string, role: TeamMember["role"]) {
+  return api.patch<TeamMember>(`/organizations/${organizationId}/users/${membershipId}`, { organization_user: { role } });
+}
+
+export function removeMember(organizationId: string, membershipId: string) {
+  return api.delete<{ message: string }>(`/organizations/${organizationId}/users/${membershipId}`);
+}
+
+/** Sends the email again and extends the expiry. */
+export function resendInvitation(organizationId: string, invitationId: string) {
+  return api.post<TeamInvitation>(`/organizations/${organizationId}/invitations/${invitationId}/resend`);
+}
+
+export function cancelInvitation(organizationId: string, invitationId: string) {
+  return api.delete<{ message: string }>(`/organizations/${organizationId}/invitations/${invitationId}`);
+}
+
 // The API has two roles. A member can already edit the profile and listings — the
 // prototype's Manager; its read-only "Team" role does not exist yet.
 export const roleLabel = (role: string) => (role === "owner" ? "Owner" : "Manager");
