@@ -1,6 +1,7 @@
+import type { ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { inputClass, labelClass } from "./Field";
+import { FieldHint, inputClass, labelClass } from "./Field";
 import { FieldError, fieldError, type AnyMutation } from "./FieldError";
 
 export interface SelectOption {
@@ -17,12 +18,13 @@ interface SelectFieldProps {
   /** Shown as an empty first option; read it back as "" and coerce to null before sending. */
   placeholder?: string;
   required?: boolean;
+  hint?: ReactNode;
   /** Still uncontrolled: lets a parent react to the choice (e.g. narrow the next select). */
   onChange?: (value: string) => void;
 }
 
 // Native <select> (uncontrolled): read with fd.get(name).
-export function SelectField({ label, name, mutation, options, defaultValue, placeholder, required, onChange }: SelectFieldProps) {
+export function SelectField({ label, name, mutation, options, defaultValue, placeholder, required, hint, onChange }: SelectFieldProps) {
   const invalid = !!fieldError(mutation, name);
   return (
     <div>
@@ -38,6 +40,7 @@ export function SelectField({ label, name, mutation, options, defaultValue, plac
           defaultValue={defaultValue ?? ""}
           onChange={onChange && ((e) => onChange(e.currentTarget.value))}
           aria-invalid={invalid || undefined}
+          aria-describedby={hint ? `${name}-hint` : undefined}
           className={cn(inputClass, "appearance-none pr-10")}
         >
           {placeholder !== undefined && <option value="">{placeholder}</option>}
@@ -49,6 +52,7 @@ export function SelectField({ label, name, mutation, options, defaultValue, plac
         </select>
         <ChevronDown aria-hidden className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-fx-muted" />
       </div>
+      {hint && <FieldHint id={`${name}-hint`}>{hint}</FieldHint>}
       <FieldError mutation={mutation} field={name} />
     </div>
   );

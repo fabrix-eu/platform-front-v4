@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Check, ChevronDown, Contrast, ImageIcon, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,11 +28,13 @@ interface SectionCardProps {
   section: EditorSection;
   orgSlug: string;
   open: boolean;
+  /** The section's form; sections not built yet say so. */
+  children?: ReactNode;
 }
 
 // One collapsible section. Its open state is the `section` search param, so a section
 // can be linked to ("Finish your profile" opens the first one left).
-export function SectionCard({ section, orgSlug, open }: SectionCardProps) {
+export function SectionCard({ section, orgSlug, open, children }: SectionCardProps) {
   const status = STATUS[section.status];
   const title = section.letter ? `${section.letter} · ${section.title}` : section.title;
 
@@ -57,8 +60,8 @@ export function SectionCard({ section, orgSlug, open }: SectionCardProps) {
         <ChevronDown aria-hidden className={cn("mt-2 size-5 shrink-0 text-fx-muted transition-transform", open && "rotate-180")} />
       </Link>
       {open && (
-        <div className="border-t border-fx-line bg-fx-panel px-5 py-8 sm:px-6">
-          <p className="text-fx-body text-fx-muted">This section’s form comes next.</p>
+        <div className="border-t border-fx-line px-5 py-7 sm:px-6">
+          {children ?? <p className="text-fx-body text-fx-muted">This section’s form comes next.</p>}
         </div>
       )}
     </div>

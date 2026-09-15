@@ -49,6 +49,8 @@ export interface OrganizationProfile {
   claimed: boolean;
   relations_count: number;
   sector: string | null;
+  legal_form: string | null;
+  vat_code: string | null;
   // Private data: only returned to members and system admins (absent for everyone else).
   number_of_workers?: number | null;
   turnover?: number | null;

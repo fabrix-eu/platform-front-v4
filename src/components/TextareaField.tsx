@@ -1,5 +1,6 @@
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { inputClass, labelClass } from "./Field";
+import { FieldHint, inputClass, labelClass } from "./Field";
 import { FieldError, fieldError, type AnyMutation } from "./FieldError";
 
 interface TextareaFieldProps {
@@ -10,9 +11,10 @@ interface TextareaFieldProps {
   placeholder?: string;
   rows?: number;
   required?: boolean;
+  hint?: ReactNode;
 }
 
-export function TextareaField({ label, name, mutation, defaultValue, placeholder, rows = 4, required }: TextareaFieldProps) {
+export function TextareaField({ label, name, mutation, defaultValue, placeholder, rows = 4, required, hint }: TextareaFieldProps) {
   const invalid = !!fieldError(mutation, name);
   return (
     <div>
@@ -28,8 +30,10 @@ export function TextareaField({ label, name, mutation, defaultValue, placeholder
         placeholder={placeholder}
         defaultValue={defaultValue ?? undefined}
         aria-invalid={invalid || undefined}
+        aria-describedby={hint ? `${name}-hint` : undefined}
         className={cn(inputClass, "resize-y leading-[1.55]")}
       />
+      {hint && <FieldHint id={`${name}-hint`}>{hint}</FieldHint>}
       <FieldError mutation={mutation} field={name} />
     </div>
   );

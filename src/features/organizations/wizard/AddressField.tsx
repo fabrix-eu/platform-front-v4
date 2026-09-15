@@ -68,6 +68,8 @@ export function AddressField({ initial, error, onPicked, mutation }: AddressFiel
         <MapPin aria-hidden className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-fx-muted" />
         <input
           id="address-search"
+          // Never sent as such — lets a form tell an untouched address from an edited one.
+          name="address_query"
           role="combobox"
           aria-expanded={suggestions.length > 0}
           aria-controls="address-suggestions"

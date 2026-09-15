@@ -5,6 +5,7 @@ import type { OrganizationProfile } from "../types";
 import { editorSections, type SectionGroup } from "./completion";
 import { CompletionCard } from "./CompletionCard";
 import { SectionCard } from "./SectionCard";
+import { IdentityForm } from "./sections/IdentityForm";
 
 const GROUPS: { key: SectionGroup; title: string; lede: string }[] = [
   { key: "required", title: "Required to go live", lede: "The six fields that put you on the map." },
@@ -36,7 +37,9 @@ export function EditProfileTab({ org, orgSlug }: { org: OrganizationProfile; org
             {sections
               .filter((s) => s.group === group.key)
               .map((s) => (
-                <SectionCard key={s.key} section={s} orgSlug={orgSlug} open={open === s.key} />
+                <SectionCard key={s.key} section={s} orgSlug={orgSlug} open={open === s.key}>
+                  {s.key === "identity" ? <IdentityForm org={org} /> : null}
+                </SectionCard>
               ))}
           </div>
         </section>
