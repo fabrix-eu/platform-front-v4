@@ -2,8 +2,8 @@ import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { api, type Paginated } from "@/lib/api";
 import type { MeOrganization } from "@/lib/auth";
 
-// ActivityBlueprint — GET /feed?organization_id= : what the organisation and its
-// networks post. Today the API records listings, events and network joins.
+// ActivityBlueprint — GET /feed?organization_id= : the listings and events of the
+// organisation and of the networks it belongs to.
 export interface FeedActivity {
   id: string;
   action: string;

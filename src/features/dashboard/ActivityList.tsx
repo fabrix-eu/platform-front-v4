@@ -7,13 +7,10 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { orgFeedQueryOptions, type FeedActivity } from "./api";
 
+// The feed carries marketplace and event activity only (networks are for facilitators).
 const ACTIONS: Record<string, string> = {
   listing_created: "posted a listing",
   event_created: "created an event",
-  event_updated: "updated an event",
-  member_joined: "joined a network",
-  post_created: "started a discussion",
-  comment_created: "commented",
 };
 
 function timeAgo(iso: string): string {
