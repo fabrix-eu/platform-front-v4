@@ -46,6 +46,7 @@ export function NewListingDialog({ organizationId, organizations, trigger }: New
           organizations={organizations}
           defaultOrganizationId={organizationId}
           busy={uploading}
+          stickyActions
           submitLabel="Publish listing"
           onCancel={close}
           images={

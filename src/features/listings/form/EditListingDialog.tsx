@@ -56,6 +56,7 @@ export function EditListingDialog({ listingId, organizations, trigger }: EditLis
             listing={query.data}
             organizations={organizations}
             busy={uploading}
+            stickyActions
             submitLabel="Save changes"
             onCancel={close}
             images={

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { MeOrganization } from "@/lib/auth";
+import { cn } from "@/lib/utils";
 import { Field } from "@/components/Field";
 import { FormError, type AnyMutation } from "@/components/FieldError";
 import { SelectField } from "@/components/SelectField";
@@ -18,6 +19,8 @@ interface ListingFormProps {
   /** The photos field — its uploads work differently on create and on edit. */
   images: ReactNode;
   busy?: boolean;
+  /** In a dialog: the actions stay in view while the fields scroll. */
+  stickyActions?: boolean;
   submitLabel: string;
   onSubmit: (payload: ListingPayload) => void;
   onCancel: () => void;
@@ -29,7 +32,19 @@ const text = (fd: FormData, key: string): string | null => {
 };
 
 // One form for create and edit: uncontrolled fields, read back from FormData.
-export function ListingForm({ mutation, listing, organizations, defaultOrganizationId, defaultType, images, busy, submitLabel, onSubmit, onCancel }: ListingFormProps) {
+export function ListingForm({
+  mutation,
+  listing,
+  organizations,
+  defaultOrganizationId,
+  defaultType,
+  images,
+  busy,
+  stickyActions,
+  submitLabel,
+  onSubmit,
+  onCancel,
+}: ListingFormProps) {
   return (
     <form
       className="space-y-7"
@@ -102,7 +117,13 @@ export function ListingForm({ mutation, listing, organizations, defaultOrganizat
 
       {images}
 
-      <div className="flex flex-wrap gap-3 border-t border-fx-line pt-6">
+      <div
+        className={cn(
+          "flex flex-wrap gap-3 border-t border-fx-line pt-6",
+          // The dialog's scroll container carries the padding this cancels out.
+          stickyActions && "sticky bottom-0 -mx-6 -mb-6 bg-fx-paper px-6 pb-6 sm:-mx-8 sm:-mb-8 sm:px-8 sm:pb-8",
+        )}
+      >
         <Button type="submit" disabled={mutation.isPending || busy}>
           {mutation.isPending || busy ? "Saving…" : submitLabel}
         </Button>
