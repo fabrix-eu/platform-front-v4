@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import type { OrganizationProfile } from "../types";
 import { roleLabel, teamInvitationsQueryOptions, teamMembersQueryOptions } from "./api";
 import { InviteColleagueDialog } from "./InviteColleagueDialog";
+import { JoinRequests } from "./JoinRequests";
 import { RolesPanel } from "./RolesPanel";
 import { InvitationActions, MemberActions } from "./TeamActions";
 
@@ -34,6 +35,8 @@ export function TeamTab({ org }: { org: OrganizationProfile }) {
         </p>
         {isOwner && <InviteColleagueDialog organizationId={org.id} organizationName={org.name} />}
       </div>
+
+      {isOwner && <JoinRequests organizationId={org.id} />}
 
       {members.isError ? (
         <Banner tone="danger">The team could not be loaded. Try again in a moment.</Banner>

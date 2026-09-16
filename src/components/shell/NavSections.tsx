@@ -14,7 +14,6 @@ import {
   Settings,
   ShoppingBag,
   Tag,
-  Users,
 } from "lucide-react";
 import { isFacilitator, type MeOrganization, type User } from "@/lib/auth";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -70,9 +69,9 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
           <NavLink to="/$orgSlug/profile" params={{ orgSlug }} icon={Building2}>Profile</NavLink>
           <NavLink to="/$orgSlug/listings" params={{ orgSlug }} icon={Tag}>Listings</NavLink>
           <NavLink to="/$orgSlug/assessments" params={{ orgSlug }} icon={Compass}>Compass</NavLink>
+          {/* Connections carries "add a partner" — the primary referral loop.
+              The team lives in the profile editor, as its Team tab. */}
           <NavLink to="/$orgSlug/relations" params={{ orgSlug }} icon={Network}>Connections</NavLink>
-          {/* Members carries "invite a partner" — the primary referral loop. */}
-          <NavLink to="/$orgSlug/settings/members" params={{ orgSlug }} icon={Users}>Members</NavLink>
           <NavLink to="/$orgSlug/messages" params={{ orgSlug }} icon={MessageSquare} count={counts.messages} alert>
             Messages
           </NavLink>

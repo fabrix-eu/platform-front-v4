@@ -1,6 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/shell/PagePlaceholder";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
+// Members moved into the profile editor, as its Team tab.
 export const Route = createFileRoute("/_auth/$orgSlug/settings/members")({
-  component: () => <PagePlaceholder title="Members" lede="Your team, and the partners you invite to join." />,
+  beforeLoad: ({ params }) => {
+    throw redirect({ to: "/$orgSlug/profile", params: { orgSlug: params.orgSlug }, search: { tab: "team" } });
+  },
 });

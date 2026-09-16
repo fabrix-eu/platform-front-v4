@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/shell/PagePlaceholder";
+import { organizationProfileQueryOptions } from "@/features/organizations/api";
+import { ConnectionsPage } from "@/features/relations/ConnectionsPage";
 
 export const Route = createFileRoute("/_auth/$orgSlug/relations")({
-  component: () => <PagePlaceholder title="Connections" lede="The partners you work with — add them, and invite them to claim their profile." />,
+  loader: ({ context, params }) => context.queryClient.ensureQueryData(organizationProfileQueryOptions(params.orgSlug)),
+  component: ConnectionsPage,
 });

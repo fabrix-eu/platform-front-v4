@@ -38,6 +38,32 @@ export function inviteColleague(organizationId: string, email: string) {
   return api.post<{ message: string }>(`/organizations/${organizationId}/invitations`, { invitation: { email, role: "member" } });
 }
 
+// JoinRequestBlueprint — GET /organizations/:id/join_requests. Owners see every request;
+// anyone else only their own.
+export interface JoinRequest {
+  id: string;
+  status: "pending" | "accepted" | "declined" | "cancelled";
+  message: string;
+  created_at: string;
+  user: { id: string; name: string; email: string; image_url: string | null };
+}
+
+export const joinRequestsQueryOptions = (organizationId: string) =>
+  queryOptions({
+    queryKey: ["organizations", organizationId, "team", "join-requests"],
+    queryFn: () => api.get<JoinRequest[]>(`/organizations/${organizationId}/join_requests`),
+  });
+
+/** Owners only: accepting makes them a member straight away. */
+export function acceptJoinRequest(organizationId: string, requestId: string) {
+  return api.post<JoinRequest>(`/organizations/${organizationId}/join_requests/${requestId}/accept`);
+}
+
+/** Owners only. The API requires a reason — the person receives it. */
+export function declineJoinRequest(organizationId: string, requestId: string, reason: string) {
+  return api.post<JoinRequest>(`/organizations/${organizationId}/join_requests/${requestId}/decline`, { join_request: { decline_reason: reason } });
+}
+
 // Owners only. The API refuses to remove or demote the last owner.
 export function updateMemberRole(organizationId: string, membershipId: string, role: TeamMember["role"]) {
   return api.patch<TeamMember>(`/organizations/${organizationId}/users/${membershipId}`, { organization_user: { role } });

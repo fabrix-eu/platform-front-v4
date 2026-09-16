@@ -16,8 +16,9 @@ export function PendingActionsBanner() {
     ...data.incoming.map(({ org, count }): [string, ReactNode] => [
       `incoming-${org.organization_id}`,
       <Link
-        to="/$orgSlug/settings/members"
+        to="/$orgSlug/profile"
         params={{ orgSlug: org.organization_slug }}
+        search={{ tab: "team" }}
         className="font-bold underline-offset-4 hover:underline"
       >
         {count === 1 ? `1 person wants to join ${org.organization_name}` : `${count} people want to join ${org.organization_name}`} →
