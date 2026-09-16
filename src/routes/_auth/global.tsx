@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/shell/PagePlaceholder";
+import { DirectoryPage } from "@/features/directory/DirectoryPage";
+import { directorySearchSchema } from "@/features/directory/search";
 
 export const Route = createFileRoute("/_auth/global")({
-  component: () => <PagePlaceholder title="Directory" lede="Every organisation on FABRIX, on a map and in a list." />,
+  validateSearch: directorySearchSchema,
+  component: DirectoryPage,
 });
