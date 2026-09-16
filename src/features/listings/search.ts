@@ -10,7 +10,7 @@ export const marketplaceSearchSchema = z.object({
   /** "all" = the visitor cleared the default "near my organisation" filter. */
   near: z.literal("all").optional(),
   radius: z.number().optional(),
-  view: z.enum(["cards", "list"]).optional(),
+  view: z.enum(["cards", "list", "map"]).optional(),
 });
 
 export type MarketplaceSearch = z.infer<typeof marketplaceSearchSchema>;

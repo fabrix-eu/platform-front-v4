@@ -1,13 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { LayoutGrid, List } from "lucide-react";
+import { LayoutGrid, List, Map } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const VIEWS = [
   { key: "cards", label: "Cards", icon: LayoutGrid },
   { key: "list", label: "List", icon: List },
+  { key: "map", label: "Map", icon: Map },
 ] as const;
 
-export function ViewToggle({ view }: { view: "cards" | "list" }) {
+export function ViewToggle({ view }: { view: "cards" | "list" | "map" }) {
   return (
     <div role="group" aria-label="View" className="flex rounded-fx-action border border-fx-line2 bg-fx-paper p-0.5">
       {VIEWS.map(({ key, label, icon: Icon }) => (

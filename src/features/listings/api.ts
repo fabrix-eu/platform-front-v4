@@ -16,6 +16,13 @@ export const listingsInfiniteQueryOptions = (filters: ListingFilters) =>
     getNextPageParam: (last) => last.meta.next_page ?? undefined,
   });
 
+/** The map needs them all at once, not page by page: `view=map` skips pagination (2000 max). */
+export const listingsMapQueryOptions = (filters: ListingFilters) =>
+  queryOptions({
+    queryKey: ["listings", "map", filters],
+    queryFn: () => api.get<Paginated<Listing>>("/listings", { ...filters, view: "map" }),
+  });
+
 export const listingQueryOptions = (id: string) =>
   queryOptions({
     queryKey: ["listings", "detail", id],

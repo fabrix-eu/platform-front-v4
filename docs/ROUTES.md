@@ -24,7 +24,7 @@ decides.** Lines = page + main components it relies on (excluding `src/lib`).
 | `/organizations/new` | search → claim an unclaimed one, or create: **mine** (`owner_email: ""`, I own it) or **a partner** (`owner_email` = their email → they are invited to claim it) |
 | `/design` | the v4 catalog |
 | shell (sidebar, org switcher, user menu, unread counts) | every other entry lands on a temporary `PagePlaceholder` |
-| `/marketplace`, `/marketplace/$id` | open to visitors; filters: search, type → category → speciality, near my org + radius, country; cards / list |
+| `/marketplace`, `/marketplace/$id` | open to visitors; filters: search, type → category → speciality, near my org + radius, country; cards / list / **map** (MapLibre + Carto Positron, keyless: clustered pins coloured by listing type, the radius filter drawn as a circle, a card on click; `?view=map` fetches them all through `GET /listings?view=map`) |
 | `/marketplace/new`, `/marketplace/$id/edit` | photos upload after create / immediately on edit |
 | `/$orgSlug/listings` | **gone** — redirects to `/$orgSlug/profile?tab=edit&section=offers-needs`. Offers are listed there, and created or edited in a dialog (`NewListingDialog` / `EditListingDialog` wrap the same `ListingForm` as `/marketplace/new` and `/marketplace/$id/edit`, which the marketplace keeps) |
 | `/organizations/$id` | public profile (slug or UUID), open to visitors: header, about, listings, photos, connections, contact / specialties / networks. Actions by viewer: member → edit + add a listing; visitor → sign in; other member → connect (relation), message (claimed), request to join (claimed) or claim (unclaimed). Private data (workers, turnover, NACE…) is **not displayed** — but the API still returns it publicly |
