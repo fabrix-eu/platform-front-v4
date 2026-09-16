@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { useCurrentOrg } from "@/lib/activeOrg";
 import type { MeOrganization } from "@/lib/auth";
 import { listingsInfiniteQueryOptions } from "@/features/listings/api";
+import { DeleteListingButton } from "@/features/listings/DeleteListingButton";
 import { EditListingDialog } from "@/features/listings/form/EditListingDialog";
 import { NewListingDialog } from "@/features/listings/form/NewListingDialog";
 import { categoryLabel, typeMeta } from "@/features/listings/taxonomy";
@@ -31,15 +32,18 @@ function OfferRow({ listing, organizations }: { listing: Listing; organizations:
         <Globe aria-hidden className="size-3" />
         On the Marketplace
       </Badge>
-      <EditListingDialog
-        listingId={listing.id}
-        organizations={organizations}
-        trigger={
-          <Button variant="secondary" size="sm">
-            Edit
-          </Button>
-        }
-      />
+      <div className="flex items-center gap-2">
+        <EditListingDialog
+          listingId={listing.id}
+          organizations={organizations}
+          trigger={
+            <Button variant="secondary" size="sm">
+              Edit
+            </Button>
+          }
+        />
+        <DeleteListingButton listingId={listing.id} title={listing.title} />
+      </div>
     </li>
   );
 }

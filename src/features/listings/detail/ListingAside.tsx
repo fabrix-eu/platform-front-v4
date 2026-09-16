@@ -1,29 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { MapPin, Pencil, Trash2 } from "lucide-react";
+import { MapPin, Pencil } from "lucide-react";
 import type { User } from "@/lib/auth";
-import { useToast } from "@/components/Toast";
 import { Avatar } from "@/components/ui/Avatar";
-import { Button, ButtonLink } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { orgKindLabel } from "@/features/organizations/kinds";
-import { deleteListing, LISTINGS_KEY } from "../api";
+import { DeleteListingButton } from "../DeleteListingButton";
 import type { Listing } from "../types";
 import { ContactDialog } from "./ContactDialog";
 
 function OwnerActions({ listing }: { listing: Listing }) {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-  const mutation = useMutation({
-    mutationFn: deleteListing,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: LISTINGS_KEY });
-      toast("Listing deleted");
-      navigate({ to: "/marketplace" });
-    },
-  });
 
   return (
     <div className="grid gap-2">
@@ -31,16 +19,13 @@ function OwnerActions({ listing }: { listing: Listing }) {
         <Pencil className="size-4" />
         Edit listing
       </ButtonLink>
-      <Button
-        variant="ghost"
-        disabled={mutation.isPending}
-        onClick={() => {
-          if (window.confirm("Delete this listing? This cannot be undone.")) mutation.mutate(listing.id);
-        }}
-      >
-        <Trash2 className="size-4" />
-        {mutation.isPending ? "Deleting…" : "Delete"}
-      </Button>
+      <DeleteListingButton
+        listingId={listing.id}
+        title={listing.title}
+        label="Delete listing"
+        size="md"
+        onDeleted={() => navigate({ to: "/marketplace" })}
+      />
     </div>
   );
 }

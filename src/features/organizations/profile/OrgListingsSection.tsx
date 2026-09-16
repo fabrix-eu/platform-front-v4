@@ -1,14 +1,18 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
-import { ButtonLink } from "@/components/ui/Button";
+import { useOptionalMe } from "@/lib/useOptionalMe";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { listingsInfiniteQueryOptions } from "@/features/listings/api";
+import { DeleteListingButton } from "@/features/listings/DeleteListingButton";
+import { EditListingDialog } from "@/features/listings/form/EditListingDialog";
 import { ListingCard } from "@/features/listings/ListingCard";
 import type { OrganizationProfile } from "../types";
 import { ProfileSection } from "./ProfileSections";
 
 // What it offers and looks for — the reason most visitors open a profile.
 export function OrgListingsSection({ org, isMember }: { org: OrganizationProfile; isMember: boolean }) {
+  const me = useOptionalMe();
   const query = useInfiniteQuery(listingsInfiniteQueryOptions({ by_organization: org.id }));
   const listings = query.data?.pages[0]?.data ?? [];
   const total = query.data?.pages[0]?.meta.total_count ?? 0;
@@ -35,7 +39,24 @@ export function OrgListingsSection({ org, isMember }: { org: OrganizationProfile
     <ProfileSection title="Listings" count={total}>
       <div className="grid gap-5 sm:grid-cols-2">
         {listings.slice(0, 4).map((listing) => (
-          <ListingCard key={listing.id} listing={listing} />
+          <div key={listing.id} className="flex h-full flex-col gap-2">
+            <ListingCard listing={listing} />
+            {/* Its own team manages it from here, without going to the marketplace. */}
+            {isMember && me && (
+              <div className="mt-auto flex flex-wrap items-center gap-2">
+                <EditListingDialog
+                  listingId={listing.id}
+                  organizations={me.organizations}
+                  trigger={
+                    <Button variant="secondary" size="sm">
+                      Edit
+                    </Button>
+                  }
+                />
+                <DeleteListingButton listingId={listing.id} title={listing.title} />
+              </div>
+            )}
+          </div>
         ))}
       </div>
       {isMember && total > 4 && (
