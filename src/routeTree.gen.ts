@@ -26,7 +26,6 @@ import { Route as AuthHomeRouteImport } from './routes/_auth/home'
 import { Route as AuthMessagesRouteImport } from './routes/_auth/messages'
 import { Route as AuthNotificationsRouteImport } from './routes/_auth/notifications'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
-import { Route as AuthOrgSlugAssessmentsRouteImport } from './routes/_auth/$orgSlug/assessments'
 import { Route as AuthOrgSlugDashboardRouteImport } from './routes/_auth/$orgSlug/dashboard'
 import { Route as AuthOrgSlugListingsRouteImport } from './routes/_auth/$orgSlug/listings'
 import { Route as AuthOrgSlugMessagesRouteImport } from './routes/_auth/$orgSlug/messages'
@@ -41,6 +40,8 @@ import { Route as AuthOrganizationsNewRouteImport } from './routes/_auth/organiz
 import { Route as OpenMarketplaceIndexRouteImport } from './routes/_open/marketplace/index'
 import { Route as OpenMarketplaceIdRouteImport } from './routes/_open/marketplace/$id'
 import { Route as OpenOrganizationsIdRouteImport } from './routes/_open/organizations/$id'
+import { Route as AuthOrgSlugAssessmentsIndexRouteImport } from './routes/_auth/$orgSlug/assessments/index'
+import { Route as AuthOrgSlugAssessmentsFormKeyRouteImport } from './routes/_auth/$orgSlug/assessments/$formKey'
 import { Route as AuthOrgSlugSettingsMembersRouteImport } from './routes/_auth/$orgSlug/settings/members'
 import { Route as AuthMarketplaceIdEditRouteImport } from './routes/_auth/marketplace/$id.edit'
 
@@ -127,11 +128,6 @@ const AuthSettingsRoute = AuthSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthOrgSlugAssessmentsRoute = AuthOrgSlugAssessmentsRouteImport.update({
-  id: '/assessments',
-  path: '/assessments',
-  getParentRoute: () => AuthOrgSlugRoute,
-} as any)
 const AuthOrgSlugDashboardRoute = AuthOrgSlugDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -202,6 +198,18 @@ const OpenOrganizationsIdRoute = OpenOrganizationsIdRouteImport.update({
   path: '/organizations/$id',
   getParentRoute: () => OpenRoute,
 } as any)
+const AuthOrgSlugAssessmentsIndexRoute =
+  AuthOrgSlugAssessmentsIndexRouteImport.update({
+    id: '/assessments/',
+    path: '/assessments/',
+    getParentRoute: () => AuthOrgSlugRoute,
+  } as any)
+const AuthOrgSlugAssessmentsFormKeyRoute =
+  AuthOrgSlugAssessmentsFormKeyRouteImport.update({
+    id: '/assessments/$formKey',
+    path: '/assessments/$formKey',
+    getParentRoute: () => AuthOrgSlugRoute,
+  } as any)
 const AuthOrgSlugSettingsMembersRoute =
   AuthOrgSlugSettingsMembersRouteImport.update({
     id: '/settings/members',
@@ -230,7 +238,6 @@ export interface FileRoutesByFullPath {
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
-  '/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
   '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -245,8 +252,10 @@ export interface FileRoutesByFullPath {
   '/events/': typeof AuthEventsIndexRoute
   '/facilitator/': typeof AuthFacilitatorIndexRoute
   '/marketplace/': typeof OpenMarketplaceIndexRoute
+  '/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
   '/marketplace/$id/edit': typeof AuthMarketplaceIdEditRoute
+  '/$orgSlug/assessments/': typeof AuthOrgSlugAssessmentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -263,7 +272,6 @@ export interface FileRoutesByTo {
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
-  '/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
   '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -278,8 +286,10 @@ export interface FileRoutesByTo {
   '/events': typeof AuthEventsIndexRoute
   '/facilitator': typeof AuthFacilitatorIndexRoute
   '/marketplace': typeof OpenMarketplaceIndexRoute
+  '/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
   '/marketplace/$id/edit': typeof AuthMarketplaceIdEditRoute
+  '/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -300,7 +310,6 @@ export interface FileRoutesById {
   '/_auth/messages': typeof AuthMessagesRoute
   '/_auth/notifications': typeof AuthNotificationsRoute
   '/_auth/settings': typeof AuthSettingsRoute
-  '/_auth/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsRoute
   '/_auth/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/_auth/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/_auth/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -315,8 +324,10 @@ export interface FileRoutesById {
   '/_auth/events/': typeof AuthEventsIndexRoute
   '/_auth/facilitator/': typeof AuthFacilitatorIndexRoute
   '/_open/marketplace/': typeof OpenMarketplaceIndexRoute
+  '/_auth/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
   '/_auth/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
   '/_auth/marketplace/$id/edit': typeof AuthMarketplaceIdEditRoute
+  '/_auth/$orgSlug/assessments/': typeof AuthOrgSlugAssessmentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -336,7 +347,6 @@ export interface FileRouteTypes {
     | '/messages'
     | '/notifications'
     | '/settings'
-    | '/$orgSlug/assessments'
     | '/$orgSlug/dashboard'
     | '/$orgSlug/listings'
     | '/$orgSlug/messages'
@@ -351,8 +361,10 @@ export interface FileRouteTypes {
     | '/events/'
     | '/facilitator/'
     | '/marketplace/'
+    | '/$orgSlug/assessments/$formKey'
     | '/$orgSlug/settings/members'
     | '/marketplace/$id/edit'
+    | '/$orgSlug/assessments/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -369,7 +381,6 @@ export interface FileRouteTypes {
     | '/messages'
     | '/notifications'
     | '/settings'
-    | '/$orgSlug/assessments'
     | '/$orgSlug/dashboard'
     | '/$orgSlug/listings'
     | '/$orgSlug/messages'
@@ -384,8 +395,10 @@ export interface FileRouteTypes {
     | '/events'
     | '/facilitator'
     | '/marketplace'
+    | '/$orgSlug/assessments/$formKey'
     | '/$orgSlug/settings/members'
     | '/marketplace/$id/edit'
+    | '/$orgSlug/assessments'
   id:
     | '__root__'
     | '/'
@@ -405,7 +418,6 @@ export interface FileRouteTypes {
     | '/_auth/messages'
     | '/_auth/notifications'
     | '/_auth/settings'
-    | '/_auth/$orgSlug/assessments'
     | '/_auth/$orgSlug/dashboard'
     | '/_auth/$orgSlug/listings'
     | '/_auth/$orgSlug/messages'
@@ -420,8 +432,10 @@ export interface FileRouteTypes {
     | '/_auth/events/'
     | '/_auth/facilitator/'
     | '/_open/marketplace/'
+    | '/_auth/$orgSlug/assessments/$formKey'
     | '/_auth/$orgSlug/settings/members'
     | '/_auth/marketplace/$id/edit'
+    | '/_auth/$orgSlug/assessments/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -558,13 +572,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSettingsRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/$orgSlug/assessments': {
-      id: '/_auth/$orgSlug/assessments'
-      path: '/assessments'
-      fullPath: '/$orgSlug/assessments'
-      preLoaderRoute: typeof AuthOrgSlugAssessmentsRouteImport
-      parentRoute: typeof AuthOrgSlugRoute
-    }
     '/_auth/$orgSlug/dashboard': {
       id: '/_auth/$orgSlug/dashboard'
       path: '/dashboard'
@@ -663,6 +670,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpenOrganizationsIdRouteImport
       parentRoute: typeof OpenRoute
     }
+    '/_auth/$orgSlug/assessments/': {
+      id: '/_auth/$orgSlug/assessments/'
+      path: '/assessments'
+      fullPath: '/$orgSlug/assessments/'
+      preLoaderRoute: typeof AuthOrgSlugAssessmentsIndexRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/$orgSlug/assessments/$formKey': {
+      id: '/_auth/$orgSlug/assessments/$formKey'
+      path: '/assessments/$formKey'
+      fullPath: '/$orgSlug/assessments/$formKey'
+      preLoaderRoute: typeof AuthOrgSlugAssessmentsFormKeyRouteImport
+      parentRoute: typeof AuthOrgSlugRoute
+    }
     '/_auth/$orgSlug/settings/members': {
       id: '/_auth/$orgSlug/settings/members'
       path: '/settings/members'
@@ -681,23 +702,25 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthOrgSlugRouteChildren {
-  AuthOrgSlugAssessmentsRoute: typeof AuthOrgSlugAssessmentsRoute
   AuthOrgSlugDashboardRoute: typeof AuthOrgSlugDashboardRoute
   AuthOrgSlugListingsRoute: typeof AuthOrgSlugListingsRoute
   AuthOrgSlugMessagesRoute: typeof AuthOrgSlugMessagesRoute
   AuthOrgSlugProfileRoute: typeof AuthOrgSlugProfileRoute
   AuthOrgSlugRelationsRoute: typeof AuthOrgSlugRelationsRoute
+  AuthOrgSlugAssessmentsFormKeyRoute: typeof AuthOrgSlugAssessmentsFormKeyRoute
   AuthOrgSlugSettingsMembersRoute: typeof AuthOrgSlugSettingsMembersRoute
+  AuthOrgSlugAssessmentsIndexRoute: typeof AuthOrgSlugAssessmentsIndexRoute
 }
 
 const AuthOrgSlugRouteChildren: AuthOrgSlugRouteChildren = {
-  AuthOrgSlugAssessmentsRoute: AuthOrgSlugAssessmentsRoute,
   AuthOrgSlugDashboardRoute: AuthOrgSlugDashboardRoute,
   AuthOrgSlugListingsRoute: AuthOrgSlugListingsRoute,
   AuthOrgSlugMessagesRoute: AuthOrgSlugMessagesRoute,
   AuthOrgSlugProfileRoute: AuthOrgSlugProfileRoute,
   AuthOrgSlugRelationsRoute: AuthOrgSlugRelationsRoute,
+  AuthOrgSlugAssessmentsFormKeyRoute: AuthOrgSlugAssessmentsFormKeyRoute,
   AuthOrgSlugSettingsMembersRoute: AuthOrgSlugSettingsMembersRoute,
+  AuthOrgSlugAssessmentsIndexRoute: AuthOrgSlugAssessmentsIndexRoute,
 }
 
 const AuthOrgSlugRouteWithChildren = AuthOrgSlugRoute._addFileChildren(
