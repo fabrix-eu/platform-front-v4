@@ -12,12 +12,13 @@ interface DeleteListingButtonProps {
   label?: string;
   variant?: ButtonVariant;
   size?: ButtonSize;
+  className?: string;
   /** The listing is gone: leave its page, for instance. */
   onDeleted?: () => void;
 }
 
 /** Deleting a listing, wherever its organisation's members meet it. */
-export function DeleteListingButton({ listingId, title, label, variant = "ghost", size = "sm", onDeleted }: DeleteListingButtonProps) {
+export function DeleteListingButton({ listingId, title, label, variant = "ghost", size = "sm", className, onDeleted }: DeleteListingButtonProps) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const mutation = useMutation({
@@ -33,6 +34,7 @@ export function DeleteListingButton({ listingId, title, label, variant = "ghost"
     <Button
       variant={variant}
       size={size}
+      className={className}
       disabled={mutation.isPending}
       aria-label={label ? undefined : `Delete ${title}`}
       title={label ? undefined : `Delete ${title}`}

@@ -6,6 +6,7 @@ import { Banner } from "@/components/ui/Banner";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { LISTINGS_KEY, listingQueryOptions, removeListingImage, updateListing, uploadListingImages } from "../api";
+import { DeleteListingButton } from "../DeleteListingButton";
 import type { ListingPayload } from "../types";
 import { ListingForm } from "./ListingForm";
 import { ListingImagesField } from "./ListingImagesField";
@@ -53,14 +54,26 @@ export function EditListingDialog({ listingId, organizations, trigger }: EditLis
         title="Edit listing"
         description={query.data?.title}
         footer={
-          <div className="flex flex-wrap justify-end gap-3">
-            <Button variant="ghost" onClick={close}>
-              Cancel
-            </Button>
-            {/* Outside the form, so it stays in view: `form` connects it back. */}
-            <Button type="submit" form={FORM_ID} disabled={!query.data || mutation.isPending || uploading}>
-              {mutation.isPending || uploading ? "Saving…" : "Save changes"}
-            </Button>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            {/* Quiet, and away from the two buttons you actually came for. */}
+            {query.data && (
+              <DeleteListingButton
+                listingId={listingId}
+                title={query.data.title}
+                label="Delete"
+                className="text-fx-muted hover:bg-fx-rose-soft hover:text-fx-rose"
+                onDeleted={close}
+              />
+            )}
+            <div className="ml-auto flex flex-wrap items-center gap-3">
+              <Button variant="ghost" onClick={close}>
+                Cancel
+              </Button>
+              {/* Outside the form, so it stays in view: `form` connects it back. */}
+              <Button type="submit" form={FORM_ID} disabled={!query.data || mutation.isPending || uploading}>
+                {mutation.isPending || uploading ? "Saving…" : "Save changes"}
+              </Button>
+            </div>
           </div>
         }
       >
