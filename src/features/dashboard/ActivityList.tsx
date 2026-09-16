@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { timeAgo } from "@/lib/time";
 import { Avatar } from "@/components/ui/Avatar";
 import { Banner } from "@/components/ui/Banner";
 import { Button } from "@/components/ui/Button";
@@ -12,18 +13,6 @@ const ACTIONS: Record<string, string> = {
   listing_created: "posted a listing",
   event_created: "created an event",
 };
-
-function timeAgo(iso: string): string {
-  const minutes = Math.floor((Date.now() - new Date(iso).getTime()) / 60_000);
-  if (minutes < 2) return "just now";
-  if (minutes < 60) return `${minutes} min`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h`;
-  const days = Math.floor(hours / 24);
-  if (days === 1) return "yesterday";
-  if (days < 30) return `${days} days`;
-  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
-}
 
 const ROW = "flex items-center gap-3 py-3.5";
 

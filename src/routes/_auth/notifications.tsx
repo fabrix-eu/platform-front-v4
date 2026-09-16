@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/shell/PagePlaceholder";
+import { z } from "zod";
+import { NotificationsPage } from "@/features/notifications/NotificationsPage";
+
+const searchSchema = z.object({ filter: z.enum(["all", "unread"]).optional() });
 
 export const Route = createFileRoute("/_auth/notifications")({
-  component: () => <PagePlaceholder title="Notifications" lede="What happened on your organisations, listings and events." />,
+  validateSearch: searchSchema,
+  component: RouteComponent,
 });
+
+function RouteComponent() {
+  const { filter = "all" } = Route.useSearch();
+  const navigate = Route.useNavigate();
+
+  return <NotificationsPage filter={filter} onFilterChange={(next) => navigate({ search: { filter: next }, replace: true })} />;
+}
