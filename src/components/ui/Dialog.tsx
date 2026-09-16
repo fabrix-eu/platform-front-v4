@@ -11,11 +11,14 @@ interface DialogContentProps {
   title: string;
   description?: ReactNode;
   children: ReactNode;
+  /** Actions, kept out of the scrolling content. A submit button reaches a form inside
+   *  the content with `form="<the form's id>"`. */
+  footer?: ReactNode;
   className?: string;
 }
 
 /** A centred modal (Radix Dialog): focus trap, Escape and overlay click close it. */
-export function DialogContent({ title, description, children, className }: DialogContentProps) {
+export function DialogContent({ title, description, children, footer, className }: DialogContentProps) {
   return (
     <RadixDialog.Portal>
       <RadixDialog.Overlay className="fixed inset-0 z-50 bg-fx-ink/40" />
@@ -23,7 +26,7 @@ export function DialogContent({ title, description, children, className }: Dialo
         {...(description ? {} : { "aria-describedby": undefined })}
         className={cn(
           "fixed top-1/2 left-1/2 z-50 flex max-h-[90vh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col",
-          "rounded-fx-lg bg-fx-paper shadow-xl shadow-fx-ink/10",
+          "overflow-hidden rounded-fx-lg bg-fx-paper shadow-xl shadow-fx-ink/10",
           className,
         )}
       >
@@ -38,6 +41,7 @@ export function DialogContent({ title, description, children, className }: Dialo
           {description && <RadixDialog.Description className="mt-2 text-fx-body text-fx-ink2">{description}</RadixDialog.Description>}
         </div>
         <div className="mt-6 min-h-0 flex-1 overflow-y-auto px-6 pb-6 sm:px-8 sm:pb-8">{children}</div>
+        {footer && <div className="shrink-0 border-t border-fx-line px-6 py-4 sm:px-8 sm:py-5">{footer}</div>}
       </RadixDialog.Content>
     </RadixDialog.Portal>
   );

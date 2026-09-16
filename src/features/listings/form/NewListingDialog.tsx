@@ -2,10 +2,13 @@ import { useState, type ReactNode } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { MeOrganization } from "@/lib/auth";
 import { useToast } from "@/components/Toast";
+import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { createListing, LISTINGS_KEY, uploadListingImages } from "../api";
 import { ListingForm } from "./ListingForm";
 import { ListingImagesField } from "./ListingImagesField";
+
+const FORM_ID = "new-listing-form";
 
 interface NewListingDialogProps {
   organizationId: string;
@@ -40,13 +43,25 @@ export function NewListingDialog({ organizationId, organizations, trigger }: New
         className="max-w-2xl"
         title="Add an offer"
         description="It goes on the Marketplace, where organisations nearby find it and contact you."
+        footer={
+          <div className="flex flex-wrap justify-end gap-3">
+            <Button variant="ghost" onClick={close}>
+              Cancel
+            </Button>
+            {/* Outside the form, so it stays in view: `form` connects it back. */}
+            <Button type="submit" form={FORM_ID} disabled={mutation.isPending || uploading}>
+              {mutation.isPending || uploading ? "Saving…" : "Publish listing"}
+            </Button>
+          </div>
+        }
       >
         <ListingForm
+          id={FORM_ID}
+          hideActions
           mutation={mutation}
           organizations={organizations}
           defaultOrganizationId={organizationId}
           busy={uploading}
-          stickyActions
           submitLabel="Publish listing"
           onCancel={close}
           images={

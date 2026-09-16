@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import type { MeOrganization } from "@/lib/auth";
-import { cn } from "@/lib/utils";
 import { Field } from "@/components/Field";
 import { FormError, type AnyMutation } from "@/components/FieldError";
 import { SelectField } from "@/components/SelectField";
@@ -19,8 +18,10 @@ interface ListingFormProps {
   /** The photos field — its uploads work differently on create and on edit. */
   images: ReactNode;
   busy?: boolean;
-  /** In a dialog: the actions stay in view while the fields scroll. */
-  stickyActions?: boolean;
+  /** Set it to submit from outside the form: a dialog footer button with `form={id}`. */
+  id?: string;
+  /** The caller renders the actions itself (in that dialog footer). */
+  hideActions?: boolean;
   submitLabel: string;
   onSubmit: (payload: ListingPayload) => void;
   onCancel: () => void;
@@ -40,14 +41,40 @@ export function ListingForm({
   defaultType,
   images,
   busy,
-  stickyActions,
+  id,
+  hideActions,
   submitLabel,
   onSubmit,
   onCancel,
 }: ListingFormProps) {
+  const formRef = useRef<HTMLFormElement>(null);
+  // Only the first invalid field of a submit attempt is worth scrolling to.
+  const scrolled = useRef(false);
+  const failed = !!mutation.error;
+
+  // The form scrolls inside a dialog: an error the reader cannot see reads as
+  // "nothing happened", so bring it into view.
+  useEffect(() => {
+    if (!failed) return;
+    const first = formRef.current?.querySelector('[role="alert"], .text-fx-rose');
+    (first ?? formRef.current)?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [failed]);
+
   return (
     <form
+      id={id}
+      ref={formRef}
       className="space-y-7"
+      // The browser focuses the first field it refuses, but does not scroll the
+      // dialog to it — so its message would pop up out of sight.
+      onInvalidCapture={(e) => {
+        if (scrolled.current) return;
+        scrolled.current = true;
+        (e.target as HTMLElement).scrollIntoView({ block: "center" });
+        window.setTimeout(() => {
+          scrolled.current = false;
+        }, 0);
+      }}
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
@@ -117,20 +144,16 @@ export function ListingForm({
 
       {images}
 
-      <div
-        className={cn(
-          "flex flex-wrap gap-3 border-t border-fx-line pt-6",
-          // The dialog's scroll container carries the padding this cancels out.
-          stickyActions && "sticky bottom-0 -mx-6 -mb-6 bg-fx-paper px-6 pb-6 sm:-mx-8 sm:-mb-8 sm:px-8 sm:pb-8",
-        )}
-      >
-        <Button type="submit" disabled={mutation.isPending || busy}>
-          {mutation.isPending || busy ? "Saving…" : submitLabel}
-        </Button>
-        <Button variant="ghost" onClick={onCancel}>
-          Cancel
-        </Button>
-      </div>
+      {!hideActions && (
+        <div className="flex flex-wrap gap-3 border-t border-fx-line pt-6">
+          <Button type="submit" disabled={mutation.isPending || busy}>
+            {mutation.isPending || busy ? "Saving…" : submitLabel}
+          </Button>
+          <Button variant="ghost" onClick={onCancel}>
+            Cancel
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

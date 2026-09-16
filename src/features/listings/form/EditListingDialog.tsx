@@ -3,11 +3,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { MeOrganization } from "@/lib/auth";
 import { useToast } from "@/components/Toast";
 import { Banner } from "@/components/ui/Banner";
+import { Button } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { LISTINGS_KEY, listingQueryOptions, removeListingImage, updateListing, uploadListingImages } from "../api";
 import type { ListingPayload } from "../types";
 import { ListingForm } from "./ListingForm";
 import { ListingImagesField } from "./ListingImagesField";
+
+const FORM_ID = "edit-listing-form";
 
 interface EditListingDialogProps {
   listingId: string;
@@ -45,18 +48,34 @@ export function EditListingDialog({ listingId, organizations, trigger }: EditLis
   return (
     <Dialog open={open} onOpenChange={(next) => (next ? setOpen(true) : close())}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-2xl" title="Edit listing" description={query.data?.title}>
+      <DialogContent
+        className="max-w-2xl"
+        title="Edit listing"
+        description={query.data?.title}
+        footer={
+          <div className="flex flex-wrap justify-end gap-3">
+            <Button variant="ghost" onClick={close}>
+              Cancel
+            </Button>
+            {/* Outside the form, so it stays in view: `form` connects it back. */}
+            <Button type="submit" form={FORM_ID} disabled={!query.data || mutation.isPending || uploading}>
+              {mutation.isPending || uploading ? "Saving…" : "Save changes"}
+            </Button>
+          </div>
+        }
+      >
         {query.isPending ? (
           <p className="text-fx-small text-fx-muted">Loading…</p>
         ) : query.isError ? (
           <Banner tone="danger">This listing could not be loaded. Try again in a moment.</Banner>
         ) : (
           <ListingForm
+            id={FORM_ID}
+            hideActions
             mutation={mutation}
             listing={query.data}
             organizations={organizations}
             busy={uploading}
-            stickyActions
             submitLabel="Save changes"
             onCancel={close}
             images={
