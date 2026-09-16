@@ -3,14 +3,18 @@ import { Link } from "@tanstack/react-router";
 import { Globe, Lock, Plus } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
-import { Button, ButtonLink } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
+import { useCurrentOrg } from "@/lib/activeOrg";
+import type { MeOrganization } from "@/lib/auth";
 import { listingsInfiniteQueryOptions } from "@/features/listings/api";
+import { EditListingDialog } from "@/features/listings/form/EditListingDialog";
+import { NewListingDialog } from "@/features/listings/form/NewListingDialog";
 import { categoryLabel, typeMeta } from "@/features/listings/taxonomy";
 import type { Listing } from "@/features/listings/types";
 import type { OrganizationProfile } from "../../types";
 import { FormGroup } from "./FormGroup";
 
-function OfferRow({ listing }: { listing: Listing }) {
+function OfferRow({ listing, organizations }: { listing: Listing; organizations: MeOrganization[] }) {
   const meta = typeMeta(listing.listing_type);
   return (
     <li className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
@@ -27,9 +31,15 @@ function OfferRow({ listing }: { listing: Listing }) {
         <Globe aria-hidden className="size-3" />
         On the Marketplace
       </Badge>
-      <ButtonLink to="/marketplace/$id/edit" params={{ id: listing.id }} variant="secondary" size="sm">
-        Edit
-      </ButtonLink>
+      <EditListingDialog
+        listingId={listing.id}
+        organizations={organizations}
+        trigger={
+          <Button variant="secondary" size="sm">
+            Edit
+          </Button>
+        }
+      />
     </li>
   );
 }
@@ -38,6 +48,7 @@ function OfferRow({ listing }: { listing: Listing }) {
 // returns the active, unexpired ones). The prototype's private offers, visibility levels,
 // alerts and needs have no model on the API yet.
 export function OffersNeedsForm({ org }: { org: OrganizationProfile }) {
+  const { me } = useCurrentOrg();
   const query = useInfiniteQuery(listingsInfiniteQueryOptions({ by_organization: org.id }));
   const listings = query.data?.pages.flatMap((page) => page.data) ?? [];
 
@@ -57,15 +68,21 @@ export function OffersNeedsForm({ org }: { org: OrganizationProfile }) {
         ) : (
           <ul className="divide-y divide-fx-line border-y border-fx-line">
             {listings.map((listing) => (
-              <OfferRow key={listing.id} listing={listing} />
+              <OfferRow key={listing.id} listing={listing} organizations={me.organizations} />
             ))}
           </ul>
         )}
         <div className="flex flex-wrap gap-3">
-          <ButtonLink to="/marketplace/new" size="sm">
-            <Plus aria-hidden className="size-4" strokeWidth={2.6} />
-            Add an offer
-          </ButtonLink>
+          <NewListingDialog
+            organizationId={org.id}
+            organizations={me.organizations}
+            trigger={
+              <Button size="sm">
+                <Plus aria-hidden className="size-4" strokeWidth={2.6} />
+                Add an offer
+              </Button>
+            }
+          />
           {query.hasNextPage && (
             <Button variant="ghost" size="sm" disabled={query.isFetchingNextPage} onClick={() => query.fetchNextPage()}>
               {query.isFetchingNextPage ? "Loading…" : "Show more"}

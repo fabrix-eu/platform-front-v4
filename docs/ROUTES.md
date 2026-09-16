@@ -26,7 +26,7 @@ decides.** Lines = page + main components it relies on (excluding `src/lib`).
 | shell (sidebar, org switcher, user menu, unread counts) | every other entry lands on a temporary `PagePlaceholder` |
 | `/marketplace`, `/marketplace/$id` | open to visitors; filters: search, type → category → speciality, near my org + radius, country; cards / list |
 | `/marketplace/new`, `/marketplace/$id/edit` | photos upload after create / immediately on edit |
-| `/$orgSlug/listings` | now in the sidebar |
+| `/$orgSlug/listings` | **gone** — redirects to `/$orgSlug/profile?tab=edit&section=offers-needs`. Offers are listed there, and created or edited in a dialog (`NewListingDialog` / `EditListingDialog` wrap the same `ListingForm` as `/marketplace/new` and `/marketplace/$id/edit`, which the marketplace keeps) |
 | `/organizations/$id` | public profile (slug or UUID), open to visitors: header, about, listings, photos, connections, contact / specialties / networks. Actions by viewer: member → edit + add a listing; visitor → sign in; other member → connect (relation), message (claimed), request to join (claimed) or claim (unclaimed). Private data (workers, turnover, NACE…) is **not displayed** — but the API still returns it publicly |
 
 **Marketplace — left for later:** map view and "near a city" search (with events/directory, same explore
