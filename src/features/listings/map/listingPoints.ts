@@ -1,8 +1,7 @@
 import type { Listing } from "../types";
-import { LISTING_TYPES } from "../taxonomy";
 
-// A map style needs real colour values, not classes — so the fx tokens are read from
-// the stylesheet rather than copied here. One source of truth, still.
+// A map needs real colour values, not classes — so the fx tokens are read from the
+// stylesheet rather than copied here. One source of truth, still.
 function token(name: string, fallback: string): string {
   if (typeof window === "undefined") return fallback;
   const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -23,17 +22,8 @@ export function typeColors(): Record<string, string> {
 export const mapColors = () => ({
   types: typeColors(),
   other: token("--color-fx-muted", "#6f6f7b"),
-  cluster: token("--color-fx-emphasis", "#6c4cf1"),
-  clusterInk: token("--color-fx-emphasis-ink", "#ffffff"),
-  paper: token("--color-fx-paper", "#ffffff"),
   ring: token("--color-fx-emphasis", "#6c4cf1"),
 });
-
-/** `match` expression colouring a point by its listing type. */
-export function colorByType(): unknown[] {
-  const colors = typeColors();
-  return ["match", ["get", "type"], ...LISTING_TYPES.flatMap((type) => [type, colors[type]]), token("--color-fx-muted", "#6f6f7b")];
-}
 
 export interface ListingPoint {
   listing: Listing;
@@ -47,17 +37,6 @@ export function listingPoints(listings: Listing[]): ListingPoint[] {
     const { lon, lat } = listing.organization;
     return lon == null || lat == null ? [] : [{ listing, lon, lat }];
   });
-}
-
-export function pointsToGeoJSON(points: ListingPoint[]) {
-  return {
-    type: "FeatureCollection" as const,
-    features: points.map(({ listing, lon, lat }) => ({
-      type: "Feature" as const,
-      geometry: { type: "Point" as const, coordinates: [lon, lat] },
-      properties: { id: listing.id, type: listing.listing_type },
-    })),
-  };
 }
 
 /** A circle on the sphere, to show the "within N km" filter. */

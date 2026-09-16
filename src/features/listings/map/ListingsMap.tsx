@@ -1,34 +1,62 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  GeoJSONSource,
-  LngLatBounds,
-  Map as MapLibreMap,
-  NavigationControl,
-  type ExpressionSpecification,
-  type MapLayerMouseEvent,
-} from "maplibre-gl";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { GeoJSONSource, LngLatBounds, Map as MapLibreMap, Marker, NavigationControl } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { ResolvedLocation } from "@/features/explore/location";
 import { EmptyState } from "@/components/ui/EmptyState";
 import type { Listing } from "../types";
-import { circlePolygon, colorByType, listingPoints, mapColors, pointsToGeoJSON } from "./listingPoints";
+import { circlePolygon, listingPoints, mapColors, type ListingPoint } from "./listingPoints";
 import { MapLegend, MapSelection } from "./MapOverlays";
 
-// Carto Positron: a quiet grey basemap, free and keyless, so the coloured pins are
-// the only thing with weight on the page.
+// Carto Positron: a quiet grey basemap, free and keyless, so the markers are the only
+// thing with weight on the page.
 const STYLE = "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
-const SOURCE = "listings";
 const AREA = "filter-area";
+// No clustering: every listing keeps its own marker. Only what is in view is drawn,
+// and never more than this — enough to stay readable, and to stay smooth.
+const MAX_MARKERS = 160;
+
+function markerElement(point: ListingPoint, color: string, onClick: () => void): HTMLElement {
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = "fx-pin";
+  el.setAttribute("aria-label", point.listing.title);
+  el.innerHTML = `<span class="fx-pin-dot"></span><span class="fx-pin-label"></span>`;
+  el.style.setProperty("--fx-pin-color", color);
+  (el.querySelector(".fx-pin-label") as HTMLElement).textContent = point.listing.title;
+  el.addEventListener("click", (event) => {
+    event.stopPropagation();
+    onClick();
+  });
+  return el;
+}
 
 export function ListingsMap({ listings, location }: { listings: Listing[]; location: ResolvedLocation }) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
+  const markers = useRef<Marker[]>([]);
   const [ready, setReady] = useState(false);
-  // Ephemeral: the pin someone clicked.
+  // Ephemeral: the marker someone clicked.
   const [selected, setSelected] = useState<Listing | null>(null);
 
   const points = useMemo(() => listingPoints(listings), [listings]);
-  const byId = useMemo(() => new Map(points.map((point) => [point.listing.id, point.listing])), [points]);
+
+  // Draw the markers the current view actually shows.
+  const drawMarkers = useCallback(
+    (instance: MapLibreMap, selectedId: string | null) => {
+      const colors = mapColors();
+      const bounds = instance.getBounds();
+      const visible = points.filter((point) => bounds.contains([point.lon, point.lat])).slice(0, MAX_MARKERS);
+
+      for (const marker of markers.current) marker.remove();
+      markers.current = visible.map((point) => {
+        const color = colors.types[point.listing.listing_type] ?? colors.other;
+        const el = markerElement(point, color, () => setSelected(point.listing));
+        if (point.listing.id === selectedId) el.classList.add("fx-pin-selected");
+        return new Marker({ element: el, anchor: "bottom" }).setLngLat([point.lon, point.lat]).addTo(instance);
+      });
+    },
+    [points],
+  );
 
   // The map itself, once.
   useEffect(() => {
@@ -48,101 +76,55 @@ export function ListingsMap({ listings, location }: { listings: Listing[]; locat
     if (import.meta.env.DEV) (window as unknown as { __fxMap?: MapLibreMap }).__fxMap = instance;
 
     return () => {
+      for (const marker of markers.current) marker.remove();
+      markers.current = [];
       instance.remove();
       map.current = null;
       setReady(false);
     };
   }, []);
 
-  // The points, their clusters, and the filter's circle.
+  // Markers: on the data, and on every move — like a rental map, not a heat map.
+  useEffect(() => {
+    const instance = map.current;
+    if (!instance || !ready) return;
+    const redraw = () => drawMarkers(instance, selected?.id ?? null);
+    redraw();
+    instance.on("moveend", redraw);
+    return () => {
+      instance.off("moveend", redraw);
+    };
+  }, [ready, drawMarkers, selected]);
+
+  // The circle of the "within N km" filter.
   useEffect(() => {
     const instance = map.current;
     if (!instance || !ready) return;
     const colors = mapColors();
-    const data = pointsToGeoJSON(points);
-
-    const source = instance.getSource(SOURCE) as GeoJSONSource | undefined;
-    if (source) {
-      source.setData(data);
-    } else {
-      instance.addSource(SOURCE, { type: "geojson", data, cluster: true, clusterRadius: 48, clusterMaxZoom: 12 });
-      instance.addSource(AREA, { type: "geojson", data: circlePolygon([0, 0], 0) });
-
-      instance.addLayer({ id: "area-fill", type: "fill", source: AREA, paint: { "fill-color": colors.ring, "fill-opacity": 0.06 } });
-      instance.addLayer({
-        id: "area-line",
-        type: "line",
-        source: AREA,
-        paint: { "line-color": colors.ring, "line-opacity": 0.35, "line-width": 1.5, "line-dasharray": [2, 2] },
-      });
-      instance.addLayer({
-        id: "clusters",
-        type: "circle",
-        source: SOURCE,
-        filter: ["has", "point_count"],
-        paint: {
-          "circle-color": colors.cluster,
-          "circle-radius": ["step", ["get", "point_count"], 16, 10, 22, 50, 28],
-          "circle-stroke-width": 3,
-          "circle-stroke-color": colors.paper,
-        },
-      });
-      instance.addLayer({
-        id: "cluster-count",
-        type: "symbol",
-        source: SOURCE,
-        filter: ["has", "point_count"],
-        layout: { "text-field": ["get", "point_count_abbreviated"], "text-font": ["Open Sans Bold"], "text-size": 13 },
-        paint: { "text-color": colors.clusterInk },
-      });
-      instance.addLayer({
-        id: "points",
-        type: "circle",
-        source: SOURCE,
-        filter: ["!", ["has", "point_count"]],
-        paint: {
-          "circle-color": colorByType() as ExpressionSpecification,
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 5, 10, 8, 14, 11],
-          "circle-stroke-width": 2,
-          "circle-stroke-color": colors.paper,
-        },
-      });
-
-      instance.on("click", "points", (event: MapLayerMouseEvent) => {
-        const id = event.features?.[0]?.properties?.id as string | undefined;
-        if (id) setSelected(byId.get(id) ?? null);
-      });
-      instance.on("click", "clusters", (event: MapLayerMouseEvent) => {
-        const feature = event.features?.[0];
-        const clusterId = feature?.properties?.cluster_id;
-        if (clusterId == null || feature?.geometry.type !== "Point") return;
-        const center = feature.geometry.coordinates as [number, number];
-        const clustered = instance.getSource(SOURCE) as GeoJSONSource;
-        void clustered.getClusterExpansionZoom(clusterId).then((zoom: number) => instance.easeTo({ center, zoom }));
-      });
-      for (const layer of ["points", "clusters"]) {
-        instance.on("mouseenter", layer, () => {
-          instance.getCanvas().style.cursor = "pointer";
-        });
-        instance.on("mouseleave", layer, () => {
-          instance.getCanvas().style.cursor = "";
-        });
-      }
-    }
-
-    const area = instance.getSource(AREA) as GeoJSONSource | undefined;
-    area?.setData(
+    const data =
       location.active && location.lon != null && location.lat != null
         ? circlePolygon([location.lon, location.lat], location.radius)
-        : circlePolygon([0, 0], 0),
-    );
-  }, [ready, points, byId, location]);
+        : circlePolygon([0, 0], 0);
 
-  // Frame what is being shown: the filter's area, or all the pins.
+    const source = instance.getSource(AREA) as GeoJSONSource | undefined;
+    if (source) {
+      source.setData(data);
+      return;
+    }
+    instance.addSource(AREA, { type: "geojson", data });
+    instance.addLayer({ id: "area-fill", type: "fill", source: AREA, paint: { "fill-color": colors.ring, "fill-opacity": 0.06 } });
+    instance.addLayer({
+      id: "area-line",
+      type: "line",
+      source: AREA,
+      paint: { "line-color": colors.ring, "line-opacity": 0.35, "line-width": 1.5, "line-dasharray": [2, 2] },
+    });
+  }, [ready, location]);
+
+  // Frame what is being shown: the filter's area, or all the listings.
   useEffect(() => {
     const instance = map.current;
     if (!instance || !ready) return;
-
     const framed: [number, number][] =
       location.active && location.lon != null && location.lat != null
         ? (circlePolygon([location.lon, location.lat], location.radius).features[0].geometry.coordinates[0] as [number, number][])
@@ -150,7 +132,7 @@ export function ListingsMap({ listings, location }: { listings: Listing[]; locat
     if (framed.length === 0) return;
 
     const bounds = framed.reduce((box, coord) => box.extend(coord), new LngLatBounds(framed[0], framed[0]));
-    instance.fitBounds(bounds, { padding: 56, maxZoom: location.active ? 14 : 12, duration: 600 });
+    instance.fitBounds(bounds, { padding: 64, maxZoom: location.active ? 13 : 11, duration: 600 });
   }, [ready, points, location]);
 
   return (

@@ -116,3 +116,58 @@
     font-family: var(--font-fx-display);
   }
 }
+
+@layer components {
+  /* Marketplace map: one readable pill per listing — no clusters. Its colour comes
+     from the listing type, set on --fx-pin-color when the marker is built. */
+  .fx-pin {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 190px;
+    padding: 5px 10px;
+    border: 1px solid var(--color-fx-line);
+    border-radius: 999px;
+    background-color: var(--color-fx-paper);
+    color: var(--color-fx-ink);
+    font-family: var(--font-fx-text);
+    font-size: var(--text-fx-small);
+    font-weight: 700;
+    line-height: 1.2;
+    box-shadow: 0 2px 6px rgb(26 26 34 / 0.16);
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+
+  .fx-pin:hover,
+  .fx-pin:focus-visible {
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgb(26 26 34 / 0.22);
+    outline: none;
+    z-index: 2;
+  }
+
+  .fx-pin-dot {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background-color: var(--fx-pin-color, var(--color-fx-muted));
+  }
+
+  .fx-pin-label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .fx-pin-selected {
+    border-color: var(--color-fx-emphasis);
+    background-color: var(--color-fx-emphasis);
+    color: var(--color-fx-emphasis-ink);
+  }
+
+  .fx-pin-selected .fx-pin-dot {
+    background-color: var(--color-fx-emphasis-ink);
+  }
+}
