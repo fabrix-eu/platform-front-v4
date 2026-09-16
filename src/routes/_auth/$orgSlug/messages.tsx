@@ -1,6 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/shell/PagePlaceholder";
+import { z } from "zod";
+import { MessagesPage } from "@/features/messages/MessagesPage";
+import { conversationsQueryOptions } from "@/features/messages/api";
+
+const searchSchema = z.object({ conversation: z.string().optional() });
 
 export const Route = createFileRoute("/_auth/$orgSlug/messages")({
-  component: () => <PagePlaceholder title="Messages" lede="Conversations on behalf of your organisation." />,
+  validateSearch: searchSchema,
+  loader: ({ context }) => context.queryClient.ensureQueryData(conversationsQueryOptions),
+  component: RouteComponent,
 });
+
+function RouteComponent() {
+  const { conversation } = Route.useSearch();
+  const navigate = Route.useNavigate();
+
+  return (
+    <MessagesPage
+      selectedId={conversation}
+      onSelect={(id) => navigate({ search: { conversation: id }, replace: true })}
+    />
+  );
+}
