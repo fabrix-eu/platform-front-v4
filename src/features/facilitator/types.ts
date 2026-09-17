@@ -25,6 +25,32 @@ export interface NetworkOrganizationOrg {
   lon: number | null;
   lat: number | null;
   description?: string | null;
+  specialties?: string[];
+}
+
+/** Someone from the followed organisation who is on the platform. */
+export interface OrgPerson {
+  id: string;
+  role: string;
+  user: { id: string; name: string; email: string; image_url: string | null };
+}
+
+export const CONTACT_KINDS: Record<string, string> = {
+  call: "Call",
+  email: "Email",
+  meeting: "Meeting",
+  visit: "Visit",
+  other: "Other",
+};
+
+/** One logged interaction with the organisation. */
+export interface ContactPoint {
+  id: string;
+  kind: string;
+  occurred_at: string;
+  summary: string;
+  created_at: string;
+  author: { id: string; name: string; image_url: string | null } | null;
 }
 
 /** The CRM record: what this network knows about an organisation it follows. */
@@ -36,7 +62,9 @@ export interface NetworkOrganization {
   economic_health: string;
   environmental_score: string;
   specialization: string | null;
+  annual_turnover: number | string | null;
   number_of_employees: number | null;
+  growth_rate: number | string | null;
   needs: Record<string, unknown>;
   added_at: string | null;
   organization: NetworkOrganizationOrg;

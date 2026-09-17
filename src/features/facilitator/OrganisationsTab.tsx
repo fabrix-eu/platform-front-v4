@@ -61,9 +61,11 @@ export function OrganisationsTab({ network, q, onSearch }: OrganisationsTabProps
                   <Card className="flex h-full items-start gap-3 p-4">
                     <Avatar name={org.name} src={org.image_url} size="sm" />
                     <div className="min-w-0 flex-1">
+                      {/* The CRM sheet, not the public profile: a facilitator opens
+                          what this network knows, and reaches the profile from there. */}
                       <Link
-                        to="/organizations/$id"
-                        params={{ id: org.slug ?? org.id }}
+                        to="/facilitator/$networkSlug/organizations/$recordId"
+                        params={{ networkSlug: network.slug, recordId: record.id }}
                         preload="intent"
                         className="block truncate text-fx-body font-bold text-fx-ink hover:text-fx-emphasis"
                       >
