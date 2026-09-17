@@ -56,10 +56,19 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
         <NavLink to="/global" icon={Map}>Directory</NavLink>
       </Group>
 
+      {/* One entry per network: each has its own dashboard, so there is nothing
+          to switch between once you are inside one. */}
       {isFacilitator(me) && (
         <Group label="Facilitator">
-          <NavLink to="/facilitator" activeOptions={{ exact: true }} icon={LayoutDashboard}>Dashboard</NavLink>
-          <NavLink to="/facilitator/network" icon={FolderKanban}>My network</NavLink>
+          {me.networks.length > 0 ? (
+            me.networks.map((network) => (
+              <NavLink key={network.id} to="/facilitator/$networkSlug" params={{ networkSlug: network.slug }} icon={FolderKanban}>
+                {network.name}
+              </NavLink>
+            ))
+          ) : (
+            <NavLink to="/facilitator" icon={LayoutDashboard}>Dashboard</NavLink>
+          )}
         </Group>
       )}
 
