@@ -28,6 +28,9 @@ interface PointsMapProps {
   location: ResolvedLocation;
   selectedId?: string | null;
   onSelect: (id: string) => void;
+  /** The covered-area circle. Defaults to the emphasis token, as the explore pages use it. */
+  areaColor?: string;
+  areaOpacity?: number;
   /** Top-left, over the map. */
   legend?: ReactNode;
   /** The card of whatever is selected. */
@@ -52,12 +55,12 @@ function pill(point: MapPoint, onClick: () => void): HTMLElement {
 }
 
 /** The map the explore pages share: one pill per point, no clusters. */
-export function PointsMap({ points, location, selectedId, onSelect, legend, children, emptyTitle, emptyDescription }: PointsMapProps) {
+export function PointsMap({ points, location, selectedId, onSelect, legend, children, emptyTitle, emptyDescription, areaColor, areaOpacity = 0.06 }: PointsMapProps) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MapLibreMap | null>(null);
   const markers = useRef<Marker[]>([]);
   const [ready, setReady] = useState(false);
-  const ring = useMemo(() => token("--color-fx-emphasis", "#6c4cf1"), []);
+  const ring = useMemo(() => areaColor ?? token("--color-fx-emphasis", "#6c4cf1"), [areaColor]);
 
   const drawMarkers = useCallback(
     (instance: MapLibreMap) => {
@@ -127,14 +130,14 @@ export function PointsMap({ points, location, selectedId, onSelect, legend, chil
       return;
     }
     instance.addSource(AREA, { type: "geojson", data });
-    instance.addLayer({ id: "area-fill", type: "fill", source: AREA, paint: { "fill-color": ring, "fill-opacity": 0.06 } });
+    instance.addLayer({ id: "area-fill", type: "fill", source: AREA, paint: { "fill-color": ring, "fill-opacity": areaOpacity } });
     instance.addLayer({
       id: "area-line",
       type: "line",
       source: AREA,
       paint: { "line-color": ring, "line-opacity": 0.35, "line-width": 1.5, "line-dasharray": [2, 2] },
     });
-  }, [ready, location, ring]);
+  }, [ready, location, ring, areaOpacity]);
 
   // Frame what is being shown: the filter's area, or all the points.
   useEffect(() => {

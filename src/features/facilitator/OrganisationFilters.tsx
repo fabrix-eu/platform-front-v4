@@ -5,18 +5,13 @@ import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { EU_COUNTRIES } from "@/features/explore/countries";
-import { CATEGORIES_BY_TYPE, categoryLabel } from "@/features/listings/taxonomy";
 import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
 import { MultiSelectMenu } from "./MultiSelectMenu";
+import { SpecialtyFilterMenu } from "./SpecialtyFilterMenu";
 import { HEALTH_LABELS } from "./types";
 import { csvList, hasOrgFilters, toggleCsv, type NetworkSearch, type OrgView } from "./search";
 
 const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
-
-/** Every specialty a filter can offer: the categories, which is what orgs carry. */
-const SPECIALTY_OPTIONS = Object.values(CATEGORIES_BY_TYPE)
-  .flat()
-  .map((value) => ({ value, label: categoryLabel(value) }));
 
 const VIEWS: { key: OrgView; label: string; icon: typeof Table2 }[] = [
   { key: "table", label: "Table", icon: Table2 },
@@ -88,9 +83,7 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
 
         <div>
           <Eyebrow className="mb-2">Specialities</Eyebrow>
-          <MultiSelectMenu
-            label="Specialities"
-            options={SPECIALTY_OPTIONS}
+          <SpecialtyFilterMenu
             selected={specialties}
             onToggle={(value) => onChange({ specialties: toggleCsv(search.specialties, value) })}
             onClear={() => onChange({ specialties: undefined })}

@@ -48,6 +48,9 @@
   --color-fx-rose: #cb4a86;
   --color-fx-indigo: #554cc4;
   --color-fx-orange: #e4572e;
+  /* The territory a network covers, drawn on the map — a light blue that reads
+     as "area", not as one more accent competing with the pins. */
+  --color-fx-sky: #4f9fd8;
 
   /* Text on a solid accent fill (orange count, teal avatar, rose button). */
   --color-fx-on-accent: #ffffff;

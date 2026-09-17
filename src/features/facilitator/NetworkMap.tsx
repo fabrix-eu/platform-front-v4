@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { MapPin, X } from "lucide-react";
+import { meQueryOptions } from "@/lib/auth";
 import { DEFAULT_RADIUS_KM, type ResolvedLocation } from "@/features/explore/location";
 import { token } from "@/features/explore/map/mapTokens";
 import { PointsMap, type MapPoint } from "@/features/explore/map/PointsMap";
@@ -24,7 +26,7 @@ function healthColour(health: string): string {
   }
 }
 
-function Legend() {
+function Legend({ centredOn }: { centredOn: string | null }) {
   const rows = [
     { label: "Excellent / good", tone: "bg-fx-green" },
     { label: "Warning", tone: "bg-fx-amber" },
@@ -32,7 +34,7 @@ function Legend() {
     { label: "Unknown", tone: "bg-fx-line2" },
   ];
   return (
-    <div className="pointer-events-none absolute top-3 left-3 z-10 rounded-fx border border-fx-line bg-fx-paper/95 px-3 py-2.5 shadow-sm backdrop-blur">
+    <div className="pointer-events-none absolute top-3 left-3 z-10 max-w-64 rounded-fx border border-fx-line bg-fx-paper/95 px-3 py-2.5 shadow-sm backdrop-blur">
       <p className="mb-1.5 font-fx-display text-fx-label text-fx-muted uppercase">Economic health</p>
       <ul className="grid gap-1.5 text-fx-small text-fx-ink2">
         {rows.map((row) => (
@@ -42,27 +44,41 @@ function Legend() {
           </li>
         ))}
       </ul>
+      {centredOn && (
+        <p className="mt-2 flex items-start gap-2 border-t border-fx-line pt-2 text-fx-label text-fx-muted">
+          <span aria-hidden className="mt-0.5 size-2.5 shrink-0 rounded-full bg-fx-sky/40 ring-1 ring-fx-sky" />
+          <span className="min-w-0">Area covered, centred on {centredOn}</span>
+        </p>
+      )}
     </div>
   );
 }
 
 /** The followed organisations on the map, inside the network's own territory. */
 export function NetworkMap({ network, records }: { network: Network; records: NetworkOrganization[] }) {
+  const { data: me } = useSuspenseQuery(meQueryOptions);
   // Ephemeral: the marker someone clicked.
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // The circle is the network's territory from Settings, not a search radius:
-  // this list is what the facilitator added, wherever it sits.
-  const location: ResolvedLocation =
-    network.center_lon != null && network.center_lat != null
-      ? {
-          active: true,
-          lon: network.center_lon,
-          lat: network.center_lat,
-          radius: network.radius_km ?? DEFAULT_RADIUS_KM,
-          label: network.center_address ?? network.name,
-        }
-      : { active: false, radius: DEFAULT_RADIUS_KM };
+  // The centre set in Settings, and failing that the organisation that runs the
+  // network — its coordinates travel on the session payload, which the network's
+  // own `organization` field does not carry.
+  const centre = useMemo(() => {
+    if (network.center_lon != null && network.center_lat != null) {
+      return { lon: network.center_lon, lat: network.center_lat, label: network.center_address ?? network.name };
+    }
+    const managing = me.networks.find((entry) => entry.slug === network.slug)?.organization;
+    if (managing?.lon != null && managing.lat != null) {
+      return { lon: managing.lon, lat: managing.lat, label: managing.name };
+    }
+    return null;
+  }, [network, me.networks]);
+
+  // The circle is the network's territory, not a search radius: this list is what
+  // the facilitator added, wherever it sits.
+  const location: ResolvedLocation = centre
+    ? { active: true, lon: centre.lon, lat: centre.lat, radius: network.radius_km ?? DEFAULT_RADIUS_KM, label: centre.label }
+    : { active: false, radius: DEFAULT_RADIUS_KM };
 
   const points = useMemo(
     () =>
@@ -90,7 +106,9 @@ export function NetworkMap({ network, records }: { network: Network; records: Ne
       location={location}
       selectedId={selectedId}
       onSelect={setSelectedId}
-      legend={<Legend />}
+      legend={<Legend centredOn={centre?.label ?? null} />}
+      areaColor={token("--color-fx-sky", "#4f9fd8")}
+      areaOpacity={0.14}
       emptyTitle="Nothing to place on the map"
       emptyDescription="The organisations you follow have no address yet, so they cannot be shown here."
     >
