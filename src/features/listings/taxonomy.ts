@@ -76,3 +76,12 @@ export const categoryOptions = (type: string) =>
 
 export const subcategoryOptions = (category: string) =>
   Object.entries(SUBCATEGORY_LABELS[category] ?? {}).map(([value, label]) => ({ value, label }));
+
+/**
+ * Every category under these activities. An organisation never stores an activity
+ * in `specialties` — only categories and subcategories — and the API's filter is a
+ * plain array overlap, so asking for "Materials" means asking for its four
+ * categories by name.
+ */
+export const categoriesForTypes = (types: string[]): string[] =>
+  types.flatMap((type) => (isListingType(type) ? CATEGORIES_BY_TYPE[type] : []));

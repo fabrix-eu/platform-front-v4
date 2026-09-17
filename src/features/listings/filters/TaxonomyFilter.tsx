@@ -3,7 +3,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CATEGORIES_BY_TYPE, categoryLabel, isListingType, LISTING_TYPE_META, LISTING_TYPES, subcategoryOptions } from "../taxonomy";
 import type { MarketplaceSearch } from "../search";
 
-// Type → category → speciality, each level appearing once its parent is picked.
+// Activity → category → speciality, each level appearing once its parent is picked.
 // Clicking the active pill clears it and everything under it.
 export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
   const { by_type, by_category, by_subcategory } = search;
@@ -12,7 +12,7 @@ export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
   return (
     <div className="space-y-5">
       <div>
-        <Eyebrow className="mb-3">Type</Eyebrow>
+        <Eyebrow className="mb-3">Activity</Eyebrow>
         <div className="flex flex-wrap gap-2">
           {LISTING_TYPES.map((type) => (
             <PillLink
@@ -20,6 +20,7 @@ export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
               to="/marketplace"
               search={(prev) => ({ ...prev, by_type: by_type === type ? undefined : type, by_category: undefined, by_subcategory: undefined })}
               active={by_type === type}
+              tone={LISTING_TYPE_META[type].tone}
               resetScroll={false}
             >
               {LISTING_TYPE_META[type].label}

@@ -8,6 +8,8 @@ export const NAV = ["home", "marketplace", "compass", "notifications"] as const;
 
 export const designSearchSchema = z.object({
   kind: z.enum(KINDS).optional(),
+  /** The MultiSelectMenu demo, comma separated like every multi-value filter. */
+  activities: z.string().optional(),
   tab: z.enum(TABS).optional(),
   nav: z.enum(NAV).optional(),
 });

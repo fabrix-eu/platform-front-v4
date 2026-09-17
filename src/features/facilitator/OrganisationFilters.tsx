@@ -6,7 +6,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { EU_COUNTRIES } from "@/features/explore/countries";
 import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
-import { MultiSelectMenu } from "./MultiSelectMenu";
+import { MultiSelectMenu } from "@/components/ui/MultiSelectMenu";
 import { SpecialtyFilterMenu } from "./SpecialtyFilterMenu";
 import { HEALTH_LABELS } from "./types";
 import { csvList, hasOrgFilters, toggleCsv, type NetworkSearch, type OrgView } from "./search";
@@ -71,9 +71,10 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Eyebrow className="mb-2">What they do</Eyebrow>
+          {/* A kind says what an organisation *is*; the specialities below say what it does. */}
+          <Eyebrow className="mb-2">What they are</Eyebrow>
           <MultiSelectMenu
-            label="What they do"
+            label="What they are"
             options={KIND_OPTIONS}
             selected={kinds}
             onToggle={(value) => onChange({ kinds: toggleCsv(search.kinds, value) })}

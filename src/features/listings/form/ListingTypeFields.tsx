@@ -25,13 +25,14 @@ export function ListingTypeFields({ mutation, initialType = "", initialCategory 
       <div>
         <span className={labelClass}>What is it? *</span>
         <input type="hidden" name="listing_type" value={type} />
-        <div role="radiogroup" aria-label="Listing type" className="flex flex-wrap gap-2">
+        <div role="radiogroup" aria-label="Activity" className="flex flex-wrap gap-2">
           {LISTING_TYPES.map((t) => (
             <Pill
               key={t}
               role="radio"
               aria-checked={type === t}
               selected={type === t}
+              tone={LISTING_TYPE_META[t].tone}
               onClick={() => {
                 setType(t);
                 setCategory("");

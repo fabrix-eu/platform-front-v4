@@ -1,15 +1,18 @@
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronDown, LayoutGrid, List, Map, MapPin } from "lucide-react";
+import { csvList, toggleCsv } from "@/lib/csv";
 import { cn } from "@/lib/utils";
 import { inputClass } from "@/components/Field";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { MultiSelectMenu } from "@/components/ui/MultiSelectMenu";
 import { Pill, PillLink } from "@/components/ui/Pill";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { EU_COUNTRIES } from "@/features/explore/countries";
 import { RADIUS_OPTIONS, type ResolvedLocation } from "@/features/explore/location";
+import { LISTING_TYPE_META, LISTING_TYPES } from "@/features/listings/taxonomy";
 import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
-import { kindList, toggleKind, type DirectorySearch } from "./search";
+import { type DirectorySearch } from "./search";
 
 /** Uncontrolled, debounced into ?search= — the URL is the only place the term lives. */
 export function DirectorySearchBox({ value }: { value?: string }) {
@@ -33,21 +36,51 @@ export function DirectorySearchBox({ value }: { value?: string }) {
   );
 }
 
+const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
+
+/** What an organisation *is*. Twelve kinds laid out as pills is a wall — they go in a menu. */
 export function KindFilter({ kinds }: { kinds?: string }) {
   const navigate = useNavigate({ from: "/global" });
-  const selected = kindList(kinds);
+  const set = (value: string | undefined) =>
+    navigate({ search: (prev) => ({ ...prev, kinds: value }), replace: true, resetScroll: false });
+
+  return (
+    <div>
+      <Eyebrow className="mb-3">What they are</Eyebrow>
+      <MultiSelectMenu
+        label="What they are"
+        options={KIND_OPTIONS}
+        selected={csvList(kinds)}
+        onToggle={(kind) => set(toggleCsv(kinds, kind))}
+        onClear={() => set(undefined)}
+      />
+    </div>
+  );
+}
+
+/**
+ * What an organisation *does*, in value-chain terms: five activities, each in the
+ * hue the marketplace already gives that part of the chain. Few enough to stay
+ * pills, which is what makes the colour worth showing.
+ */
+export function ActivityFilter({ activities }: { activities?: string }) {
+  const navigate = useNavigate({ from: "/global" });
+  const selected = csvList(activities);
 
   return (
     <div>
       <Eyebrow className="mb-3">What they do</Eyebrow>
       <div className="flex flex-wrap gap-2">
-        {Object.entries(ORG_KIND_LABELS).map(([kind, label]) => (
+        {LISTING_TYPES.map((type) => (
           <Pill
-            key={kind}
-            selected={selected.includes(kind)}
-            onClick={() => navigate({ search: (prev) => ({ ...prev, kinds: toggleKind(kinds, kind) }), replace: true, resetScroll: false })}
+            key={type}
+            tone={LISTING_TYPE_META[type].tone}
+            selected={selected.includes(type)}
+            onClick={() =>
+              navigate({ search: (prev) => ({ ...prev, activities: toggleCsv(activities, type) }), replace: true, resetScroll: false })
+            }
           >
-            {label}
+            {LISTING_TYPE_META[type].label}
           </Pill>
         ))}
       </div>

@@ -1,9 +1,12 @@
-import { useSearch } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { ArrowUpRight, Plus } from "lucide-react";
 import { ApiError } from "@/lib/api";
+import { csvList, toggleCsv } from "@/lib/csv";
 import { Button, ButtonLink } from "@/components/ui/Button";
+import { MultiSelectMenu } from "@/components/ui/MultiSelectMenu";
 import { Pill, PillLink } from "@/components/ui/Pill";
 import { Badge } from "@/components/ui/Badge";
+import { LISTING_TYPE_META, LISTING_TYPES } from "@/features/listings/taxonomy";
 import { Checkbox, Switch } from "@/components/ui/Toggles";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { Field } from "@/components/Field";
@@ -19,8 +22,13 @@ const INVALID = {
   isPending: false,
 };
 
+const ACTIVITY_OPTIONS = LISTING_TYPES.map((type) => ({ value: type, label: LISTING_TYPE_META[type].label }));
+
 export function CatalogControls() {
-  const { kind = "everyone" } = useSearch({ from: "/design" });
+  const { kind = "everyone", activities } = useSearch({ from: "/design" });
+  const navigate = useNavigate({ from: "/design" });
+  const setActivities = (value: string | undefined) =>
+    navigate({ search: (prev) => ({ ...prev, activities: value }), replace: true, resetScroll: false });
 
   return (
     <>
@@ -49,6 +57,29 @@ export function CatalogControls() {
         <span className="mx-2 h-6 w-px bg-fx-line" />
         <Pill selected>Recycling</Pill>
         <Pill>Dyeing</Pill>
+        <span className="mx-2 h-6 w-px bg-fx-line" />
+        {/* Toned: the value-chain filters, where the colour is the information. */}
+        <Pill tone="green" selected>
+          Materials
+        </Pill>
+        <Pill tone="teal">Services</Pill>
+        <Pill tone="rose">Products</Pill>
+      </Row>
+
+      <Row
+        label="MultiSelectMenu"
+        source="components/ui/MultiSelectMenu"
+        hint="many values behind one control — the chosen ones stay visible as removable chips"
+      >
+        <div className="w-full max-w-xs">
+          <MultiSelectMenu
+            label="Activity"
+            options={ACTIVITY_OPTIONS}
+            selected={csvList(activities)}
+            onToggle={(value) => setActivities(toggleCsv(activities, value))}
+            onClear={() => setActivities(undefined)}
+          />
+        </div>
       </Row>
 
       <Row label="Badge" source="components/ui/Badge" hint="listing types and states — orange is the only solid one">

@@ -44,7 +44,7 @@ export const MANUAL: ManualSection[] = [
       {
         page: "what-you-do",
         label: "What you do",
-        summary: "The vocabulary of the value chain: types, categories and specialities.",
+        summary: "The vocabulary of the value chain: activities, categories and specialities.",
       },
     ],
   },

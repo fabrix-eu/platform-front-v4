@@ -23,18 +23,18 @@ export function WhatYouDo() {
       <p className="text-fx-lead text-fx-ink2">
         One vocabulary describes the whole value chain, and everything on FABRIX is filed with it: your
         organisation, the listings on the marketplace, and the filters people use to find either. It has
-        three levels — a type, a category inside it, and a speciality inside that.
+        three levels — an activity, a category inside it, and a speciality inside that.
       </p>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        <Badge tone="slate">{LISTING_TYPES.length} types</Badge>
+        <Badge tone="slate">{LISTING_TYPES.length} activities</Badge>
         <Badge tone="slate">{categories.length} categories</Badge>
         <Badge tone="slate">{specialities} specialities</Badge>
       </div>
 
       <Banner tone="info" className="mt-8">
-        Pick the categories you work in, then refine them into specialities. A type is only there to group
-        them — you never pick a type on its own, and it is not part of what people search you by.
+        Pick the categories you work in, then refine them into specialities. An activity is only there to
+        group them — you never pick one on its own, and it is not what people search you by.
       </Banner>
 
       <div className="mt-12 flex flex-col gap-10">
