@@ -7,8 +7,13 @@ export const CONVERSATIONS_KEY = ["conversations"];
 
 export interface NewConversation {
   recipient_organization_id: string;
-  /** Write on behalf of one of my organisations; omitted = as myself. */
-  initiator_organization_id?: string;
+  /**
+   * Required: conversations are between organisations. A person still signs every
+   * message (`author_user`), but they always write in the name of one of theirs —
+   * so a thread belongs to the organisation, stays visible to colleagues, and
+   * survives whoever opened it leaving.
+   */
+  initiator_organization_id: string;
   content: string;
 }
 
