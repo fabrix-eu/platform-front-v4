@@ -16,6 +16,8 @@ import { OrgSearchStep } from "@/features/organizations/wizard/OrgSearchStep";
 
 const TYPE_OPTIONS = RELATION_TYPES.map((t) => ({ value: t.value, label: t.label }));
 
+const FORM_ID = "add-connection-form";
+
 /** Search the organisation you work with, then say how — a relation both sides can see. */
 export function AddConnectionDialog({ org }: { org: OrganizationProfile }) {
   // Ephemeral: the dialog, and which organisation is being connected (a two-step flow).
@@ -55,9 +57,24 @@ export function AddConnectionDialog({ org }: { org: OrganizationProfile }) {
       <DialogContent
         title="Add a connection"
         description={picked ? `How do you work with ${picked.name}?` : "The organisations you work with — they may already be on FABRIX."}
+        // Only the second step has an action bar: the search step is a list to pick from.
+        footer={
+          picked ? (
+            <div className="flex flex-wrap justify-end gap-3">
+              <DialogClose asChild>
+                <Button variant="ghost">Cancel</Button>
+              </DialogClose>
+              {/* Outside the form, so it stays in view: `form` connects it back. */}
+              <Button type="submit" form={FORM_ID} disabled={mutation.isPending}>
+                {mutation.isPending ? "Adding…" : "Add connection"}
+              </Button>
+            </div>
+          ) : undefined
+        }
       >
         {picked ? (
           <form
+            id={FORM_ID}
             className="space-y-5"
             onSubmit={(e) => {
               e.preventDefault();
@@ -93,14 +110,6 @@ export function AddConnectionDialog({ org }: { org: OrganizationProfile }) {
               hint="Optional — what you exchange, or since when. Both organisations can see it."
               mutation={mutation}
             />
-            <div className="flex flex-wrap justify-end gap-3">
-              <DialogClose asChild>
-                <Button variant="ghost">Cancel</Button>
-              </DialogClose>
-              <Button type="submit" disabled={mutation.isPending}>
-                {mutation.isPending ? "Adding…" : "Add connection"}
-              </Button>
-            </div>
           </form>
         ) : (
           <OrgSearchStep

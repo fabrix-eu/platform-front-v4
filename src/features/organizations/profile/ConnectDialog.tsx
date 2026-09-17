@@ -13,6 +13,8 @@ import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/
 import { createRelation, deleteRelation, RELATION_TYPES, relationLabel, type NewRelation } from "../relations";
 import type { OrganizationProfile } from "../types";
 
+const FORM_ID = "connect-form";
+
 // Declaring how one of my organisations works with this one. It shows on both
 // profiles and on the connections map.
 export function ConnectDialog({ org, me }: { org: OrganizationProfile; me: User }) {
@@ -45,7 +47,21 @@ export function ConnectDialog({ org, me }: { org: OrganizationProfile; me: User 
           {existing.length > 0 ? "Connected" : "Connect"}
         </Button>
       </DialogTrigger>
-      <DialogContent title={`Connect with ${org.name}`} description="Say how you work together. It appears on both profiles and on the connections map.">
+      <DialogContent
+        title={`Connect with ${org.name}`}
+        description="Say how you work together. It appears on both profiles and on the connections map."
+        footer={
+          <div className="flex flex-wrap justify-end gap-3">
+            <DialogClose asChild>
+              <Button variant="ghost">Cancel</Button>
+            </DialogClose>
+            {/* Outside the form, so it stays in view: `form` connects it back. */}
+            <Button type="submit" form={FORM_ID} disabled={create.isPending}>
+              {create.isPending ? "Connecting…" : "Connect"}
+            </Button>
+          </div>
+        }
+      >
         {existing.length > 0 && (
           <ul className="mb-6 space-y-2">
             {existing.map((r) => (
@@ -61,6 +77,7 @@ export function ConnectDialog({ org, me }: { org: OrganizationProfile; me: User 
           </ul>
         )}
         <form
+          id={FORM_ID}
           className="space-y-5"
           onSubmit={(e) => {
             e.preventDefault();
@@ -101,14 +118,6 @@ export function ConnectDialog({ org, me }: { org: OrganizationProfile; me: User 
             <FieldError mutation={create} field="relation_type" />
           </fieldset>
           <TextareaField label="Details" name="description" rows={2} placeholder="e.g. We send them our cutting waste every month" mutation={create} />
-          <div className="flex flex-wrap justify-end gap-3">
-            <DialogClose asChild>
-              <Button variant="ghost">Cancel</Button>
-            </DialogClose>
-            <Button type="submit" disabled={create.isPending}>
-              {create.isPending ? "Connecting…" : "Connect"}
-            </Button>
-          </div>
         </form>
       </DialogContent>
     </Dialog>
