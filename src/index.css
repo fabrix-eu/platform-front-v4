@@ -102,6 +102,21 @@
   --text-fx-label--font-weight: 700;
 }
 
+/* The facilitator space is tinted apart from the rest of the platform: a work
+   surface — the network CRM — rather than the organisation-and-people side.
+   Components are written against token *names*, so this is four variables and
+   not one component change.
+
+   Unlayered on purpose: it has to outrank the `theme` layer `@theme` emits
+   into. Stamped on <html> by the facilitator layout route, not on a wrapper,
+   so dialogs — which Radix portals outside the shell — are tinted too. */
+:root[data-space="facilitator"] {
+  --color-fx-panel: #f3f4f8;
+  --color-fx-emphasis: #554cc4;
+  --color-fx-emphasis-soft: #eceaf9;
+  --color-fx-line: #e6e7ee;
+}
+
 @layer base {
   body {
     font-family: var(--font-fx-text);
