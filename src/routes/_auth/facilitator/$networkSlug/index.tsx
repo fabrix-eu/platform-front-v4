@@ -9,16 +9,14 @@ export const Route = createFileRoute("/_auth/facilitator/$networkSlug/")({
 
 function RouteComponent() {
   const { networkSlug } = Route.useParams();
-  const { tab = "overview", q, tasks = "open" } = Route.useSearch();
+  const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
   return (
     <NetworkDashboardPage
       networkSlug={networkSlug}
-      tab={tab}
-      q={q}
-      tasks={tasks}
-      onSearchChange={(next) => navigate({ search: (prev) => ({ ...prev, ...next }), replace: true })}
+      search={search}
+      onSearchChange={(patch) => navigate({ search: (prev) => ({ ...prev, ...patch }), replace: true, resetScroll: false })}
     />
   );
 }

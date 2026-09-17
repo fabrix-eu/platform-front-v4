@@ -1,5 +1,6 @@
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { api, type Paginated } from "@/lib/api";
+import { orgFilterParams, type NetworkSearch } from "./search";
 import type {
   Network,
   NetworkCandidate,
@@ -18,18 +19,41 @@ export const networkQueryOptions = (slug: string) =>
     queryFn: () => api.get<Network>(`/networks/${slug}`),
   });
 
-// The CRM records. `search` is a has_scope on the organisation behind the record.
-export const networkOrganizationsQueryOptions = (slug: string, search?: string) =>
+/** PATCH /networks/:slug — name, description, the linked organisation, the territory. */
+export interface NetworkPatch {
+  name?: string;
+  description?: string | null;
+  organization_id?: string | null;
+  center_address?: string | null;
+  center_lat?: number | null;
+  center_lon?: number | null;
+  radius_km?: number | null;
+}
+
+export const updateNetwork = (slug: string, network: NetworkPatch): Promise<Network> =>
+  api.patch<Network>(`/networks/${slug}`, { network });
+
+// The CRM records, filtered by what the organisations behind them are.
+export const networkOrganizationsQueryOptions = (slug: string, search: NetworkSearch) =>
   infiniteQueryOptions({
-    queryKey: [...networkKey(slug), "organizations", search ?? ""],
+    queryKey: [...networkKey(slug), "organizations", orgFilterParams(search)],
     queryFn: ({ pageParam }) =>
       api.get<Paginated<NetworkOrganization>>(`/networks/${slug}/organizations`, {
         page: pageParam,
-        per_page: 20,
-        search,
+        per_page: 30,
+        ...orgFilterParams(search),
       }),
     initialPageParam: 1,
     getNextPageParam: (last) => (last.meta.current_page < last.meta.total_pages ? last.meta.current_page + 1 : undefined),
+  });
+
+/** `view=map` answers with every match at once — a map cannot page. */
+export const networkOrganizationsMapQueryOptions = (slug: string, search: NetworkSearch) =>
+  queryOptions({
+    queryKey: [...networkKey(slug), "organizations", "map", orgFilterParams(search)],
+    queryFn: () =>
+      api.get<Paginated<NetworkOrganization>>(`/networks/${slug}/organizations`, { view: "map", ...orgFilterParams(search) }),
+    select: (page: Paginated<NetworkOrganization>) => page.data,
   });
 
 /** A cheap count for the overview: one record, read the meta. */

@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useDebounced } from "@/lib/useDebounced";
 import { Avatar } from "@/components/ui/Avatar";
@@ -6,89 +6,106 @@ import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { SearchInput } from "@/components/ui/SearchInput";
 import { InfiniteScrollSentinel } from "@/features/explore/InfiniteScrollSentinel";
-import { networkOrganizationsQueryOptions } from "./api";
-import { HEALTH_LABELS, HEALTH_TONES, type Network } from "./types";
+import { networkOrganizationsMapQueryOptions, networkOrganizationsQueryOptions } from "./api";
+import { NetworkMap } from "./NetworkMap";
+import { OrganisationFilters, ViewToggle } from "./OrganisationFilters";
+import { OrganisationsTable } from "./OrganisationsTable";
+import { hasOrgFilters, type NetworkSearch } from "./search";
+import { HEALTH_LABELS, HEALTH_TONES, type Network, type NetworkOrganization } from "./types";
 
 interface OrganisationsTabProps {
   network: Network;
-  q?: string;
-  onSearch: (q: string) => void;
+  search: NetworkSearch;
+  onChange: (patch: Partial<NetworkSearch>) => void;
 }
 
-export function OrganisationsTab({ network, q, onSearch }: OrganisationsTabProps) {
-  // The URL holds the term; the request waits until typing settles.
-  const debounced = useDebounced(q ?? "", 350);
-  const query = useInfiniteQuery(networkOrganizationsQueryOptions(network.slug, debounced || undefined));
+function Cards({ networkSlug, records }: { networkSlug: string; records: NetworkOrganization[] }) {
+  return (
+    <ul className="grid gap-3 sm:grid-cols-2">
+      {records.map((record) => (
+        <li key={record.id}>
+          <Card className="flex h-full items-start gap-3 p-4">
+            <Avatar name={record.organization.name} src={record.organization.image_url} size="sm" />
+            <div className="min-w-0 flex-1">
+              <Link
+                to="/facilitator/$networkSlug/organizations/$recordId"
+                params={{ networkSlug, recordId: record.id }}
+                preload="intent"
+                className="block truncate text-fx-body font-bold text-fx-ink hover:text-fx-emphasis"
+              >
+                {record.organization.name}
+              </Link>
+              <p className="mt-0.5 truncate text-fx-small text-fx-muted">{record.organization.address ?? "No address"}</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                <Badge tone={HEALTH_TONES[record.economic_health] ?? "slate"}>
+                  {HEALTH_LABELS[record.economic_health] ?? record.economic_health}
+                </Badge>
+                {record.specialization && <Badge tone="slate">{record.specialization}</Badge>}
+              </div>
+            </div>
+          </Card>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
-  const records = query.data?.pages.flatMap((page) => page.data) ?? [];
+export function OrganisationsTab({ network, search, onChange }: OrganisationsTabProps) {
+  const view = search.org_view ?? "table";
+
+  // The URL holds the term; the request waits until typing settles.
+  const term = useDebounced(search.q ?? "", 350);
+  const settled: NetworkSearch = { ...search, q: term || undefined };
+
+  const list = useInfiniteQuery({ ...networkOrganizationsQueryOptions(network.slug, settled), enabled: view !== "map" });
+  const map = useQuery({ ...networkOrganizationsMapQueryOptions(network.slug, settled), enabled: view === "map" });
+
+  const records = view === "map" ? (map.data ?? []) : (list.data?.pages.flatMap((page) => page.data) ?? []);
+  const total = view === "map" ? map.data?.length : list.data?.pages[0]?.meta.total_count;
+  const pending = view === "map" ? map.isPending : list.isPending;
+  const failed = view === "map" ? map.isError : list.isError;
 
   return (
-    <div className="mt-8">
-      <SearchInput
-        defaultValue={q ?? ""}
-        placeholder="Search the organisations you follow"
-        onChange={(e) => onSearch(e.currentTarget.value)}
-        className="max-w-md"
-      />
+    <div className="mt-8 space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-fx-small text-fx-muted">
+          {total == null ? "…" : `${total} organisation${total === 1 ? "" : "s"}`}
+          {hasOrgFilters(search) && " matching your filters"}
+        </p>
+        <ViewToggle view={view} onChange={(next) => onChange({ org_view: next === "table" ? undefined : next })} />
+      </div>
 
-      {query.isError ? (
-        <Banner tone="danger" className="mt-6">These organisations could not be loaded.</Banner>
-      ) : query.isPending ? (
-        <p className="mt-6 text-fx-small text-fx-muted">Loading…</p>
+      <OrganisationFilters search={search} onChange={onChange} />
+
+      {failed ? (
+        <Banner tone="danger">These organisations could not be loaded.</Banner>
+      ) : pending ? (
+        <p className="text-fx-small text-fx-muted">Loading…</p>
       ) : records.length === 0 ? (
         <EmptyState
-          className="mt-6"
-          title={q ? "No match" : "No organisation followed yet"}
+          title={hasOrgFilters(search) ? "No match" : "No organisation followed yet"}
           description={
-            q
-              ? "No organisation in this network matches that search."
-              : "Add the organisations this network follows to keep their data and your notes in one place."
+            hasOrgFilters(search)
+              ? "No organisation in this network matches these filters."
+              : "Add the organisations this network follows to keep their data, your notes and your interactions in one place."
           }
         />
+      ) : view === "map" ? (
+        <div className="h-[32rem] overflow-hidden rounded-fx-lg border border-fx-line">
+          <NetworkMap network={network} records={records} />
+        </div>
       ) : (
         <>
-          <p className="mt-6 text-fx-small text-fx-muted">
-            {query.data.pages[0].meta.total_count} organisation{query.data.pages[0].meta.total_count === 1 ? "" : "s"}
-          </p>
-
-          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-            {records.map((record) => {
-              const org = record.organization;
-              return (
-                <li key={record.id}>
-                  <Card className="flex h-full items-start gap-3 p-4">
-                    <Avatar name={org.name} src={org.image_url} size="sm" />
-                    <div className="min-w-0 flex-1">
-                      {/* The CRM sheet, not the public profile: a facilitator opens
-                          what this network knows, and reaches the profile from there. */}
-                      <Link
-                        to="/facilitator/$networkSlug/organizations/$recordId"
-                        params={{ networkSlug: network.slug, recordId: record.id }}
-                        preload="intent"
-                        className="block truncate text-fx-body font-bold text-fx-ink hover:text-fx-emphasis"
-                      >
-                        {org.name}
-                      </Link>
-                      <p className="mt-0.5 truncate text-fx-small text-fx-muted">{org.address ?? "No address"}</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        <Badge tone={HEALTH_TONES[record.economic_health] ?? "slate"}>
-                          {HEALTH_LABELS[record.economic_health] ?? record.economic_health}
-                        </Badge>
-                        {record.specialization && <Badge tone="slate">{record.specialization}</Badge>}
-                      </div>
-                    </div>
-                  </Card>
-                </li>
-              );
-            })}
-          </ul>
-
+          {view === "table" ? (
+            <OrganisationsTable networkSlug={network.slug} records={records} />
+          ) : (
+            <Cards networkSlug={network.slug} records={records} />
+          )}
           <InfiniteScrollSentinel
-            hasNextPage={query.hasNextPage}
-            isFetchingNextPage={query.isFetchingNextPage}
-            fetchNextPage={() => query.fetchNextPage()}
+            hasNextPage={list.hasNextPage}
+            isFetchingNextPage={list.isFetchingNextPage}
+            fetchNextPage={() => list.fetchNextPage()}
           />
         </>
       )}

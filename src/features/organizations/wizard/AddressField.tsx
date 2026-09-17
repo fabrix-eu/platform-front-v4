@@ -15,11 +15,26 @@ interface AddressFieldProps {
   error?: string | null;
   onPicked?: () => void;
   mutation: AnyMutation;
+  /** Defaults to the organisation wizard's wording and field names. */
+  label?: string;
+  hint?: string;
+  required?: boolean;
+  /** The hidden inputs this combobox fills — a network centre is not an address. */
+  names?: { address: string; lat: string; lon: string; country?: string };
 }
 
 // A combobox over Photon. The typed text is only a search: what is sent is the picked
 // place (hidden inputs), so the organisation always lands on the map.
-export function AddressField({ initial, error, onPicked, mutation }: AddressFieldProps) {
+export function AddressField({
+  initial,
+  error,
+  onPicked,
+  mutation,
+  label: fieldLabel = "Address",
+  hint = "Pick it from the suggestions — it puts you on the map.",
+  required = true,
+  names = { address: "address", lat: "lat", lon: "lon", country: "country_code" },
+}: AddressFieldProps) {
   const start = initial?.address && initial.lat != null && initial.lon != null
     ? { label: initial.address, lat: initial.lat, lon: initial.lon, country_code: initial.country_code ?? "" }
     : null;
@@ -62,7 +77,8 @@ export function AddressField({ initial, error, onPicked, mutation }: AddressFiel
   return (
     <div>
       <label htmlFor="address-search" className={labelClass}>
-        Address *
+        {fieldLabel}
+        {required && " *"}
       </label>
       <div className="relative">
         <MapPin aria-hidden className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-fx-muted" />
@@ -113,10 +129,10 @@ export function AddressField({ initial, error, onPicked, mutation }: AddressFiel
         )}
       </div>
 
-      <input type="hidden" name="address" value={picked?.label ?? ""} />
-      <input type="hidden" name="lat" value={picked?.lat ?? ""} />
-      <input type="hidden" name="lon" value={picked?.lon ?? ""} />
-      <input type="hidden" name="country_code" value={picked?.country_code ?? ""} />
+      <input type="hidden" name={names.address} value={picked?.label ?? ""} />
+      <input type="hidden" name={names.lat} value={picked?.lat ?? ""} />
+      <input type="hidden" name={names.lon} value={picked?.lon ?? ""} />
+      {names.country && <input type="hidden" name={names.country} value={picked?.country_code ?? ""} />}
 
       {picked ? (
         <p className="mt-1.5 flex items-center gap-1.5 text-fx-small font-bold text-fx-green">
@@ -126,10 +142,10 @@ export function AddressField({ initial, error, onPicked, mutation }: AddressFiel
       ) : error ? (
         <p className="mt-1.5 text-fx-small text-fx-rose">{error}</p>
       ) : (
-        <p className="mt-1.5 text-fx-small text-fx-muted">Pick it from the suggestions — it puts you on the map.</p>
+        <p className="mt-1.5 text-fx-small text-fx-muted">{hint}</p>
       )}
-      <FieldError mutation={mutation} field="address" />
-      <FieldError mutation={mutation} field="country_code" />
+      <FieldError mutation={mutation} field={names.address} />
+      {names.country && <FieldError mutation={mutation} field={names.country} />}
     </div>
   );
 }

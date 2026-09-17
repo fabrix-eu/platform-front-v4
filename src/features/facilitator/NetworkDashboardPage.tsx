@@ -4,21 +4,21 @@ import { TabLink, TabList } from "@/components/ui/Tabs";
 import { networkQueryOptions } from "./api";
 import { OrganisationsTab } from "./OrganisationsTab";
 import { OverviewTab } from "./OverviewTab";
+import { SettingsTab } from "./SettingsTab";
 import { TasksTab } from "./TasksTab";
 import { TeamTab } from "./TeamTab";
-import { NETWORK_TABS, TAB_LABELS, type NetworkSearch, type NetworkTab } from "./search";
+import { NETWORK_TABS, TAB_LABELS, type NetworkSearch } from "./search";
 
 interface NetworkDashboardPageProps {
   networkSlug: string;
-  tab: NetworkTab;
-  q?: string;
-  tasks: "open" | "done";
-  onSearchChange: (next: Partial<NetworkSearch>) => void;
+  search: NetworkSearch;
+  onSearchChange: (patch: Partial<NetworkSearch>) => void;
 }
 
 /** One network's dashboard: its features as tabs, like the organisation profile. */
-export function NetworkDashboardPage({ networkSlug, tab, q, tasks, onSearchChange }: NetworkDashboardPageProps) {
+export function NetworkDashboardPage({ networkSlug, search, onSearchChange }: NetworkDashboardPageProps) {
   const { data: network } = useSuspenseQuery(networkQueryOptions(networkSlug));
+  const tab = search.tab ?? "overview";
 
   return (
     <>
@@ -34,7 +34,8 @@ export function NetworkDashboardPage({ networkSlug, tab, q, tasks, onSearchChang
             key={key}
             to="/facilitator/$networkSlug"
             params={{ networkSlug }}
-            // `overview` is the default: it stays out of the URL.
+            // `overview` is the default: it stays out of the URL. Switching tabs
+            // drops the other tab's filters rather than carrying them along.
             search={{ tab: key === "overview" ? undefined : key }}
             active={tab === key}
           >
@@ -44,9 +45,10 @@ export function NetworkDashboardPage({ networkSlug, tab, q, tasks, onSearchChang
       </TabList>
 
       {tab === "overview" && <OverviewTab network={network} />}
-      {tab === "organisations" && <OrganisationsTab network={network} q={q} onSearch={(next) => onSearchChange({ q: next || undefined })} />}
-      {tab === "tasks" && <TasksTab network={network} filter={tasks} onFilterChange={(next) => onSearchChange({ tasks: next })} />}
+      {tab === "organisations" && <OrganisationsTab network={network} search={search} onChange={onSearchChange} />}
+      {tab === "tasks" && <TasksTab network={network} filter={search.tasks ?? "open"} onFilterChange={(next) => onSearchChange({ tasks: next })} />}
       {tab === "team" && <TeamTab network={network} />}
+      {tab === "settings" && <SettingsTab network={network} />}
     </>
   );
 }
