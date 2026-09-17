@@ -1,4 +1,4 @@
-import { LayoutGrid, Map, Table2 } from "lucide-react";
+import { LayoutGrid, Map, Share2, Table2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { inputClass } from "@/components/Field";
 import { Button } from "@/components/ui/Button";
@@ -14,11 +14,11 @@ import { csvList, hasOrgFilters, toggleCsv, type NetworkSearch, type OrgView } f
 /** Every specialty a filter can offer: the categories, which is what orgs carry. */
 const SPECIALTIES = Object.values(CATEGORIES_BY_TYPE).flat();
 
-// Only the views that exist: a toggle that leads nowhere is worse than a missing one.
 const VIEWS: { key: OrgView; label: string; icon: typeof Table2 }[] = [
   { key: "table", label: "Table", icon: Table2 },
   { key: "cards", label: "Cards", icon: LayoutGrid },
   { key: "map", label: "Map", icon: Map },
+  { key: "graph", label: "Graph", icon: Share2 },
 ];
 
 interface FiltersProps {

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useDebounced } from "@/lib/useDebounced";
@@ -13,6 +14,10 @@ import { OrganisationFilters, ViewToggle } from "./OrganisationFilters";
 import { OrganisationsTable } from "./OrganisationsTable";
 import { hasOrgFilters, type NetworkSearch } from "./search";
 import { HEALTH_LABELS, HEALTH_TONES, type Network, type NetworkOrganization } from "./types";
+
+// The force layout and its canvas renderer are heavy, and only this one view
+// needs them: loaded when the view is opened, not with the dashboard.
+const NetworkGraph = lazy(() => import("./NetworkGraph"));
 
 interface OrganisationsTabProps {
   network: Network;
@@ -53,12 +58,13 @@ function Cards({ networkSlug, records }: { networkSlug: string; records: Network
 
 export function OrganisationsTab({ network, search, onChange }: OrganisationsTabProps) {
   const view = search.org_view ?? "table";
+  const isGraph = view === "graph";
 
   // The URL holds the term; the request waits until typing settles.
   const term = useDebounced(search.q ?? "", 350);
   const settled: NetworkSearch = { ...search, q: term || undefined };
 
-  const list = useInfiniteQuery({ ...networkOrganizationsQueryOptions(network.slug, settled), enabled: view !== "map" });
+  const list = useInfiniteQuery({ ...networkOrganizationsQueryOptions(network.slug, settled), enabled: view === "table" || view === "cards" });
   const map = useQuery({ ...networkOrganizationsMapQueryOptions(network.slug, settled), enabled: view === "map" });
 
   const records = view === "map" ? (map.data ?? []) : (list.data?.pages.flatMap((page) => page.data) ?? []);
@@ -70,15 +76,28 @@ export function OrganisationsTab({ network, search, onChange }: OrganisationsTab
     <div className="mt-8 space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-fx-small text-fx-muted">
-          {total == null ? "…" : `${total} organisation${total === 1 ? "" : "s"}`}
-          {hasOrgFilters(search) && " matching your filters"}
+          {isGraph
+            ? "The whole network"
+            : `${total == null ? "…" : total} organisation${total === 1 ? "" : "s"}${hasOrgFilters(search) ? " matching your filters" : ""}`}
         </p>
         <ViewToggle view={view} onChange={(next) => onChange({ org_view: next === "table" ? undefined : next })} />
       </div>
 
       <OrganisationFilters search={search} onChange={onChange} />
 
-      {failed ? (
+      {isGraph ? (
+        <>
+          <Banner tone="info">
+            The graph draws every organisation this network follows and the relations between them. The filters
+            above narrow the table, the cards and the map — the API’s graph has no filters of its own.
+          </Banner>
+          <div className="h-[36rem] overflow-hidden rounded-fx-lg border border-fx-line">
+            <Suspense fallback={<p className="grid h-full place-items-center text-fx-small text-fx-muted">Loading the graph…</p>}>
+              <NetworkGraph networkSlug={network.slug} />
+            </Suspense>
+          </div>
+        </>
+      ) : failed ? (
         <Banner tone="danger">These organisations could not be loaded.</Banner>
       ) : pending ? (
         <p className="text-fx-small text-fx-muted">Loading…</p>

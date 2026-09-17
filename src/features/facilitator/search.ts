@@ -12,12 +12,8 @@ export const TAB_LABELS: Record<NetworkTab, string> = {
   settings: "Settings",
 };
 
-/**
- * The table is the default: this is a working list before it is a gallery.
- * `graph` is not here yet — a value the URL accepts but nothing renders would
- * show one view while claiming another.
- */
-export const ORG_VIEWS = ["table", "cards", "map"] as const;
+/** The table is the default: this is a working list before it is a gallery. */
+export const ORG_VIEWS = ["table", "cards", "map", "graph"] as const;
 export type OrgView = (typeof ORG_VIEWS)[number];
 
 // The dashboard's view state, like the profile editor's: which tab is open, and
