@@ -1,4 +1,4 @@
-name: CI & deploy (beta)
+name: CI & deploy (production)
 
 on:
   push:
