@@ -3,9 +3,15 @@ import { createLink, type LinkComponent } from "@tanstack/react-router";
 import { ArrowUpRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Shape and type, with no reaction to the pointer: an entry that cannot be visited
+// takes this and nothing else, rather than fighting the hover rules below with
+// overrides written in a different variant syntax that `cn` could not merge away.
+const ITEM_BASE =
+  "group flex items-center gap-3 rounded-fx px-3 py-2 font-fx-text text-fx-body font-medium text-fx-ink2 transition";
+
 // The active entry is filled, not tinted.
 const ITEM = cn(
-  "group flex items-center gap-3 rounded-fx px-3 py-2 font-fx-text text-fx-body font-medium text-fx-ink2 transition",
+  ITEM_BASE,
   "[&:not([data-status=active])]:hover:bg-fx-panel [&:not([data-status=active])]:hover:text-fx-ink",
   "data-[status=active]:bg-fx-emphasis data-[status=active]:font-bold data-[status=active]:text-fx-emphasis-ink",
 );
@@ -59,6 +65,19 @@ NavAnchor.displayName = "NavAnchor";
 const CreatedNavLink = createLink(NavAnchor);
 
 export const NavLink: LinkComponent<typeof NavAnchor> = (props) => <CreatedNavLink preload="intent" {...props} />;
+
+/**
+ * A nav entry that is out of reach, with the reason attached. Removing the entry
+ * would be quieter but leaves someone wondering where a whole section went — this
+ * says the section exists and what it takes to open it.
+ */
+export function DisabledNavItem({ icon, hint, children }: { icon: LucideIcon; hint: string; children: ReactNode }) {
+  return (
+    <span aria-disabled="true" title={hint} className={cn(ITEM_BASE, "cursor-not-allowed text-fx-muted")}>
+      <Content icon={icon}>{children}</Content>
+    </span>
+  );
+}
 
 type ExternalNavLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "target" | "rel"> & { href: string; icon: LucideIcon };
 

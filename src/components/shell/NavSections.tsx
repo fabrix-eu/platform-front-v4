@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { isFacilitator, type MeOrganization, type User } from "@/lib/auth";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { ExternalNavLink, NavLink } from "@/components/ui/NavLink";
+import { DisabledNavItem, ExternalNavLink, NavLink } from "@/components/ui/NavLink";
 import type { UnreadCounts } from "./useUnreadCounts";
 
 function Group({ label, children }: { label?: string; children: ReactNode }) {
@@ -86,7 +86,12 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
         </Group>
       ) : (
         <Group>
-          <NavLink to="/messages" icon={MessageSquare} count={counts.messages} alert>Messages</NavLink>
+          {/* Messaging is between organisations, so without one there is nobody to
+              write as. The entry stays, carrying the reason: removing it would just
+              leave a hole where a section used to be. */}
+          <DisabledNavItem icon={MessageSquare} hint="Messages travel between organisations. Add yours to start writing.">
+            Messages
+          </DisabledNavItem>
         </Group>
       )}
 
