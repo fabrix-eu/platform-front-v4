@@ -5,6 +5,7 @@ import { PublicHeader } from "@/components/shell/PublicHeader";
 import { SiteFooter } from "@/components/shell/SiteFooter";
 import { buttonClass, ButtonLink } from "@/components/ui/Button";
 import { AUDIENCES } from "./audiences";
+import { BusinessFeatures } from "./BusinessFeatures";
 
 const COLUMN = "mx-auto max-w-6xl px-4 sm:px-8 lg:px-12";
 
@@ -22,8 +23,8 @@ export function LandingPage() {
             <p className="font-fx-display text-fx-label uppercase opacity-70">Funded by the European Union · piloting in Rotterdam &amp; Athens</p>
             <h1 className="mt-6 max-w-[14ch] font-fx-display text-fx-hero">Map, match, make.</h1>
             <p className="mt-6 max-w-xl text-fx-lead opacity-90">
-              FABRIX connects the organisations and facilitators of the textile and clothing industry, so that supply chains can be rebuilt
-              locally, circularly, city by city.
+              Find your next supplier, client or consultant — locally, in Europe. Build a local, circular and sustainable textile and
+              clothing industry with FABRIX.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link
@@ -43,10 +44,15 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section aria-labelledby="audiences-title" className={cn(COLUMN, "py-12 sm:py-16")}>
+        <BusinessFeatures className={cn(COLUMN, "py-12 sm:py-16")} />
+
+        <section aria-labelledby="audiences-title" className={cn(COLUMN, "pb-12 sm:pb-16")}>
           <h2 id="audiences-title" className="font-fx-display text-fx-display text-fx-ink">
-            Who is FABRIX for?
+            Are you a facilitator, a researcher, or an urban administrator?
           </h2>
+          <p className="mt-4 max-w-prose text-fx-body text-fx-ink2">
+            FABRIX is built for the businesses above first — and for the people who make their ecosystem work.
+          </p>
           <div className="mt-9 grid gap-4 md:grid-cols-3">
             {AUDIENCES.map((a) => (
               <div key={a.title} className="flex flex-col rounded-fx-lg border border-fx-line bg-fx-paper p-5">
@@ -65,7 +71,9 @@ export function LandingPage() {
                 </ul>
                 {a.contactEmail ? (
                   <a
-                    href={`mailto:${a.contactEmail}?subject=${encodeURIComponent("Becoming a FABRIX facilitator")}`}
+                    // The subject follows the card: two of these are demo requests now,
+                    // and only one of them is about becoming a facilitator.
+                    href={`mailto:${a.contactEmail}?subject=${encodeURIComponent(`FABRIX platform — ${a.title}`)}`}
                     className={buttonClass({ size: "sm", className: "mt-auto justify-center text-center" })}
                   >
                     {a.cta}
