@@ -22,20 +22,26 @@ export function ConversationThread({ id, me, orgId, onBack }: ConversationThread
   const queryClient = useQueryClient();
   const { data, isPending, isError } = useQuery(conversationQueryOptions(id));
   const scroller = useRef<HTMLDivElement>(null);
-  const marked = useRef<string | null>(null);
+  const marking = useRef(false);
 
-  // Opening a thread is reading it — once per conversation, not on every refetch.
+  // Having the thread open is reading it, every time — not just the first time it
+  // opens. A reply that lands while you are looking at it must clear too, or the
+  // badge stays lit over a message you have already read. The flag only guards
+  // against firing twice for the same round trip; once it lands the refetch says
+  // zero unread and this stops on its own.
   useEffect(() => {
-    if (!data || marked.current === data.id) return;
-    marked.current = data.id;
-    if (data.unread_count === 0) return;
+    if (!data || data.unread_count === 0 || marking.current) return;
+    marking.current = true;
     markConversationRead(data.id)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: CONVERSATIONS_KEY });
         queryClient.invalidateQueries({ queryKey: UNREAD_KEY });
       })
       // A read receipt that does not go through is not worth interrupting anyone for.
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        marking.current = false;
+      });
   }, [data, queryClient]);
 
   const count = data?.messages.length ?? 0;
