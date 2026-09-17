@@ -91,6 +91,16 @@
   --text-fx-heading--letter-spacing: -0.015em;
   --text-fx-heading--font-weight: 700;
 
+  /* The name of the surface next to the wordmark ("Platform", "Learning Hub",
+     "Project"), in a bar of the same height: identical on every FABRIX surface,
+     so switching from one to the other does not move a pixel. */
+  --text-fx-surface: 18px;
+  --text-fx-surface--line-height: 1.55;
+  /* The links of that bar, 15px on every surface. */
+  --text-fx-nav: 15px;
+  --text-fx-nav--line-height: 1.6;
+  --spacing-topbar: 68px;
+
   /* Text scale */
   --text-fx-lead: 16px;
   --text-fx-lead--line-height: 1.55;

@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { ArrowLeft, CalendarDays, Globe, MapPin, Trash2 } from "lucide-react";
-import { useCurrentOrg } from "@/lib/activeOrg";
+import { useOptionalMe } from "@/lib/useOptionalMe";
 import { useToast } from "@/components/Toast";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { deleteEvent, eventQueryOptions, participantsQueryOptions } from "./api";
@@ -14,15 +14,16 @@ import { RsvpButtons } from "./RsvpButtons";
 import { RSVP_LABELS } from "./types";
 
 export function EventDetailPage() {
-  const { eventId } = useParams({ from: "/_auth/events/$eventId" });
+  const { eventId } = useParams({ from: "/_open/events/$eventId" });
   const { data: event } = useSuspenseQuery(eventQueryOptions(eventId));
-  const { me } = useCurrentOrg();
+  // Public page: a visitor reads the event; RSVPs, who is going and the online link are for members.
+  const me = useOptionalMe();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { data: participants } = useQuery(participantsQueryOptions(eventId));
+  const { data: participants } = useQuery({ ...participantsQueryOptions(eventId), enabled: !!me });
 
   const past = new Date(event.happens_at) < new Date();
-  const mine = event.created_by_id === me.id || me.role === "admin";
+  const mine = !!me && (event.created_by_id === me.id || me.role === "admin");
   const going = (participants ?? []).filter((participant) => participant.status === "going");
 
   const remove = useMutation({
@@ -62,8 +63,15 @@ export function EventDetailPage() {
                   <a href={event.online_url} target="_blank" rel="noopener noreferrer" className="font-bold text-fx-emphasis underline-offset-4 hover:underline">
                     Join online
                   </a>
-                ) : (
+                ) : me ? (
                   "Online"
+                ) : (
+                  <>
+                    Online ·{" "}
+                    <Link to="/login" className="font-bold text-fx-emphasis underline-offset-4 hover:underline">
+                      sign in for the link
+                    </Link>
+                  </>
                 )}
               </p>
             ) : (
@@ -97,27 +105,44 @@ export function EventDetailPage() {
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-8">
-          <Card>
-            <Eyebrow>Are you coming?</Eyebrow>
-            <div className="mt-4">
-              <RsvpButtons eventId={eventId} past={past} />
-            </div>
-          </Card>
+          {!me ? (
+            <Card>
+              <Eyebrow>Are you coming?</Eyebrow>
+              <p className="mt-3 text-fx-small text-fx-ink2">Join FABRIX to answer and see who else is going.</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <ButtonLink to="/register" size="sm">
+                  Get started
+                </ButtonLink>
+                <ButtonLink to="/login" variant="secondary" size="sm">
+                  Sign in
+                </ButtonLink>
+              </div>
+            </Card>
+          ) : (
+            <>
+              <Card>
+                <Eyebrow>Are you coming?</Eyebrow>
+                <div className="mt-4">
+                  <RsvpButtons eventId={eventId} past={past} />
+                </div>
+              </Card>
 
-          <Card>
-            <Eyebrow>{going.length === 0 ? "Nobody yet" : `${going.length} going`}</Eyebrow>
-            {going.length > 0 && (
-              <ul className="mt-4 space-y-3">
-                {going.slice(0, 8).map((participant) => (
-                  <li key={participant.id} className="flex items-center gap-3">
-                    <Avatar name={participant.user.name} src={participant.user.image_url} kind="person" size="sm" />
-                    <span className="min-w-0 flex-1 truncate text-fx-small text-fx-ink">{participant.user.name}</span>
-                    <span className="text-fx-small text-fx-muted">{RSVP_LABELS[participant.status]}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Card>
+              <Card>
+                <Eyebrow>{going.length === 0 ? "Nobody yet" : `${going.length} going`}</Eyebrow>
+                {going.length > 0 && (
+                  <ul className="mt-4 space-y-3">
+                    {going.slice(0, 8).map((participant) => (
+                      <li key={participant.id} className="flex items-center gap-3">
+                        <Avatar name={participant.user.name} src={participant.user.image_url} kind="person" size="sm" />
+                        <span className="min-w-0 flex-1 truncate text-fx-small text-fx-ink">{participant.user.name}</span>
+                        <span className="text-fx-small text-fx-muted">{RSVP_LABELS[participant.status]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Card>
+            </>
+          )}
         </aside>
       </div>
     </>

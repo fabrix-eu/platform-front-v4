@@ -13,7 +13,7 @@ import { EventsMap } from "./EventsMap";
 import { NewEventAction } from "./form/NewEventAction";
 
 export function EventsPage() {
-  const search = useSearch({ from: "/_auth/events/" });
+  const search = useSearch({ from: "/_open/events/" });
   const me = useOptionalMe();
   const mine = myOrgLocation(me);
   const location = resolveLocation(search, mine);

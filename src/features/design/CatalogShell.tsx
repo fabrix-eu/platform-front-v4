@@ -6,6 +6,7 @@ import { menuContentClass, menuDangerItemClass, menuItemClass, menuLabelClass, m
 import { PageHeader } from "@/components/ui/PageHeader";
 import { PublicHeader } from "@/components/shell/PublicHeader";
 import { SiteFooter } from "@/components/shell/SiteFooter";
+import { SurfaceSwitcher } from "@/components/shell/SurfaceSwitcher";
 import { Row } from "./Section";
 
 // The pieces that frame a page: its header, and the menus of the shell.
@@ -74,6 +75,14 @@ export function CatalogShell() {
             </DropdownMenu.Content>
           </DropdownMenu.Portal>
         </DropdownMenu.Root>
+      </Row>
+
+      <Row label="SurfaceSwitcher" source="components/shell/SurfaceSwitcher" hint="next to the mark, on the public bar and in the sidebar · opens the website and the Learning Hub, which carry the same switcher">
+        <div className="flex items-center gap-2.5">
+          <img src="/fabrix-logo.svg" alt="FABRIX" className="h-7" />
+          <span aria-hidden className="h-5 w-px bg-fx-line2" />
+          <SurfaceSwitcher />
+        </div>
       </Row>
 
       <Row label="PublicHeader" source="components/shell/PublicHeader" hint="what a visitor sees on top of the landing and the marketplace · the mark goes to the landing">

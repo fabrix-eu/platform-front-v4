@@ -31,12 +31,12 @@ import { Route as AuthOrgSlugListingsRouteImport } from './routes/_auth/$orgSlug
 import { Route as AuthOrgSlugMessagesRouteImport } from './routes/_auth/$orgSlug/messages'
 import { Route as AuthOrgSlugProfileRouteImport } from './routes/_auth/$orgSlug/profile'
 import { Route as AuthOrgSlugRelationsRouteImport } from './routes/_auth/$orgSlug/relations'
-import { Route as AuthEventsIndexRouteImport } from './routes/_auth/events/index'
-import { Route as AuthEventsEventIdRouteImport } from './routes/_auth/events/$eventId'
 import { Route as AuthFacilitatorIndexRouteImport } from './routes/_auth/facilitator/index'
 import { Route as AuthFacilitatorNetworkSlugRouteImport } from './routes/_auth/facilitator/$networkSlug'
 import { Route as AuthMarketplaceNewRouteImport } from './routes/_auth/marketplace/new'
 import { Route as AuthOrganizationsNewRouteImport } from './routes/_auth/organizations/new'
+import { Route as OpenEventsIndexRouteImport } from './routes/_open/events/index'
+import { Route as OpenEventsEventIdRouteImport } from './routes/_open/events/$eventId'
 import { Route as OpenManualIndexRouteImport } from './routes/_open/manual/index'
 import { Route as OpenManualPageRouteImport } from './routes/_open/manual/$page'
 import { Route as OpenMarketplaceIndexRouteImport } from './routes/_open/marketplace/index'
@@ -157,16 +157,6 @@ const AuthOrgSlugRelationsRoute = AuthOrgSlugRelationsRouteImport.update({
   path: '/relations',
   getParentRoute: () => AuthOrgSlugRoute,
 } as any)
-const AuthEventsIndexRoute = AuthEventsIndexRouteImport.update({
-  id: '/events/',
-  path: '/events/',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthEventsEventIdRoute = AuthEventsEventIdRouteImport.update({
-  id: '/events/$eventId',
-  path: '/events/$eventId',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthFacilitatorIndexRoute = AuthFacilitatorIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -187,6 +177,16 @@ const AuthOrganizationsNewRoute = AuthOrganizationsNewRouteImport.update({
   id: '/organizations/new',
   path: '/organizations/new',
   getParentRoute: () => AuthRoute,
+} as any)
+const OpenEventsIndexRoute = OpenEventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => OpenRoute,
+} as any)
+const OpenEventsEventIdRoute = OpenEventsEventIdRouteImport.update({
+  id: '/events/$eventId',
+  path: '/events/$eventId',
+  getParentRoute: () => OpenRoute,
 } as any)
 const OpenManualIndexRoute = OpenManualIndexRouteImport.update({
   id: '/manual/',
@@ -270,15 +270,15 @@ export interface FileRoutesByFullPath {
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
-  '/events/$eventId': typeof AuthEventsEventIdRoute
   '/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/events/$eventId': typeof OpenEventsEventIdRoute
   '/manual/$page': typeof OpenManualPageRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/organizations/$id': typeof OpenOrganizationsIdRoute
-  '/events/': typeof AuthEventsIndexRoute
   '/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/events/': typeof OpenEventsIndexRoute
   '/manual/': typeof OpenManualIndexRoute
   '/marketplace/': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
@@ -308,14 +308,14 @@ export interface FileRoutesByTo {
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
-  '/events/$eventId': typeof AuthEventsEventIdRoute
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/events/$eventId': typeof OpenEventsEventIdRoute
   '/manual/$page': typeof OpenManualPageRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/organizations/$id': typeof OpenOrganizationsIdRoute
-  '/events': typeof AuthEventsIndexRoute
   '/facilitator': typeof AuthFacilitatorIndexRoute
+  '/events': typeof OpenEventsIndexRoute
   '/manual': typeof OpenManualIndexRoute
   '/marketplace': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
@@ -349,15 +349,15 @@ export interface FileRoutesById {
   '/_auth/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/_auth/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/_auth/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
-  '/_auth/events/$eventId': typeof AuthEventsEventIdRoute
   '/_auth/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/_auth/marketplace/new': typeof AuthMarketplaceNewRoute
   '/_auth/organizations/new': typeof AuthOrganizationsNewRoute
+  '/_open/events/$eventId': typeof OpenEventsEventIdRoute
   '/_open/manual/$page': typeof OpenManualPageRoute
   '/_open/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/_open/organizations/$id': typeof OpenOrganizationsIdRoute
-  '/_auth/events/': typeof AuthEventsIndexRoute
   '/_auth/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/_open/events/': typeof OpenEventsIndexRoute
   '/_open/manual/': typeof OpenManualIndexRoute
   '/_open/marketplace/': typeof OpenMarketplaceIndexRoute
   '/_auth/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
@@ -390,15 +390,15 @@ export interface FileRouteTypes {
     | '/$orgSlug/messages'
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
-    | '/events/$eventId'
     | '/facilitator/$networkSlug'
     | '/marketplace/new'
     | '/organizations/new'
+    | '/events/$eventId'
     | '/manual/$page'
     | '/marketplace/$id'
     | '/organizations/$id'
-    | '/events/'
     | '/facilitator/'
+    | '/events/'
     | '/manual/'
     | '/marketplace/'
     | '/$orgSlug/assessments/$formKey'
@@ -428,14 +428,14 @@ export interface FileRouteTypes {
     | '/$orgSlug/messages'
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
-    | '/events/$eventId'
     | '/marketplace/new'
     | '/organizations/new'
+    | '/events/$eventId'
     | '/manual/$page'
     | '/marketplace/$id'
     | '/organizations/$id'
-    | '/events'
     | '/facilitator'
+    | '/events'
     | '/manual'
     | '/marketplace'
     | '/$orgSlug/assessments/$formKey'
@@ -468,15 +468,15 @@ export interface FileRouteTypes {
     | '/_auth/$orgSlug/messages'
     | '/_auth/$orgSlug/profile'
     | '/_auth/$orgSlug/relations'
-    | '/_auth/events/$eventId'
     | '/_auth/facilitator/$networkSlug'
     | '/_auth/marketplace/new'
     | '/_auth/organizations/new'
+    | '/_open/events/$eventId'
     | '/_open/manual/$page'
     | '/_open/marketplace/$id'
     | '/_open/organizations/$id'
-    | '/_auth/events/'
     | '/_auth/facilitator/'
+    | '/_open/events/'
     | '/_open/manual/'
     | '/_open/marketplace/'
     | '/_auth/$orgSlug/assessments/$formKey'
@@ -656,20 +656,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrgSlugRelationsRouteImport
       parentRoute: typeof AuthOrgSlugRoute
     }
-    '/_auth/events/': {
-      id: '/_auth/events/'
-      path: '/events'
-      fullPath: '/events/'
-      preLoaderRoute: typeof AuthEventsIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/events/$eventId': {
-      id: '/_auth/events/$eventId'
-      path: '/events/$eventId'
-      fullPath: '/events/$eventId'
-      preLoaderRoute: typeof AuthEventsEventIdRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/facilitator/': {
       id: '/_auth/facilitator/'
       path: '/'
@@ -697,6 +683,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/organizations/new'
       preLoaderRoute: typeof AuthOrganizationsNewRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/_open/events/': {
+      id: '/_open/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof OpenEventsIndexRouteImport
+      parentRoute: typeof OpenRoute
+    }
+    '/_open/events/$eventId': {
+      id: '/_open/events/$eventId'
+      path: '/events/$eventId'
+      fullPath: '/events/$eventId'
+      preLoaderRoute: typeof OpenEventsEventIdRouteImport
+      parentRoute: typeof OpenRoute
     }
     '/_open/manual/': {
       id: '/_open/manual/'
@@ -843,10 +843,8 @@ interface AuthRouteChildren {
   AuthMessagesRoute: typeof AuthMessagesRoute
   AuthNotificationsRoute: typeof AuthNotificationsRoute
   AuthSettingsRoute: typeof AuthSettingsRoute
-  AuthEventsEventIdRoute: typeof AuthEventsEventIdRoute
   AuthMarketplaceNewRoute: typeof AuthMarketplaceNewRoute
   AuthOrganizationsNewRoute: typeof AuthOrganizationsNewRoute
-  AuthEventsIndexRoute: typeof AuthEventsIndexRoute
   AuthMarketplaceIdEditRoute: typeof AuthMarketplaceIdEditRoute
 }
 
@@ -858,27 +856,29 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthMessagesRoute: AuthMessagesRoute,
   AuthNotificationsRoute: AuthNotificationsRoute,
   AuthSettingsRoute: AuthSettingsRoute,
-  AuthEventsEventIdRoute: AuthEventsEventIdRoute,
   AuthMarketplaceNewRoute: AuthMarketplaceNewRoute,
   AuthOrganizationsNewRoute: AuthOrganizationsNewRoute,
-  AuthEventsIndexRoute: AuthEventsIndexRoute,
   AuthMarketplaceIdEditRoute: AuthMarketplaceIdEditRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface OpenRouteChildren {
+  OpenEventsEventIdRoute: typeof OpenEventsEventIdRoute
   OpenManualPageRoute: typeof OpenManualPageRoute
   OpenMarketplaceIdRoute: typeof OpenMarketplaceIdRoute
   OpenOrganizationsIdRoute: typeof OpenOrganizationsIdRoute
+  OpenEventsIndexRoute: typeof OpenEventsIndexRoute
   OpenManualIndexRoute: typeof OpenManualIndexRoute
   OpenMarketplaceIndexRoute: typeof OpenMarketplaceIndexRoute
 }
 
 const OpenRouteChildren: OpenRouteChildren = {
+  OpenEventsEventIdRoute: OpenEventsEventIdRoute,
   OpenManualPageRoute: OpenManualPageRoute,
   OpenMarketplaceIdRoute: OpenMarketplaceIdRoute,
   OpenOrganizationsIdRoute: OpenOrganizationsIdRoute,
+  OpenEventsIndexRoute: OpenEventsIndexRoute,
   OpenManualIndexRoute: OpenManualIndexRoute,
   OpenMarketplaceIndexRoute: OpenMarketplaceIndexRoute,
 }

@@ -10,7 +10,8 @@ export interface FabrixEvent {
   lon: number | null;
   lat: number | null;
   online: boolean;
-  online_url: string | null;
+  /** Absent for a visitor: the API keeps the link of an online event for signed-in users. */
+  online_url?: string | null;
   image_url: string | null;
   /** Who may edit or delete it (its creator, or a FABRIX admin). */
   created_by_id: string | null;
