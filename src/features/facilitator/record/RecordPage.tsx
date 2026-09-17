@@ -6,6 +6,7 @@ import { NeedsCard } from "./NeedsCard";
 import { NotesCard } from "./NotesCard";
 import { PeopleCard } from "./PeopleCard";
 import { RecordHeader } from "./RecordHeader";
+import { RecordTasksCard } from "./RecordTasksCard";
 import { SelfAssessmentCard } from "./SelfAssessmentCard";
 
 /**
@@ -33,6 +34,7 @@ export function RecordPage({ networkSlug, recordId }: { networkSlug: string; rec
         </div>
         <div className="space-y-4">
           <PeopleCard networkSlug={networkSlug} recordId={record.id} />
+          <RecordTasksCard networkSlug={networkSlug} recordId={record.id} />
           <InteractionsCard networkSlug={networkSlug} recordId={record.id} />
         </div>
       </div>

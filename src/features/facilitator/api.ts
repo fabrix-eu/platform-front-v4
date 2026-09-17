@@ -64,10 +64,16 @@ export const networkOrganizationsCountQueryOptions = (slug: string) =>
     select: (page: Paginated<NetworkOrganization>) => page.meta.total_count,
   });
 
-export const networkTasksQueryOptions = (slug: string, filter: "open" | "done") =>
+/** `recordId` narrows to the tasks attached to one followed organisation. */
+export const networkTasksQueryOptions = (slug: string, filter: "open" | "done", recordId?: string) =>
   queryOptions({
-    queryKey: [...networkKey(slug), "tasks", filter],
-    queryFn: () => api.get<Paginated<NetworkTask>>(`/networks/${slug}/tasks`, { [filter]: true, per_page: 100 }),
+    queryKey: [...networkKey(slug), "tasks", filter, recordId ?? "all"],
+    queryFn: () =>
+      api.get<Paginated<NetworkTask>>(`/networks/${slug}/tasks`, {
+        [filter]: true,
+        per_page: 100,
+        network_organization_id: recordId,
+      }),
   });
 
 export interface NewTask {

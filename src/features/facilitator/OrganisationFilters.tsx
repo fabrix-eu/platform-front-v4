@@ -3,16 +3,20 @@ import { cn } from "@/lib/utils";
 import { inputClass } from "@/components/Field";
 import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Pill } from "@/components/ui/Pill";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { EU_COUNTRIES } from "@/features/explore/countries";
 import { CATEGORIES_BY_TYPE, categoryLabel } from "@/features/listings/taxonomy";
 import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
+import { MultiSelectMenu } from "./MultiSelectMenu";
 import { HEALTH_LABELS } from "./types";
 import { csvList, hasOrgFilters, toggleCsv, type NetworkSearch, type OrgView } from "./search";
 
+const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
+
 /** Every specialty a filter can offer: the categories, which is what orgs carry. */
-const SPECIALTIES = Object.values(CATEGORIES_BY_TYPE).flat();
+const SPECIALTY_OPTIONS = Object.values(CATEGORIES_BY_TYPE)
+  .flat()
+  .map((value) => ({ value, label: categoryLabel(value) }));
 
 const VIEWS: { key: OrgView; label: string; icon: typeof Table2 }[] = [
   { key: "table", label: "Table", icon: Table2 },
@@ -70,29 +74,29 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
         onChange={(e) => onChange({ q: e.currentTarget.value.trim() || undefined })}
       />
 
-      <div>
-        <Eyebrow className="mb-3">What they do</Eyebrow>
-        <div className="flex flex-wrap gap-2">
-          {Object.entries(ORG_KIND_LABELS).map(([kind, label]) => (
-            <Pill key={kind} selected={kinds.includes(kind)} onClick={() => onChange({ kinds: toggleCsv(search.kinds, kind) })}>
-              {label}
-            </Pill>
-          ))}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <Eyebrow className="mb-2">What they do</Eyebrow>
+          <MultiSelectMenu
+            label="What they do"
+            options={KIND_OPTIONS}
+            selected={kinds}
+            onToggle={(value) => onChange({ kinds: toggleCsv(search.kinds, value) })}
+            onClear={() => onChange({ kinds: undefined })}
+          />
         </div>
-      </div>
 
-      <div>
-        <Eyebrow className="mb-3">Specialities</Eyebrow>
-        <div className="flex flex-wrap gap-2">
-          {SPECIALTIES.map((key) => (
-            <Pill key={key} selected={specialties.includes(key)} onClick={() => onChange({ specialties: toggleCsv(search.specialties, key) })}>
-              {categoryLabel(key)}
-            </Pill>
-          ))}
+        <div>
+          <Eyebrow className="mb-2">Specialities</Eyebrow>
+          <MultiSelectMenu
+            label="Specialities"
+            options={SPECIALTY_OPTIONS}
+            selected={specialties}
+            onToggle={(value) => onChange({ specialties: toggleCsv(search.specialties, value) })}
+            onClear={() => onChange({ specialties: undefined })}
+          />
         </div>
-      </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Eyebrow className="mb-2">Economic health</Eyebrow>
           <Select label="Economic health" value={search.health ?? ""} onChange={(v) => onChange({ health: v || undefined })}>
@@ -112,10 +116,12 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
             ))}
           </Select>
         </div>
+      </div>
 
-        {/* The API filters on the workforce the organisation declares on its own
-            profile — not on the "Employees" figure this network keeps in its CRM,
-            which the table shows. Two numbers, so two names. */}
+      {/* The API filters on the workforce the organisation declares on its own
+          profile — not on the "Employees" figure this network keeps in its CRM,
+          which the table shows. Two numbers, so two names. */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Eyebrow className="mb-2">Workforce, min</Eyebrow>
           <input
@@ -141,13 +147,12 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
         </div>
       </div>
 
-      <p className="text-fx-label text-fx-muted">
-        Workforce is what the organisation declares on its profile. The table’s “Employees” column is the
-        figure this network keeps in its own record.
-      </p>
-
-      {hasOrgFilters(search) && (
-        <div>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-fx-label text-fx-muted">
+          Workforce is what the organisation declares on its profile. The table’s “Employees” column is the
+          figure this network keeps in its own record.
+        </p>
+        {hasOrgFilters(search) && (
           <Button
             variant="ghost"
             size="sm"
@@ -157,8 +162,8 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
           >
             Clear filters
           </Button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
