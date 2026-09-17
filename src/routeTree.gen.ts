@@ -37,6 +37,8 @@ import { Route as AuthFacilitatorIndexRouteImport } from './routes/_auth/facilit
 import { Route as AuthFacilitatorNetworkSlugRouteImport } from './routes/_auth/facilitator/$networkSlug'
 import { Route as AuthMarketplaceNewRouteImport } from './routes/_auth/marketplace/new'
 import { Route as AuthOrganizationsNewRouteImport } from './routes/_auth/organizations/new'
+import { Route as OpenManualIndexRouteImport } from './routes/_open/manual/index'
+import { Route as OpenManualPageRouteImport } from './routes/_open/manual/$page'
 import { Route as OpenMarketplaceIndexRouteImport } from './routes/_open/marketplace/index'
 import { Route as OpenMarketplaceIdRouteImport } from './routes/_open/marketplace/$id'
 import { Route as OpenOrganizationsIdRouteImport } from './routes/_open/organizations/$id'
@@ -186,6 +188,16 @@ const AuthOrganizationsNewRoute = AuthOrganizationsNewRouteImport.update({
   path: '/organizations/new',
   getParentRoute: () => AuthRoute,
 } as any)
+const OpenManualIndexRoute = OpenManualIndexRouteImport.update({
+  id: '/manual/',
+  path: '/manual/',
+  getParentRoute: () => OpenRoute,
+} as any)
+const OpenManualPageRoute = OpenManualPageRouteImport.update({
+  id: '/manual/$page',
+  path: '/manual/$page',
+  getParentRoute: () => OpenRoute,
+} as any)
 const OpenMarketplaceIndexRoute = OpenMarketplaceIndexRouteImport.update({
   id: '/marketplace/',
   path: '/marketplace/',
@@ -262,10 +274,12 @@ export interface FileRoutesByFullPath {
   '/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/manual/$page': typeof OpenManualPageRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/organizations/$id': typeof OpenOrganizationsIdRoute
   '/events/': typeof AuthEventsIndexRoute
   '/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/manual/': typeof OpenManualIndexRoute
   '/marketplace/': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
@@ -297,10 +311,12 @@ export interface FileRoutesByTo {
   '/events/$eventId': typeof AuthEventsEventIdRoute
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
+  '/manual/$page': typeof OpenManualPageRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/organizations/$id': typeof OpenOrganizationsIdRoute
   '/events': typeof AuthEventsIndexRoute
   '/facilitator': typeof AuthFacilitatorIndexRoute
+  '/manual': typeof OpenManualIndexRoute
   '/marketplace': typeof OpenMarketplaceIndexRoute
   '/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
   '/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
@@ -337,10 +353,12 @@ export interface FileRoutesById {
   '/_auth/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/_auth/marketplace/new': typeof AuthMarketplaceNewRoute
   '/_auth/organizations/new': typeof AuthOrganizationsNewRoute
+  '/_open/manual/$page': typeof OpenManualPageRoute
   '/_open/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/_open/organizations/$id': typeof OpenOrganizationsIdRoute
   '/_auth/events/': typeof AuthEventsIndexRoute
   '/_auth/facilitator/': typeof AuthFacilitatorIndexRoute
+  '/_open/manual/': typeof OpenManualIndexRoute
   '/_open/marketplace/': typeof OpenMarketplaceIndexRoute
   '/_auth/$orgSlug/assessments/$formKey': typeof AuthOrgSlugAssessmentsFormKeyRoute
   '/_auth/$orgSlug/settings/members': typeof AuthOrgSlugSettingsMembersRoute
@@ -376,10 +394,12 @@ export interface FileRouteTypes {
     | '/facilitator/$networkSlug'
     | '/marketplace/new'
     | '/organizations/new'
+    | '/manual/$page'
     | '/marketplace/$id'
     | '/organizations/$id'
     | '/events/'
     | '/facilitator/'
+    | '/manual/'
     | '/marketplace/'
     | '/$orgSlug/assessments/$formKey'
     | '/$orgSlug/settings/members'
@@ -411,10 +431,12 @@ export interface FileRouteTypes {
     | '/events/$eventId'
     | '/marketplace/new'
     | '/organizations/new'
+    | '/manual/$page'
     | '/marketplace/$id'
     | '/organizations/$id'
     | '/events'
     | '/facilitator'
+    | '/manual'
     | '/marketplace'
     | '/$orgSlug/assessments/$formKey'
     | '/$orgSlug/settings/members'
@@ -450,10 +472,12 @@ export interface FileRouteTypes {
     | '/_auth/facilitator/$networkSlug'
     | '/_auth/marketplace/new'
     | '/_auth/organizations/new'
+    | '/_open/manual/$page'
     | '/_open/marketplace/$id'
     | '/_open/organizations/$id'
     | '/_auth/events/'
     | '/_auth/facilitator/'
+    | '/_open/manual/'
     | '/_open/marketplace/'
     | '/_auth/$orgSlug/assessments/$formKey'
     | '/_auth/$orgSlug/settings/members'
@@ -674,6 +698,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrganizationsNewRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_open/manual/': {
+      id: '/_open/manual/'
+      path: '/manual'
+      fullPath: '/manual/'
+      preLoaderRoute: typeof OpenManualIndexRouteImport
+      parentRoute: typeof OpenRoute
+    }
+    '/_open/manual/$page': {
+      id: '/_open/manual/$page'
+      path: '/manual/$page'
+      fullPath: '/manual/$page'
+      preLoaderRoute: typeof OpenManualPageRouteImport
+      parentRoute: typeof OpenRoute
+    }
     '/_open/marketplace/': {
       id: '/_open/marketplace/'
       path: '/marketplace'
@@ -830,14 +868,18 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface OpenRouteChildren {
+  OpenManualPageRoute: typeof OpenManualPageRoute
   OpenMarketplaceIdRoute: typeof OpenMarketplaceIdRoute
   OpenOrganizationsIdRoute: typeof OpenOrganizationsIdRoute
+  OpenManualIndexRoute: typeof OpenManualIndexRoute
   OpenMarketplaceIndexRoute: typeof OpenMarketplaceIndexRoute
 }
 
 const OpenRouteChildren: OpenRouteChildren = {
+  OpenManualPageRoute: OpenManualPageRoute,
   OpenMarketplaceIdRoute: OpenMarketplaceIdRoute,
   OpenOrganizationsIdRoute: OpenOrganizationsIdRoute,
+  OpenManualIndexRoute: OpenManualIndexRoute,
   OpenMarketplaceIndexRoute: OpenMarketplaceIndexRoute,
 }
 

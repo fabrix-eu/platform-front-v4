@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 const SITE = "https://www.fabrixproject.eu";
 
 const LINKS = [
@@ -30,6 +32,10 @@ export function SiteFooter() {
             <p className="mt-3 max-w-sm text-fx-small text-fx-ink2">Fostering sustainable urban manufacturing in textile and clothing ecosystems.</p>
           </div>
           <nav aria-label="FABRIX project" className="flex flex-wrap gap-x-5 gap-y-2 text-fx-small font-bold text-fx-ink2 md:ml-auto">
+            {/* The only internal one: the manual is a page of this app, not of the project site. */}
+            <Link to="/manual/$page" params={{ page: "getting-started" }} className={linkClass}>
+              User manual
+            </Link>
             {[...LINKS, ...SOCIAL].map((link) => (
               <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {link.label}

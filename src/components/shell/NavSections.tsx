@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import {
   Bell,
+  BookOpen,
   Building2,
   Calendar,
   Compass,
@@ -90,6 +91,7 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
       )}
 
       <Group label="Resources">
+        <NavLink to="/manual/$page" params={{ page: "getting-started" }} icon={BookOpen}>User manual</NavLink>
         <ExternalNavLink href="https://learn.fabrixproject.eu" icon={GraduationCap}>Learning Hub</ExternalNavLink>
       </Group>
 
