@@ -1,6 +1,8 @@
+import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
 
 const PUBLIC_PARTS = [
   ["Identity", "Name, what you do, your logo and cover, your description."],
@@ -38,7 +40,20 @@ export function YourProfile() {
         what a partner reads before deciding to get in touch.
       </p>
 
-      <Card className="mt-8 p-5">
+      <Eyebrow className="mt-10 mb-3">What your organisation is</Eyebrow>
+      <p className="text-fx-body text-fx-ink2">
+        Your organisation has one nature, shown next to its name. It says what you <em>are</em> — where the
+        areas you pick under <em>What you do</em> say what you <em>make, offer or need</em>.
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {Object.entries(ORG_KIND_LABELS).map(([kind, label]) => (
+          <Badge key={kind} tone="slate">
+            {label}
+          </Badge>
+        ))}
+      </div>
+
+      <Card className="mt-10 p-5">
         <Eyebrow>What everyone sees</Eyebrow>
         <List rows={PUBLIC_PARTS} />
       </Card>

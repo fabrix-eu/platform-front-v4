@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
 import { Card } from "@/components/ui/Card";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import {
   CATEGORIES_BY_TYPE,
   categoryLabel,
@@ -9,7 +8,6 @@ import {
   LISTING_TYPES,
   subcategoryOptions,
 } from "@/features/listings/taxonomy";
-import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
 
 /**
  * Rendered from the very modules the app imports — never from a copy. The manual
@@ -68,18 +66,6 @@ export function WhatYouDo() {
         ))}
       </div>
 
-      <Eyebrow className="mt-16 mb-3">What your organisation is</Eyebrow>
-      <p className="text-fx-body text-fx-ink2">
-        Separately from what you do, your organisation has one nature. It says what you <em>are</em>, where
-        the vocabulary above says what you <em>make, offer or need</em>.
-      </p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {Object.entries(ORG_KIND_LABELS).map(([kind, label]) => (
-          <Badge key={kind} tone="slate">
-            {label}
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 }
