@@ -1,11 +1,15 @@
 # CLAUDE.md — platform-front-v4
 
-The **rewrite** of the Fabrix front: new design system + the `/dev-fullstack-ruby-react` golden path.
-Built next to `platform-front` (which is frozen: bug fixes only) and switched over once it reaches parity.
+The Fabrix front. Built as a rewrite next to `platform-front` on the new design system and the
+`/dev-fullstack-ruby-react` golden path, and **it is now the platform** (2026-09-17).
 
-- **Preview**: https://beta.platform.fabrixproject.eu (GitHub Pages, repo `fabrix-eu/platform-front-v4`)
+- **Production**: https://platform.fabrixproject.eu (GitHub Pages, repo `fabrix-eu/platform-front-v4`)
 - **API**: unchanged — `platform-back` (Rails 7.1). See `../CLAUDE.md` and `../platform-back/CLAUDE.md`.
-- **Design source of truth**: the `/design` page of `platform-front` (tokens in its `src/index.css`).
+- **Design source of truth**: the `/design` catalog of this repo (`src/features/design/`, tokens in
+  `src/index.css`). It started as a copy of the old front's `/design`; that site is retired and no longer
+  served, so this catalog is the reference.
+- `platform-front` no longer serves anything: its GitHub Pages site was removed to release the domain.
+  The repository is kept for its history — read it to learn what a page did, never to port code from.
 
 ## Rules
 
@@ -19,11 +23,11 @@ Built next to `platform-front` (which is frozen: bug fixes only) and switched ov
    classes for Radix DropdownMenu) and the form fields in `src/components` (Field, SelectField, TextareaField).
    Every signed-in page renders inside `components/shell/AppShell` (via `routes/_auth.tsx`) and starts with a
    `PageHeader`; the current org comes from `useCurrentOrg()` (`lib/activeOrg.ts`).
-   `PagePlaceholder` is temporary — replace it route by route. A new shared component is added to the `/design` catalog
-   (`src/features/design/`) in the same commit. Merge classes with `cn()` — it knows the `fx-*` scale.
-4. **Internal links stay on the site they are served from.** Always `<Link to="/…">` (or a root-relative
-   path) — never an absolute `https://platform.fabrixproject.eu/…` URL, which throws a beta visitor back onto
-   the old front. If a page is not rebuilt yet, build it (or ask) rather than linking out.
+   A new shared component is added to the `/design` catalog (`src/features/design/`) in the same commit.
+   Merge classes with `cn()` — it knows the `fx-*` scale.
+4. **Internal links are relative.** Always `<Link to="/…">` (or a root-relative path), never an absolute
+   `https://platform.fabrixproject.eu/…` URL. It is the same site now, so an absolute link is merely a
+   slower, uncacheable way of staying put — and it breaks every environment that is not production.
 5. **Gates**: `npm run typecheck && npm run lint && npm run build` — all green, CI replays them.
    `max-lines: 200` per file is enforced by eslint.
 
@@ -70,9 +74,14 @@ the router's default `"render"` would fetch every item of the page.
 
 ## Migration order
 
+All five steps are done — kept as the record of how it went, not as a plan.
+
 1. Scaffold (auth round-trip, CI, beta deploy)
 2. UI components from the `/design` atoms + the `/design` catalog page
 3. Shell (flat sidebar) + auth pages (login, register, invitations, password)
 4. Features in North Star order: landing → marketplace & listing form → home (referral) → org profile &
    members/invitations → explore (events, directory) → the rest
-5. Parity checklist → point `platform.fabrixproject.eu` here → retire `platform-front`
+5. ✅ 2026-09-17 — `platform.fabrixproject.eu` points here and `platform-front` was taken out of service.
+   The domain moved without touching DNS: both subdomains already resolved to `fabrix-eu.github.io`, and
+   only the GitHub-side claim decided which site answered. Two Pages sites cannot claim one domain, so the
+   old site had to be deleted first, which is why the swap has an unavoidable minute or two of downtime.
