@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ImageIcon } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
+import { directionMeta, ONE_OFF } from "./directions";
 import { categoryLabel, typeMeta } from "./taxonomy";
 import type { Listing } from "./types";
 
@@ -17,6 +18,7 @@ function Thumbnail({ listing, className }: { listing: Listing; className: string
 
 export function ListingCard({ listing }: { listing: Listing }) {
   const type = typeMeta(listing.listing_type);
+  const direction = directionMeta(listing.direction);
   return (
     <Link
       to="/marketplace/$id"
@@ -27,10 +29,14 @@ export function ListingCard({ listing }: { listing: Listing }) {
     >
       <Thumbnail listing={listing} className="aspect-[16/10] w-full" />
       <div className="flex flex-1 flex-col p-5">
+        {/* Direction first: it decides whether the listing is any use to you, before
+            what kind of thing it is. */}
         <div className="flex flex-wrap items-center gap-2">
+          <Badge tone={direction.tone}>{direction.badge}</Badge>
           <Badge tone={type.tone}>{type.label}</Badge>
-          <span className="truncate text-fx-small text-fx-muted">{categoryLabel(listing.category)}</span>
+          {listing.one_off && <Badge tone="slate">{ONE_OFF.badge}</Badge>}
         </div>
+        <span className="mt-2 truncate text-fx-small text-fx-muted">{categoryLabel(listing.category)}</span>
         <h3 className="mt-3 line-clamp-2 text-fx-heading text-fx-ink group-hover:text-fx-emphasis">{listing.title}</h3>
         <p className="mt-2 line-clamp-2 text-fx-small text-fx-ink2">{listing.description}</p>
         <div className="mt-auto pt-4">
@@ -46,6 +52,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
 
 export function ListingRow({ listing }: { listing: Listing }) {
   const type = typeMeta(listing.listing_type);
+  const direction = directionMeta(listing.direction);
   return (
     <Link
       to="/marketplace/$id"
@@ -61,9 +68,11 @@ export function ListingRow({ listing }: { listing: Listing }) {
           {listing.organization.name} · {categoryLabel(listing.category)}
         </p>
       </div>
-      <Badge tone={type.tone} className="hidden shrink-0 sm:inline-flex">
-        {type.label}
-      </Badge>
+      <div className="hidden shrink-0 items-center gap-2 sm:flex">
+        <Badge tone={direction.tone}>{direction.badge}</Badge>
+        {listing.one_off && <Badge tone="slate">{ONE_OFF.badge}</Badge>}
+        <Badge tone={type.tone}>{type.label}</Badge>
+      </div>
     </Link>
   );
 }

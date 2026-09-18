@@ -3,8 +3,12 @@ import { api, type Paginated } from "@/lib/api";
 import { uploadFile } from "@/lib/upload";
 import type { Listing, ListingImage, ListingPayload } from "./types";
 
-/** Query params of GET /listings (has_scope names, `within_distance[...]` for the radius). */
-export type ListingFilters = Record<string, string | number | undefined>;
+/**
+ * Query params of GET /listings (has_scope names, `within_distance[...]` for the
+ * radius). Booleans included, as the directory's already are: `one_off` is filtered on
+ * both ways round, and `false` has to survive the trip.
+ */
+export type ListingFilters = Record<string, string | number | boolean | undefined>;
 
 export const LISTINGS_KEY = ["listings"];
 

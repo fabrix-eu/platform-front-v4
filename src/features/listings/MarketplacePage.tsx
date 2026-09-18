@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { InfiniteScrollSentinel } from "@/features/explore/InfiniteScrollSentinel";
 import { geoParams, myOrgLocation, resolveLocation } from "@/features/explore/location";
 import { listingsInfiniteQueryOptions, listingsMapQueryOptions } from "./api";
+import { DirectionFilter } from "./filters/DirectionFilter";
 import { LocationFilter } from "./filters/LocationFilter";
 import { SearchBox } from "./filters/SearchBox";
 import { TaxonomyFilter } from "./filters/TaxonomyFilter";
@@ -25,6 +26,8 @@ export function MarketplacePage() {
 
   const filters = {
     search: search.search,
+    by_direction: search.direction,
+    one_off: search.one_off,
     by_type: search.by_type,
     by_category: search.by_category,
     by_subcategory: search.by_subcategory,
@@ -40,7 +43,14 @@ export function MarketplacePage() {
   const pending = onMap ? mapQuery.isPending : listQuery.isPending;
   const failed = onMap ? mapQuery.isError : listQuery.isError;
   const fetching = onMap ? mapQuery.isFetching : listQuery.isFetching;
-  const filtered = !!(search.search || search.by_type || search.country || location.active);
+  const filtered = !!(
+    search.search ||
+    search.direction ||
+    search.one_off !== undefined ||
+    search.by_type ||
+    search.country ||
+    location.active
+  );
 
   return (
     <>
@@ -53,6 +63,7 @@ export function MarketplacePage() {
       <div className="mt-10 grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)]">
         <aside aria-label="Filters" className="space-y-7">
           <SearchBox key={search.search ?? ""} value={search.search} />
+          <DirectionFilter search={search} />
           <TaxonomyFilter search={search} />
           <LocationFilter search={search} location={location} hasMyLocation={mine !== null} />
         </aside>

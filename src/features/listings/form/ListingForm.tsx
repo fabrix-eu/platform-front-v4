@@ -6,6 +6,7 @@ import { SelectField } from "@/components/SelectField";
 import { TextareaField } from "@/components/TextareaField";
 import { Button } from "@/components/ui/Button";
 import type { Listing, ListingPayload } from "../types";
+import { ListingShapeFields } from "./ListingShapeFields";
 import { ListingTypeFields } from "./ListingTypeFields";
 
 interface ListingFormProps {
@@ -81,6 +82,9 @@ export function ListingForm({
         onSubmit({
           organization_id: text(fd, "organization_id") ?? undefined,
           listing_type: text(fd, "listing_type") ?? "",
+          direction: text(fd, "direction") ?? "offering",
+          // An unchecked box sends nothing at all, which is the "no" it means.
+          one_off: fd.get("one_off") != null,
           category: text(fd, "category") ?? "",
           subcategory: text(fd, "subcategory"),
           title: text(fd, "title") ?? "",
@@ -105,6 +109,8 @@ export function ListingForm({
         ) : (
           <input type="hidden" name="organization_id" value={defaultOrganizationId} />
         ))}
+
+      <ListingShapeFields listing={listing} />
 
       <ListingTypeFields
         mutation={mutation}

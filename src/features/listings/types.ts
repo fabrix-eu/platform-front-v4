@@ -20,6 +20,10 @@ export interface ListingOrganization {
 export interface Listing {
   id: string;
   listing_type: string;
+  /** Offered by its author, or wanted by them. */
+  direction: "offering" | "needing";
+  /** A single occasion rather than a standing arrangement. */
+  one_off: boolean;
   category: string;
   subcategory: string | null;
   title: string;
@@ -38,6 +42,8 @@ export interface Listing {
 export interface ListingPayload {
   organization_id?: string;
   listing_type: string;
+  direction: string;
+  one_off: boolean;
   category: string;
   subcategory: string | null;
   title: string;

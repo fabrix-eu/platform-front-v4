@@ -1,15 +1,6 @@
 import { z } from "zod";
+import { urlBoolean } from "@/lib/searchParams";
 import { CITIES, ROTTERDAM_YEARS } from "./cities";
-
-/**
- * A boolean that survives the round trip through a URL. The router hands back a real
- * boolean for the links the app builds itself, but a link someone typed or was sent
- * carries the string — and being sendable is the whole reason this state lives here.
- */
-const urlBoolean = z
-  .union([z.boolean(), z.literal("true"), z.literal("false")])
-  .transform((value) => value === true || value === "true")
-  .optional();
 
 /**
  * The map's state lives in the URL, so a filtered view of a city is a link someone can

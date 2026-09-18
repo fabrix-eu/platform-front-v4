@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { listingQueryOptions } from "../api";
+import { directionMeta, ONE_OFF } from "../directions";
 import { categoryLabel, subcategoryLabel, typeMeta } from "../taxonomy";
 import { ListingAside } from "./ListingAside";
 import { ListingGallery } from "./ListingGallery";
@@ -26,6 +27,7 @@ export function ListingDetailPage() {
   const { data: listing } = useSuspenseQuery(listingQueryOptions(id));
   const me = useOptionalMe();
   const type = typeMeta(listing.listing_type);
+  const direction = directionMeta(listing.direction);
 
   const details = [
     listing.quantity && { label: "Quantity", value: listing.quantity },
@@ -39,6 +41,8 @@ export function ListingDetailPage() {
       <div className="mt-6 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
         <article>
           <div className="flex flex-wrap items-center gap-2">
+            <Badge tone={direction.tone}>{direction.badge}</Badge>
+            {listing.one_off && <Badge tone="slate">{ONE_OFF.badge}</Badge>}
             <Badge tone={type.tone}>{type.label}</Badge>
             <span className="text-fx-small font-bold text-fx-ink2">{categoryLabel(listing.category)}</span>
             {listing.subcategory && (
