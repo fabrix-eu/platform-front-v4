@@ -58,6 +58,16 @@ export const isAdmin = (user: User) => user.role === "admin";
 export const isFacilitator = (user: User) =>
   user.networks.length > 0 || user.role === "facilitator" || user.role === "admin";
 
+/**
+ * The city registers name individual businesses with their address and their size, so
+ * they are for the people who study the ecosystem rather than the organisations that
+ * compete inside it. A "viewer" is not a role — it is an account with no organisation
+ * at all, which is why joining one takes this access away.
+ *
+ * The API enforces the same rule; this only decides what is worth showing.
+ */
+export const canSeeCityData = (user: User) => isFacilitator(user) || user.organizations.length === 0;
+
 interface LoginResponse {
   access_token: string;
   refresh_token: string;

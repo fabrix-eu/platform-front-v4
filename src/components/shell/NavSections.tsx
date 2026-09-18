@@ -15,7 +15,7 @@ import {
   Settings,
   ShoppingBag,
 } from "lucide-react";
-import { isFacilitator, type MeOrganization, type User } from "@/lib/auth";
+import { canSeeCityData, isFacilitator, type MeOrganization, type User } from "@/lib/auth";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { DisabledNavItem, NavLink } from "@/components/ui/NavLink";
 import type { UnreadCounts } from "./useUnreadCounts";
@@ -97,7 +97,7 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
 
       <Group label="Resources">
         <NavLink to="/manual/$page" params={{ page: "getting-started" }} icon={BookOpen}>User manual</NavLink>
-        <NavLink to="/data" icon={Database}>Data</NavLink>
+        {canSeeCityData(me) && <NavLink to="/data" icon={Database}>Data</NavLink>}
       </Group>
 
       <Group>
