@@ -20,6 +20,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as VerifyInstructionsRouteImport } from './routes/verify-instructions'
 import { Route as AuthOrgSlugRouteImport } from './routes/_auth/$orgSlug'
+import { Route as AuthAdminRouteImport } from './routes/_auth/admin'
 import { Route as AuthDataRouteImport } from './routes/_auth/data'
 import { Route as AuthFacilitatorRouteImport } from './routes/_auth/facilitator'
 import { Route as AuthGlobalRouteImport } from './routes/_auth/global'
@@ -32,6 +33,8 @@ import { Route as AuthOrgSlugListingsRouteImport } from './routes/_auth/$orgSlug
 import { Route as AuthOrgSlugMessagesRouteImport } from './routes/_auth/$orgSlug/messages'
 import { Route as AuthOrgSlugProfileRouteImport } from './routes/_auth/$orgSlug/profile'
 import { Route as AuthOrgSlugRelationsRouteImport } from './routes/_auth/$orgSlug/relations'
+import { Route as AuthAdminIndexRouteImport } from './routes/_auth/admin/index'
+import { Route as AuthAdminOrganizationsRouteImport } from './routes/_auth/admin/organizations'
 import { Route as AuthFacilitatorIndexRouteImport } from './routes/_auth/facilitator/index'
 import { Route as AuthFacilitatorNetworkSlugRouteImport } from './routes/_auth/facilitator/$networkSlug'
 import { Route as AuthMarketplaceNewRouteImport } from './routes/_auth/marketplace/new'
@@ -103,6 +106,11 @@ const AuthOrgSlugRoute = AuthOrgSlugRouteImport.update({
   path: '/$orgSlug',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthAdminRoute = AuthAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthDataRoute = AuthDataRouteImport.update({
   id: '/data',
   path: '/data',
@@ -162,6 +170,16 @@ const AuthOrgSlugRelationsRoute = AuthOrgSlugRelationsRouteImport.update({
   id: '/relations',
   path: '/relations',
   getParentRoute: () => AuthOrgSlugRoute,
+} as any)
+const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthAdminOrganizationsRoute = AuthAdminOrganizationsRouteImport.update({
+  id: '/organizations',
+  path: '/organizations',
+  getParentRoute: () => AuthAdminRoute,
 } as any)
 const AuthFacilitatorIndexRoute = AuthFacilitatorIndexRouteImport.update({
   id: '/',
@@ -265,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/admin': typeof AuthAdminRouteWithChildren
   '/data': typeof AuthDataRoute
   '/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/global': typeof AuthGlobalRoute
@@ -277,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/admin/organizations': typeof AuthAdminOrganizationsRoute
   '/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
@@ -284,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/manual/$page': typeof OpenManualPageRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/organizations/$id': typeof OpenOrganizationsIdRoute
+  '/admin/': typeof AuthAdminIndexRoute
   '/facilitator/': typeof AuthFacilitatorIndexRoute
   '/events/': typeof OpenEventsIndexRoute
   '/manual/': typeof OpenManualIndexRoute
@@ -316,12 +337,14 @@ export interface FileRoutesByTo {
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/admin/organizations': typeof AuthAdminOrganizationsRoute
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
   '/events/$eventId': typeof OpenEventsEventIdRoute
   '/manual/$page': typeof OpenManualPageRoute
   '/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/organizations/$id': typeof OpenOrganizationsIdRoute
+  '/admin': typeof AuthAdminIndexRoute
   '/facilitator': typeof AuthFacilitatorIndexRoute
   '/events': typeof OpenEventsIndexRoute
   '/manual': typeof OpenManualIndexRoute
@@ -346,6 +369,7 @@ export interface FileRoutesById {
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/_auth/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/_auth/admin': typeof AuthAdminRouteWithChildren
   '/_auth/data': typeof AuthDataRoute
   '/_auth/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/_auth/global': typeof AuthGlobalRoute
@@ -358,6 +382,7 @@ export interface FileRoutesById {
   '/_auth/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/_auth/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/_auth/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/_auth/admin/organizations': typeof AuthAdminOrganizationsRoute
   '/_auth/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/_auth/marketplace/new': typeof AuthMarketplaceNewRoute
   '/_auth/organizations/new': typeof AuthOrganizationsNewRoute
@@ -365,6 +390,7 @@ export interface FileRoutesById {
   '/_open/manual/$page': typeof OpenManualPageRoute
   '/_open/marketplace/$id': typeof OpenMarketplaceIdRoute
   '/_open/organizations/$id': typeof OpenOrganizationsIdRoute
+  '/_auth/admin/': typeof AuthAdminIndexRoute
   '/_auth/facilitator/': typeof AuthFacilitatorIndexRoute
   '/_open/events/': typeof OpenEventsIndexRoute
   '/_open/manual/': typeof OpenManualIndexRoute
@@ -388,6 +414,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/verify-instructions'
     | '/$orgSlug'
+    | '/admin'
     | '/data'
     | '/facilitator'
     | '/global'
@@ -400,6 +427,7 @@ export interface FileRouteTypes {
     | '/$orgSlug/messages'
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
+    | '/admin/organizations'
     | '/facilitator/$networkSlug'
     | '/marketplace/new'
     | '/organizations/new'
@@ -407,6 +435,7 @@ export interface FileRouteTypes {
     | '/manual/$page'
     | '/marketplace/$id'
     | '/organizations/$id'
+    | '/admin/'
     | '/facilitator/'
     | '/events/'
     | '/manual/'
@@ -439,12 +468,14 @@ export interface FileRouteTypes {
     | '/$orgSlug/messages'
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
+    | '/admin/organizations'
     | '/marketplace/new'
     | '/organizations/new'
     | '/events/$eventId'
     | '/manual/$page'
     | '/marketplace/$id'
     | '/organizations/$id'
+    | '/admin'
     | '/facilitator'
     | '/events'
     | '/manual'
@@ -468,6 +499,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/verify-instructions'
     | '/_auth/$orgSlug'
+    | '/_auth/admin'
     | '/_auth/data'
     | '/_auth/facilitator'
     | '/_auth/global'
@@ -480,6 +512,7 @@ export interface FileRouteTypes {
     | '/_auth/$orgSlug/messages'
     | '/_auth/$orgSlug/profile'
     | '/_auth/$orgSlug/relations'
+    | '/_auth/admin/organizations'
     | '/_auth/facilitator/$networkSlug'
     | '/_auth/marketplace/new'
     | '/_auth/organizations/new'
@@ -487,6 +520,7 @@ export interface FileRouteTypes {
     | '/_open/manual/$page'
     | '/_open/marketplace/$id'
     | '/_open/organizations/$id'
+    | '/_auth/admin/'
     | '/_auth/facilitator/'
     | '/_open/events/'
     | '/_open/manual/'
@@ -591,6 +625,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrgSlugRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/admin': {
+      id: '/_auth/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthAdminRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/data': {
       id: '/_auth/data'
       path: '/data'
@@ -674,6 +715,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/$orgSlug/relations'
       preLoaderRoute: typeof AuthOrgSlugRelationsRouteImport
       parentRoute: typeof AuthOrgSlugRoute
+    }
+    '/_auth/admin/': {
+      id: '/_auth/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthAdminIndexRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/organizations': {
+      id: '/_auth/admin/organizations'
+      path: '/organizations'
+      fullPath: '/admin/organizations'
+      preLoaderRoute: typeof AuthAdminOrganizationsRouteImport
+      parentRoute: typeof AuthAdminRoute
     }
     '/_auth/facilitator/': {
       id: '/_auth/facilitator/'
@@ -823,6 +878,20 @@ const AuthOrgSlugRouteWithChildren = AuthOrgSlugRoute._addFileChildren(
   AuthOrgSlugRouteChildren,
 )
 
+interface AuthAdminRouteChildren {
+  AuthAdminOrganizationsRoute: typeof AuthAdminOrganizationsRoute
+  AuthAdminIndexRoute: typeof AuthAdminIndexRoute
+}
+
+const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminOrganizationsRoute: AuthAdminOrganizationsRoute,
+  AuthAdminIndexRoute: AuthAdminIndexRoute,
+}
+
+const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
+  AuthAdminRouteChildren,
+)
+
 interface AuthFacilitatorNetworkSlugRouteChildren {
   AuthFacilitatorNetworkSlugIndexRoute: typeof AuthFacilitatorNetworkSlugIndexRoute
   AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute: typeof AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute
@@ -856,6 +925,7 @@ const AuthFacilitatorRouteWithChildren = AuthFacilitatorRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthOrgSlugRoute: typeof AuthOrgSlugRouteWithChildren
+  AuthAdminRoute: typeof AuthAdminRouteWithChildren
   AuthDataRoute: typeof AuthDataRoute
   AuthFacilitatorRoute: typeof AuthFacilitatorRouteWithChildren
   AuthGlobalRoute: typeof AuthGlobalRoute
@@ -870,6 +940,7 @@ interface AuthRouteChildren {
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthOrgSlugRoute: AuthOrgSlugRouteWithChildren,
+  AuthAdminRoute: AuthAdminRouteWithChildren,
   AuthDataRoute: AuthDataRoute,
   AuthFacilitatorRoute: AuthFacilitatorRouteWithChildren,
   AuthGlobalRoute: AuthGlobalRoute,

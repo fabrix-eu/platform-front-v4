@@ -13,9 +13,10 @@ import {
   MessageSquare,
   Network,
   Settings,
+  ShieldCheck,
   ShoppingBag,
 } from "lucide-react";
-import { canSeeCityData, isFacilitator, type MeOrganization, type User } from "@/lib/auth";
+import { canSeeCityData, isAdmin, isFacilitator, type MeOrganization, type User } from "@/lib/auth";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { DisabledNavItem, NavLink } from "@/components/ui/NavLink";
 import type { UnreadCounts } from "./useUnreadCounts";
@@ -99,6 +100,12 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
         <NavLink to="/manual/$page" params={{ page: "getting-started" }} icon={BookOpen}>User manual</NavLink>
         {canSeeCityData(me) && <NavLink to="/data" icon={Database}>Data</NavLink>}
       </Group>
+
+      {isAdmin(me) && (
+        <Group label="Admin">
+          <NavLink to="/admin/organizations" icon={ShieldCheck}>Administration</NavLink>
+        </Group>
+      )}
 
       <Group>
         <NavLink to="/notifications" icon={Bell} count={counts.notifications} alert>Notifications</NavLink>
