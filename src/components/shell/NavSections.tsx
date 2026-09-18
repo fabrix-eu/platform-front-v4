@@ -5,8 +5,8 @@ import {
   Building2,
   Calendar,
   Compass,
+  Database,
   FolderKanban,
-  GraduationCap,
   Home,
   LayoutDashboard,
   Map,
@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { isFacilitator, type MeOrganization, type User } from "@/lib/auth";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { DisabledNavItem, ExternalNavLink, NavLink } from "@/components/ui/NavLink";
+import { DisabledNavItem, NavLink } from "@/components/ui/NavLink";
 import type { UnreadCounts } from "./useUnreadCounts";
 
 function Group({ label, children }: { label?: string; children: ReactNode }) {
@@ -97,7 +97,7 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
 
       <Group label="Resources">
         <NavLink to="/manual/$page" params={{ page: "getting-started" }} icon={BookOpen}>User manual</NavLink>
-        <ExternalNavLink href="https://learn.fabrixproject.eu" icon={GraduationCap}>Learning Hub</ExternalNavLink>
+        <NavLink to="/data" icon={Database}>Data</NavLink>
       </Group>
 
       <Group>

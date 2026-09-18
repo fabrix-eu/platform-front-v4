@@ -20,6 +20,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as VerifyInstructionsRouteImport } from './routes/verify-instructions'
 import { Route as AuthOrgSlugRouteImport } from './routes/_auth/$orgSlug'
+import { Route as AuthDataRouteImport } from './routes/_auth/data'
 import { Route as AuthFacilitatorRouteImport } from './routes/_auth/facilitator'
 import { Route as AuthGlobalRouteImport } from './routes/_auth/global'
 import { Route as AuthHomeRouteImport } from './routes/_auth/home'
@@ -100,6 +101,11 @@ const VerifyInstructionsRoute = VerifyInstructionsRouteImport.update({
 const AuthOrgSlugRoute = AuthOrgSlugRouteImport.update({
   id: '/$orgSlug',
   path: '/$orgSlug',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthDataRoute = AuthDataRouteImport.update({
+  id: '/data',
+  path: '/data',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthFacilitatorRoute = AuthFacilitatorRouteImport.update({
@@ -259,6 +265,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/data': typeof AuthDataRoute
   '/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/global': typeof AuthGlobalRoute
   '/home': typeof AuthHomeRoute
@@ -298,6 +305,7 @@ export interface FileRoutesByTo {
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/data': typeof AuthDataRoute
   '/global': typeof AuthGlobalRoute
   '/home': typeof AuthHomeRoute
   '/messages': typeof AuthMessagesRoute
@@ -338,6 +346,7 @@ export interface FileRoutesById {
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/_auth/$orgSlug': typeof AuthOrgSlugRouteWithChildren
+  '/_auth/data': typeof AuthDataRoute
   '/_auth/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/_auth/global': typeof AuthGlobalRoute
   '/_auth/home': typeof AuthHomeRoute
@@ -379,6 +388,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/verify-instructions'
     | '/$orgSlug'
+    | '/data'
     | '/facilitator'
     | '/global'
     | '/home'
@@ -418,6 +428,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/verify-instructions'
     | '/$orgSlug'
+    | '/data'
     | '/global'
     | '/home'
     | '/messages'
@@ -457,6 +468,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/verify-instructions'
     | '/_auth/$orgSlug'
+    | '/_auth/data'
     | '/_auth/facilitator'
     | '/_auth/global'
     | '/_auth/home'
@@ -577,6 +589,13 @@ declare module '@tanstack/react-router' {
       path: '/$orgSlug'
       fullPath: '/$orgSlug'
       preLoaderRoute: typeof AuthOrgSlugRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/data': {
+      id: '/_auth/data'
+      path: '/data'
+      fullPath: '/data'
+      preLoaderRoute: typeof AuthDataRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/facilitator': {
@@ -837,6 +856,7 @@ const AuthFacilitatorRouteWithChildren = AuthFacilitatorRoute._addFileChildren(
 
 interface AuthRouteChildren {
   AuthOrgSlugRoute: typeof AuthOrgSlugRouteWithChildren
+  AuthDataRoute: typeof AuthDataRoute
   AuthFacilitatorRoute: typeof AuthFacilitatorRouteWithChildren
   AuthGlobalRoute: typeof AuthGlobalRoute
   AuthHomeRoute: typeof AuthHomeRoute
@@ -850,6 +870,7 @@ interface AuthRouteChildren {
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthOrgSlugRoute: AuthOrgSlugRouteWithChildren,
+  AuthDataRoute: AuthDataRoute,
   AuthFacilitatorRoute: AuthFacilitatorRouteWithChildren,
   AuthGlobalRoute: AuthGlobalRoute,
   AuthHomeRoute: AuthHomeRoute,
