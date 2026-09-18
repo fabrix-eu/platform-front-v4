@@ -52,20 +52,29 @@ export function DataFilters({
 
       <div>
         <Eyebrow className="mb-2">Activities</Eyebrow>
-        <Card className="max-h-72 space-y-2.5 overflow-y-auto p-4">
-          {categories.map((category) => (
-            <Checkbox
-              key={category.slug}
-              checked={selected.includes(category.slug)}
-              onChange={() => onToggleCategory(category.slug)}
-              label={
-                <span className="flex items-center gap-2 text-fx-small">
-                  <span aria-hidden className="size-2.5 shrink-0 rounded-[3px]" style={{ background: category.color_hex }} />
-                  {category.name}
-                </span>
-              }
-            />
-          ))}
+        {/* A grid, not a wrapping row: the columns then line up even when one name
+            runs to two lines and its neighbour does not. */}
+        <Card className="max-h-72 overflow-y-auto p-4">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-2.5">
+            {categories.map((category) => (
+              <Checkbox
+                key={category.slug}
+                className="gap-2"
+                checked={selected.includes(category.slug)}
+                onChange={() => onToggleCategory(category.slug)}
+                label={
+                  <span className="flex items-start gap-1.5 text-fx-small leading-snug">
+                    <span
+                      aria-hidden
+                      className="mt-1 size-2.5 shrink-0 rounded-[3px]"
+                      style={{ background: category.color_hex }}
+                    />
+                    {category.name}
+                  </span>
+                }
+              />
+            ))}
+          </div>
         </Card>
       </div>
 

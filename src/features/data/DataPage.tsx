@@ -29,7 +29,10 @@ export function DataPage({ search, onChange }: DataPageProps) {
   const selected = csvList(search.cats);
   const year = (search.year ?? 2022) as Year;
   const hexbin = search.hexbin ?? false;
-  const secondary = search.secondary ?? false;
+  // On by default: a business that declares this work as a secondary activity still
+  // does it, and leaving them out under-reports the industry. `??` and not `||`, so
+  // unticking the box writes `secondary=false` and is honoured rather than reset.
+  const secondary = search.secondary ?? true;
 
   const categoriesQuery = useQuery(naceCategoriesQueryOptions);
   const rotterdam = useQuery({ ...rotterdamCompaniesQueryOptions(year, selected), enabled: city.key === "rotterdam" && selected.length > 0 });
@@ -97,7 +100,9 @@ export function DataPage({ search, onChange }: DataPageProps) {
       {active.isError ? (
         <Banner tone="danger" className="mt-6">This city's data could not be loaded. Try again in a moment.</Banner>
       ) : (
-        <div className="mt-6 grid gap-5 lg:grid-cols-[19rem_minmax(0,1fr)]">
+        // Wider than the other pages' filter columns: the activities sit in two
+        // columns now, and 19rem left each name breaking across three lines.
+        <div className="mt-6 grid gap-5 lg:grid-cols-[23rem_minmax(0,1fr)]">
           <aside aria-label="Filters">
             <DataFilters
               city={city}
