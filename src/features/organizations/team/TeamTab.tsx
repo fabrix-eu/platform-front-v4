@@ -9,6 +9,7 @@ import type { OrganizationProfile } from "../types";
 import { roleLabel, teamInvitationsQueryOptions, teamMembersQueryOptions } from "./api";
 import { InviteColleagueDialog } from "./InviteColleagueDialog";
 import { JoinRequests } from "./JoinRequests";
+import { LeaveOrganization } from "./LeaveOrganization";
 import { RolesPanel } from "./RolesPanel";
 import { InvitationActions, MemberActions } from "./TeamActions";
 
@@ -75,6 +76,10 @@ export function TeamTab({ org }: { org: OrganizationProfile }) {
         <Info aria-hidden className="mt-0.5 size-4 shrink-0" />
         People act under the organisation, not as themselves — so the profile and its history stay intact if someone leaves.
       </p>
+
+      {/* Only the last one standing: with colleagues left, the API refuses, so the
+          offer would be a dead end. */}
+      {isOwner && members.data?.length === 1 && <LeaveOrganization org={org} />}
     </div>
   );
 }

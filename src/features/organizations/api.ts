@@ -36,3 +36,12 @@ export function createOrganization(organization: OrganizationDraft & { owner_ema
 export function claimOrganization(organizationId: string, justification: string) {
   return api.post<void>(`/organizations/${organizationId}/claims`, { claim: { justification } });
 }
+
+/**
+ * Gives the profile back: it returns to the directory as an unclaimed entry rather
+ * than being deleted, so nothing that belongs to other people goes with it. The API
+ * accepts it only from the last active member.
+ */
+export function unclaimOrganization(organizationId: string) {
+  return api.post<void>(`/organizations/${organizationId}/unclaim`);
+}
