@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Lightbox } from "@/components/ui/Lightbox";
 import { Pill } from "@/components/ui/Pill";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { adminFeedbacksQueryOptions } from "./api";
@@ -29,6 +30,7 @@ const shortDate = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { d
  */
 function Screenshot({ url }: { url: string }) {
   const [broken, setBroken] = useState(false);
+  const [open, setOpen] = useState(false);
 
   if (broken) {
     return (
@@ -39,15 +41,18 @@ function Screenshot({ url }: { url: string }) {
   }
 
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="mt-2 block w-fit">
-      <img
-        src={url}
-        alt="Screenshot attached to this feedback"
-        loading="lazy"
-        onError={() => setBroken(true)}
-        className="max-h-40 rounded-fx-sm border border-fx-line2 object-cover transition hover:brightness-95"
-      />
-    </a>
+    <>
+      <button type="button" onClick={() => setOpen(true)} className="mt-2 block w-fit" aria-label="Open the screenshot">
+        <img
+          src={url}
+          alt="Screenshot attached to this feedback"
+          loading="lazy"
+          onError={() => setBroken(true)}
+          className="max-h-40 rounded-fx-sm border border-fx-line2 object-cover transition hover:brightness-95"
+        />
+      </button>
+      <Lightbox images={[{ url, alt: "Screenshot attached to this feedback" }]} open={open} onOpenChange={setOpen} />
+    </>
   );
 }
 

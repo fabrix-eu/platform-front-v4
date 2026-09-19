@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useSearch } from "@tanstack/react-router";
+import { Lightbox } from "@/components/ui/Lightbox";
 import { Bell, Compass, GraduationCap, Home, MapPin, MessageSquare, Plus, ShoppingBag } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
@@ -19,8 +21,16 @@ const NAV_ITEMS = [
   { key: "notifications", icon: Bell, count: 5, alert: true },
 ] as const;
 
+// The two images this app ships with, so the demo needs no network and no CDN.
+const DEMO_IMAGES = [
+  { url: "/fabrix-logo.svg", alt: "The FABRIX wordmark" },
+  { url: "/flag-of-europe.svg", alt: "The flag of Europe" },
+];
+
 export function CatalogSurfaces() {
   const { tab = "overview", nav = "marketplace" } = useSearch({ from: "/design" });
+  // Ephemeral: which demo image is open.
+  const [opened, setOpened] = useState<number | null>(null);
 
   return (
     <>
@@ -30,6 +40,24 @@ export function CatalogSurfaces() {
         <Avatar name="Loop Remade" />
         <Avatar name="Julia Wester" kind="person" />
         <Avatar name="De Vezel" size="sm" />
+      </Row>
+
+      <Row
+        label="Lightbox"
+        source="components/ui/Lightbox"
+        hint="looking at a picture without leaving the page — arrows and Escape work, and it takes a set so a strip of thumbnails opens where it was clicked"
+      >
+        {DEMO_IMAGES.map((image, index) => (
+          <button
+            key={image.url}
+            type="button"
+            onClick={() => setOpened(index)}
+            className="rounded-fx border border-fx-line bg-fx-paper p-3 transition hover:border-fx-emphasis"
+          >
+            <img src={image.url} alt={image.alt} className="h-10 w-auto" />
+          </button>
+        ))}
+        <Lightbox images={DEMO_IMAGES} startAt={opened ?? 0} open={opened !== null} onOpenChange={(open) => !open && setOpened(null)} />
       </Row>
 
       <Row

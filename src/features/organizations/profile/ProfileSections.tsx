@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Avatar } from "@/components/ui/Avatar";
 import { Card } from "@/components/ui/Card";
+import { Lightbox } from "@/components/ui/Lightbox";
 import { orgKindLabel } from "../kinds";
 import { relationLabel } from "../relations";
 import type { OrganizationPhoto, OrganizationProfile } from "../types";
@@ -28,19 +29,41 @@ export function AboutSection({ org }: { org: OrganizationProfile }) {
 }
 
 export function PhotosSection({ photos }: { photos: OrganizationPhoto[] }) {
+  // Ephemeral: which photo is open, if any.
+  const [opened, setOpened] = useState<number | null>(null);
   if (photos.length === 0) return null;
+
+  const sorted = [...photos].sort((a, b) => a.position - b.position);
+
   return (
     <ProfileSection title="Photos" count={photos.length}>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {[...photos]
-          .sort((a, b) => a.position - b.position)
-          .map((photo) => (
-            <figure key={photo.id} className="overflow-hidden rounded-fx bg-fx-panel">
-              <img src={photo.url} alt={photo.caption ?? ""} loading="lazy" className="aspect-[4/3] w-full object-cover" />
-              {photo.caption && <figcaption className="px-3 py-2 text-fx-small text-fx-ink2">{photo.caption}</figcaption>}
-            </figure>
-          ))}
+        {sorted.map((photo, index) => (
+          <figure key={photo.id} className="overflow-hidden rounded-fx bg-fx-panel">
+            <button
+              type="button"
+              onClick={() => setOpened(index)}
+              aria-label={photo.caption ? `Open: ${photo.caption}` : `Open photo ${index + 1}`}
+              className="block w-full"
+            >
+              <img
+                src={photo.url}
+                alt={photo.caption ?? ""}
+                loading="lazy"
+                className="aspect-[4/3] w-full object-cover transition hover:brightness-95"
+              />
+            </button>
+            {photo.caption && <figcaption className="px-3 py-2 text-fx-small text-fx-ink2">{photo.caption}</figcaption>}
+          </figure>
+        ))}
       </div>
+
+      <Lightbox
+        images={sorted.map((photo) => ({ url: photo.url, alt: photo.caption ?? "" }))}
+        startAt={opened ?? 0}
+        open={opened !== null}
+        onOpenChange={(open) => !open && setOpened(null)}
+      />
     </ProfileSection>
   );
 }
