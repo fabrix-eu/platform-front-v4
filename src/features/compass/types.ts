@@ -70,6 +70,16 @@ export interface CompassFormWithSections extends CompassForm {
 
 export type AnswerStatus = "draft" | "in_progress" | "completed";
 
+/** What a score means and what to do about it. Authored per form, server-side — the
+ *  client renders the band it is handed rather than holding the matching rule. */
+export interface ResultBand {
+  min: number;
+  max: number;
+  title: string;
+  body?: string | null;
+  advice?: string[] | null;
+}
+
 export interface Answer {
   id: string;
   form_id: string;
@@ -80,6 +90,8 @@ export interface Answer {
   total_points: number | null;
   /** 0–100, and only meaningful once it is completed. */
   normalized_score: number | null;
+  /** Null until the form has bands authored: then the score shows without advice. */
+  result_band: ResultBand | null;
   created_at: string;
   updated_at: string;
 }

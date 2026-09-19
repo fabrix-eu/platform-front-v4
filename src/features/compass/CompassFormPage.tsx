@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useCurrentOrg } from "@/lib/activeOrg";
 import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
@@ -10,6 +10,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { compassFormQueryOptions, createAnswer, latestAnswerQueryOptions, updateAnswer, COMPASS_KEY } from "./api";
 import { QuestionField } from "./QuestionField";
+import { ResultPanel } from "./ResultPanel";
 import { isVisible, type Responses } from "./visibility";
 
 const answered = (value: unknown): boolean => {
@@ -105,16 +106,10 @@ export function CompassFormPage() {
 
       {save.isError && <Banner tone="danger" className="mt-4">The last change could not be saved. Check your connection and change something to try again.</Banner>}
 
-      {complete && (
-        <Banner tone="success" className="mt-4">
-          <span className="flex items-center gap-2">
-            <Check aria-hidden className="size-4" strokeWidth={3} />
-            Everything is answered — your score appears on the Compass page.
-          </span>
-        </Banner>
-      )}
-
-      <div className="mt-8 max-w-3xl space-y-8">
+      {/* The result sits beside the questions on a wide screen, and above them on a narrow
+          one — where it is still the first thing read, which is the point. */}
+      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+        <div className="order-2 space-y-8 lg:order-1">
         {visible.map(({ section, questions }) => (
           <section key={section.id} aria-labelledby={`section-${section.id}`}>
             <Eyebrow id={`section-${section.id}`}>{section.title}</Eyebrow>
@@ -141,6 +136,11 @@ export function CompassFormPage() {
             </div>
           </section>
         ))}
+        </div>
+
+        <div className="order-1 lg:order-2">
+          <ResultPanel answer={existing.data ?? null} done={done} total={total} complete={complete} />
+        </div>
       </div>
     </>
   );
