@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { BadgeTone } from "@/components/ui/Badge";
 import { Badge } from "@/components/ui/Badge";
@@ -18,6 +18,38 @@ const TONE: Record<string, BadgeTone> = { bug: "rose", feature: "green", questio
 const LABEL: Record<string, string> = { bug: "Bug", feature: "Feature", question: "Question" };
 
 const shortDate = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+
+/**
+ * The screenshot itself, not a link to go and find out. The old panel offered "View
+ * screenshot" and nothing else, which is why nobody ever looked at one.
+ *
+ * It falls back to a link if the image does not load: these URLs are built as
+ * `S3_BUCKET_URL/key` and only resolve while the bucket allows public reads, so a
+ * broken image here is a real signal rather than a rendering bug.
+ */
+function Screenshot({ url }: { url: string }) {
+  const [broken, setBroken] = useState(false);
+
+  if (broken) {
+    return (
+      <a href={url} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-fx-label font-bold text-fx-rose hover:underline">
+        Screenshot did not load — open it directly
+      </a>
+    );
+  }
+
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className="mt-2 block w-fit">
+      <img
+        src={url}
+        alt="Screenshot attached to this feedback"
+        loading="lazy"
+        onError={() => setBroken(true)}
+        className="max-h-40 rounded-fx-sm border border-fx-line2 object-cover transition hover:brightness-95"
+      />
+    </a>
+  );
+}
 
 interface Props {
   search: AdminSearch;
@@ -94,16 +126,7 @@ export function FeedbacksAdmin({ search, onChange }: Props) {
                 </td>
                 <td className={TD}>
                   <p className="max-w-xl whitespace-pre-line text-fx-ink2">{feedback.message}</p>
-                  {feedback.screenshot_url && (
-                    <a
-                      href={feedback.screenshot_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-1 inline-block text-fx-label font-bold text-fx-emphasis hover:underline"
-                    >
-                      Screenshot
-                    </a>
-                  )}
+                  {feedback.screenshot_url && <Screenshot url={feedback.screenshot_url} />}
                 </td>
                 <td className={TD}>
                   <span className="block font-bold text-fx-ink">{feedback.user?.name ?? "—"}</span>
