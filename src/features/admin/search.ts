@@ -19,20 +19,44 @@ export const adminSearchSchema = z.object({
   kinds: z.string().optional(),
   status: z.enum(["claimed", "unclaimed"]).optional(),
   country: z.string().optional(),
+  /**
+   * Claims have their own vocabulary. It cannot share `status`: that one already means
+   * claimed/unclaimed here and in the directory, and a name means one thing across the
+   * whole router or it means nothing.
+   */
+  claim_status: z.enum(["pending", "approved", "rejected", "cancelled"]).optional(),
+  /** Feedbacks: bug, feature or question. */
+  category: z.enum(["bug", "feature", "question"]).optional(),
 });
 
 export type AdminSearch = z.infer<typeof adminSearchSchema>;
 
-/** The query the API wants, from the URL the person is looking at. */
-export function adminListParams(search: AdminSearch): Record<string, string | number | undefined> {
-  return {
-    search: search.q || undefined,
-    page: search.page,
-    per_page: 30,
-    sort_by: search.sort_by,
-    sort_direction: search.sort_direction,
-    kinds: search.kinds || undefined,
-    by_claimed: search.status ? String(search.status === "claimed") : undefined,
-    by_country: search.country || undefined,
-  };
-}
+type Params = Record<string, string | number | undefined>;
+
+/** What every list sends: the text, the page, the order. */
+const common = (search: AdminSearch): Params => ({
+  search: search.q || undefined,
+  page: search.page,
+  per_page: 30,
+  sort_by: search.sort_by,
+  sort_direction: search.sort_direction,
+});
+
+export const adminOrganizationParams = (search: AdminSearch): Params => ({
+  ...common(search),
+  kinds: search.kinds || undefined,
+  by_claimed: search.status ? String(search.status === "claimed") : undefined,
+  by_country: search.country || undefined,
+});
+
+export const adminNetworkParams = (search: AdminSearch): Params => common(search);
+
+export const adminClaimParams = (search: AdminSearch): Params => ({
+  ...common(search),
+  status: search.claim_status,
+});
+
+export const adminFeedbackParams = (search: AdminSearch): Params => ({
+  ...common(search),
+  category: search.category,
+});

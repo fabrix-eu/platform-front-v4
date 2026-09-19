@@ -15,7 +15,7 @@ import { ORG_KIND_LABELS, orgKindLabel } from "@/features/organizations/kinds";
 import { adminOrganizationsQueryOptions } from "./api";
 import { AdminTable, Column, SortableColumn, TD } from "./AdminTable";
 import { Pagination } from "./Pagination";
-import { adminListParams, type AdminSearch } from "./search";
+import { adminOrganizationParams, type AdminSearch } from "./search";
 
 const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
 
@@ -29,7 +29,7 @@ interface Props {
 }
 
 export function OrganizationsAdmin({ search, onChange }: Props) {
-  const query = useQuery(adminOrganizationsQueryOptions(adminListParams(search)));
+  const query = useQuery(adminOrganizationsQueryOptions(adminOrganizationParams(search)));
   const rows = query.data?.data ?? [];
   const meta = query.data?.meta;
 

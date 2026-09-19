@@ -34,6 +34,9 @@ import { Route as AuthOrgSlugMessagesRouteImport } from './routes/_auth/$orgSlug
 import { Route as AuthOrgSlugProfileRouteImport } from './routes/_auth/$orgSlug/profile'
 import { Route as AuthOrgSlugRelationsRouteImport } from './routes/_auth/$orgSlug/relations'
 import { Route as AuthAdminIndexRouteImport } from './routes/_auth/admin/index'
+import { Route as AuthAdminClaimsRouteImport } from './routes/_auth/admin/claims'
+import { Route as AuthAdminFeedbacksRouteImport } from './routes/_auth/admin/feedbacks'
+import { Route as AuthAdminNetworksRouteImport } from './routes/_auth/admin/networks'
 import { Route as AuthAdminOrganizationsRouteImport } from './routes/_auth/admin/organizations'
 import { Route as AuthFacilitatorIndexRouteImport } from './routes/_auth/facilitator/index'
 import { Route as AuthFacilitatorNetworkSlugRouteImport } from './routes/_auth/facilitator/$networkSlug'
@@ -176,6 +179,21 @@ const AuthAdminIndexRoute = AuthAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
+const AuthAdminClaimsRoute = AuthAdminClaimsRouteImport.update({
+  id: '/claims',
+  path: '/claims',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthAdminFeedbacksRoute = AuthAdminFeedbacksRouteImport.update({
+  id: '/feedbacks',
+  path: '/feedbacks',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthAdminNetworksRoute = AuthAdminNetworksRouteImport.update({
+  id: '/networks',
+  path: '/networks',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
 const AuthAdminOrganizationsRoute = AuthAdminOrganizationsRouteImport.update({
   id: '/organizations',
   path: '/organizations',
@@ -296,6 +314,9 @@ export interface FileRoutesByFullPath {
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/admin/claims': typeof AuthAdminClaimsRoute
+  '/admin/feedbacks': typeof AuthAdminFeedbacksRoute
+  '/admin/networks': typeof AuthAdminNetworksRoute
   '/admin/organizations': typeof AuthAdminOrganizationsRoute
   '/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/marketplace/new': typeof AuthMarketplaceNewRoute
@@ -337,6 +358,9 @@ export interface FileRoutesByTo {
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/admin/claims': typeof AuthAdminClaimsRoute
+  '/admin/feedbacks': typeof AuthAdminFeedbacksRoute
+  '/admin/networks': typeof AuthAdminNetworksRoute
   '/admin/organizations': typeof AuthAdminOrganizationsRoute
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
@@ -382,6 +406,9 @@ export interface FileRoutesById {
   '/_auth/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
   '/_auth/$orgSlug/profile': typeof AuthOrgSlugProfileRoute
   '/_auth/$orgSlug/relations': typeof AuthOrgSlugRelationsRoute
+  '/_auth/admin/claims': typeof AuthAdminClaimsRoute
+  '/_auth/admin/feedbacks': typeof AuthAdminFeedbacksRoute
+  '/_auth/admin/networks': typeof AuthAdminNetworksRoute
   '/_auth/admin/organizations': typeof AuthAdminOrganizationsRoute
   '/_auth/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/_auth/marketplace/new': typeof AuthMarketplaceNewRoute
@@ -427,6 +454,9 @@ export interface FileRouteTypes {
     | '/$orgSlug/messages'
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
+    | '/admin/claims'
+    | '/admin/feedbacks'
+    | '/admin/networks'
     | '/admin/organizations'
     | '/facilitator/$networkSlug'
     | '/marketplace/new'
@@ -468,6 +498,9 @@ export interface FileRouteTypes {
     | '/$orgSlug/messages'
     | '/$orgSlug/profile'
     | '/$orgSlug/relations'
+    | '/admin/claims'
+    | '/admin/feedbacks'
+    | '/admin/networks'
     | '/admin/organizations'
     | '/marketplace/new'
     | '/organizations/new'
@@ -512,6 +545,9 @@ export interface FileRouteTypes {
     | '/_auth/$orgSlug/messages'
     | '/_auth/$orgSlug/profile'
     | '/_auth/$orgSlug/relations'
+    | '/_auth/admin/claims'
+    | '/_auth/admin/feedbacks'
+    | '/_auth/admin/networks'
     | '/_auth/admin/organizations'
     | '/_auth/facilitator/$networkSlug'
     | '/_auth/marketplace/new'
@@ -723,6 +759,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminIndexRouteImport
       parentRoute: typeof AuthAdminRoute
     }
+    '/_auth/admin/claims': {
+      id: '/_auth/admin/claims'
+      path: '/claims'
+      fullPath: '/admin/claims'
+      preLoaderRoute: typeof AuthAdminClaimsRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/feedbacks': {
+      id: '/_auth/admin/feedbacks'
+      path: '/feedbacks'
+      fullPath: '/admin/feedbacks'
+      preLoaderRoute: typeof AuthAdminFeedbacksRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/admin/networks': {
+      id: '/_auth/admin/networks'
+      path: '/networks'
+      fullPath: '/admin/networks'
+      preLoaderRoute: typeof AuthAdminNetworksRouteImport
+      parentRoute: typeof AuthAdminRoute
+    }
     '/_auth/admin/organizations': {
       id: '/_auth/admin/organizations'
       path: '/organizations'
@@ -879,11 +936,17 @@ const AuthOrgSlugRouteWithChildren = AuthOrgSlugRoute._addFileChildren(
 )
 
 interface AuthAdminRouteChildren {
+  AuthAdminClaimsRoute: typeof AuthAdminClaimsRoute
+  AuthAdminFeedbacksRoute: typeof AuthAdminFeedbacksRoute
+  AuthAdminNetworksRoute: typeof AuthAdminNetworksRoute
   AuthAdminOrganizationsRoute: typeof AuthAdminOrganizationsRoute
   AuthAdminIndexRoute: typeof AuthAdminIndexRoute
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminClaimsRoute: AuthAdminClaimsRoute,
+  AuthAdminFeedbacksRoute: AuthAdminFeedbacksRoute,
+  AuthAdminNetworksRoute: AuthAdminNetworksRoute,
   AuthAdminOrganizationsRoute: AuthAdminOrganizationsRoute,
   AuthAdminIndexRoute: AuthAdminIndexRoute,
 }

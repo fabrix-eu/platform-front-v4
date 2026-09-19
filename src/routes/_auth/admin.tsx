@@ -21,10 +21,11 @@ function AdminSpace() {
         lede="The whole platform, list by list — searchable, filterable, and sorted by the database rather than by the page."
       />
 
-      {/* Networks, claims and feedbacks come next. A tab leading nowhere is worse
-          than one not announced yet. */}
       <TabList label="Admin sections" className="mt-8">
         <TabLink to="/admin/organizations">Organisations</TabLink>
+        <TabLink to="/admin/networks">Networks</TabLink>
+        <TabLink to="/admin/claims">Claims</TabLink>
+        <TabLink to="/admin/feedbacks">Feedbacks</TabLink>
       </TabList>
 
       <div className="mt-8">
