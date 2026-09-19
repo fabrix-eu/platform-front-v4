@@ -12,7 +12,6 @@ import {
   Map,
   MessageSquare,
   Network,
-  Settings,
   ShieldCheck,
   ShoppingBag,
 } from "lucide-react";
@@ -107,9 +106,10 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
         </Group>
       )}
 
+      {/* Settings is not a place, it is your account — it lives in the user menu, under
+          your own name, rather than among the sections of the platform. */}
       <Group>
         <NavLink to="/notifications" icon={Bell} count={counts.notifications} alert>Notifications</NavLink>
-        <NavLink to="/settings" icon={Settings}>Settings</NavLink>
       </Group>
     </>
   );

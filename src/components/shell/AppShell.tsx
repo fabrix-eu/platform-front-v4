@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, X } from "lucide-react";
 import { Sidebar } from "./Sidebar";
+import { FeedbackButton } from "@/features/feedback/FeedbackButton";
 import { UNREAD_KEY } from "./useUnreadCounts";
 
 // The frame of every signed-in page: a fixed sidebar on desktop, a drawer on mobile.
@@ -50,6 +51,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main className="lg:pl-64">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 lg:px-12 lg:py-12">{children}</div>
       </main>
+
+      <FeedbackButton />
     </div>
   );
 }

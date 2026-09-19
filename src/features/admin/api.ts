@@ -62,6 +62,8 @@ export interface AdminFeedback {
   category: "bug" | "feature" | "question";
   message: string;
   screenshot_url: string | null;
+  /** The screen they were on when they wrote it. Null for feedback sent before we recorded it. */
+  context_path: string | null;
   created_at: string;
   user: AdminPerson | null;
 }

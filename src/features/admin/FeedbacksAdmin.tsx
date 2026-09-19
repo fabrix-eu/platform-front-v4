@@ -131,6 +131,12 @@ export function FeedbacksAdmin({ search, onChange }: Props) {
                 </td>
                 <td className={TD}>
                   <p className="max-w-xl whitespace-pre-line text-fx-ink2">{feedback.message}</p>
+                  {/* Where they were. "This does nothing" needs the screen it was said about. */}
+                  {feedback.context_path && (
+                    <p className="mt-1 max-w-xl truncate text-fx-label text-fx-muted" title={feedback.context_path}>
+                      on {feedback.context_path}
+                    </p>
+                  )}
                   {feedback.screenshot_url && <Screenshot url={feedback.screenshot_url} />}
                 </td>
                 <td className={TD}>

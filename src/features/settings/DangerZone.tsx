@@ -27,8 +27,8 @@ export function DangerZone() {
     <section className="max-w-xl">
       <h2 className="text-fx-heading text-fx-rose">Delete your account</h2>
       <p className="mt-2 text-fx-body text-fx-ink2">
-        This removes your account and signs you out. Organisations you belong to stay on FABRIX — hand
-        ownership to someone else first if you are their only owner.
+        This removes your account and signs you out. Teams you share with colleagues carry on without
+        you — if you were their only owner, the longest-standing member takes over.
       </p>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -53,6 +53,11 @@ export function DangerZone() {
         >
           <p className="text-fx-body text-fx-ink2">
             You will be signed out straight away and will not be able to sign back in with this email.
+          </p>
+          <p className="mt-3 text-fx-body text-fx-ink2">
+            Any organisation where you are the only member goes back to the directory as an unclaimed
+            profile. Its listings and Compass answers go with it; the entry itself stays, so the
+            connections others declared toward it survive.
           </p>
         </DialogContent>
       </Dialog>

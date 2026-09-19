@@ -66,8 +66,10 @@ async function refreshAccessToken(): Promise<boolean> {
   }
 }
 
-function buildHeaders(): Record<string, string> {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
+// A multipart body carries its own content type, boundary and all — setting one by hand
+// produces a boundary the browser never used, and the server parses nothing.
+function buildHeaders(multipart = false): Record<string, string> {
+  const headers: Record<string, string> = multipart ? {} : { "Content-Type": "application/json" };
   const token = tokens.access();
   if (token) headers["Authorization"] = `Bearer ${token}`;
   return headers;
@@ -86,7 +88,13 @@ function toQuery(params?: Record<string, unknown>): string {
 
 async function request<T>(method: string, path: string, body?: unknown, params?: Record<string, unknown>): Promise<T> {
   const url = `${API_BASE}${path}${toQuery(params)}`;
-  const send = () => fetch(url, { method, headers: buildHeaders(), body: body ? JSON.stringify(body) : undefined });
+  const form = body instanceof FormData;
+  const send = () =>
+    fetch(url, {
+      method,
+      headers: buildHeaders(form),
+      body: form ? body : body ? JSON.stringify(body) : undefined,
+    });
 
   let res = await send();
 
