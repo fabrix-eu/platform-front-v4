@@ -108,7 +108,7 @@ export function CompassFormPage() {
 
       {/* The result sits beside the questions on a wide screen, and above them on a narrow
           one — where it is still the first thing read, which is the point. */}
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start">
         <div className="order-2 space-y-8 lg:order-1">
         {visible.map(({ section, questions }) => (
           <section key={section.id} aria-labelledby={`section-${section.id}`}>

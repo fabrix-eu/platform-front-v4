@@ -70,8 +70,25 @@ export interface CompassFormWithSections extends CompassForm {
 
 export type AnswerStatus = "draft" | "in_progress" | "completed";
 
-/** What a score means and what to do about it. Authored per form, server-side — the
- *  client renders the band it is handed rather than holding the matching rule. */
+/**
+ * The advice written against the choice that was made — "no" to measuring your carbon
+ * footprint returns the case for measuring it. Ordered server-side by what is most
+ * worth doing.
+ */
+export interface Recommendation {
+  question_key: string;
+  question: string;
+  feedback: string;
+  /** Usually the title of a Learning Hub piece; occasionally a URL. */
+  knowledge_link: string | null;
+  /** Points left on the table by this answer — the ordering key. */
+  shortfall: number;
+  /** This answer already scored full marks. */
+  strength: boolean;
+}
+
+/** What a score means overall. Authored per form, server-side — the client renders the
+ *  band it is handed rather than holding the matching rule. */
 export interface ResultBand {
   min: number;
   max: number;
@@ -90,8 +107,10 @@ export interface Answer {
   total_points: number | null;
   /** 0–100, and only meaningful once it is completed. */
   normalized_score: number | null;
-  /** Null until the form has bands authored: then the score shows without advice. */
+  /** Null until the form has bands authored: then the score shows without a headline. */
   result_band: ResultBand | null;
+  /** The per-answer advice. Empty for a form whose questions carry none. */
+  recommendations: Recommendation[];
   created_at: string;
   updated_at: string;
 }
