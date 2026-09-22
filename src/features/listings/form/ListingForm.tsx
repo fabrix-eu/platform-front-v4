@@ -5,6 +5,7 @@ import { FormError, type AnyMutation } from "@/components/FieldError";
 import { SelectField } from "@/components/SelectField";
 import { TextareaField } from "@/components/TextareaField";
 import { Button } from "@/components/ui/Button";
+import type { Direction } from "../directions";
 import type { Listing, ListingPayload } from "../types";
 import { ListingShapeFields } from "./ListingShapeFields";
 import { ListingTypeFields } from "./ListingTypeFields";
@@ -16,6 +17,8 @@ interface ListingFormProps {
   organizations: MeOrganization[];
   defaultOrganizationId?: string;
   defaultType?: string;
+  /** Fixed by the caller — hides the offered/wanted question. See ListingShapeFields. */
+  direction?: Direction;
   /** The photos field — its uploads work differently on create and on edit. */
   images: ReactNode;
   busy?: boolean;
@@ -40,6 +43,7 @@ export function ListingForm({
   organizations,
   defaultOrganizationId,
   defaultType,
+  direction,
   images,
   busy,
   id,
@@ -110,7 +114,7 @@ export function ListingForm({
           <input type="hidden" name="organization_id" value={defaultOrganizationId} />
         ))}
 
-      <ListingShapeFields listing={listing} />
+      <ListingShapeFields listing={listing} direction={direction} />
 
       <ListingTypeFields
         mutation={mutation}
