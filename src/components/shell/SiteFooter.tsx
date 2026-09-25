@@ -33,7 +33,7 @@ export function SiteFooter() {
           </div>
           <nav aria-label="FABRIX project" className="flex flex-wrap gap-x-5 gap-y-2 text-fx-small font-bold text-fx-ink2 md:ml-auto">
             {/* The only internal one: the manual is a page of this app, not of the project site. */}
-            <Link to="/manual/$page" params={{ page: "getting-started" }} className={linkClass}>
+            <Link to="/manual" className={linkClass}>
               User manual
             </Link>
             {[...LINKS, ...SOCIAL].map((link) => (
