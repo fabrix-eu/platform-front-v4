@@ -96,7 +96,7 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
       )}
 
       <Group label="Resources">
-        <NavLink to="/manual/$page" params={{ page: "getting-started" }} icon={BookOpen}>User manual</NavLink>
+        <NavLink to="/manual" icon={BookOpen}>User manual</NavLink>
         {canSeeCityData(me) && <NavLink to="/data" icon={Database}>Data</NavLink>}
       </Group>
 

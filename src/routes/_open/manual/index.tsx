@@ -1,10 +1,12 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { MANUAL_PAGES } from "@/features/manual/contents";
+import { createFileRoute } from "@tanstack/react-router";
+import { ManualLayout } from "@/features/manual/ManualLayout";
+import { Overview } from "@/features/manual/pages/Overview";
 
-// The manual opens on its first page rather than on a table of contents the side
-// nav already shows.
+// The manual opens on its plan: four sections, each for one kind of need.
 export const Route = createFileRoute("/_open/manual/")({
-  beforeLoad: () => {
-    throw redirect({ to: "/manual/$page", params: { page: MANUAL_PAGES[0] } });
-  },
+  component: () => (
+    <ManualLayout>
+      <Overview />
+    </ManualLayout>
+  ),
 });
