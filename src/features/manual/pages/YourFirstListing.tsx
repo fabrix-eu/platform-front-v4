@@ -96,7 +96,8 @@ export function YourFirstListing() {
           </p>
           <p>
             <strong>Quantity</strong> and <strong>Available until</strong> are optional. Both are shown on
-            the listing as they are; a date does not close the listing by itself when it passes.
+            the listing as they are. Once the date passes, the listing leaves the marketplace by itself; set
+            a later date from Edit listing to bring it back.
           </p>
           <Figure src={`${SHOT}04-describe.png`} alt="Title, description, quantity and available-until fields, filled in" />
         </Step>
