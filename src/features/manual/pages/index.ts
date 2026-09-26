@@ -18,6 +18,7 @@ import { ManageNotifications } from "./ManageNotifications";
 import { ManageYourListings } from "./ManageYourListings";
 import { ManageYourTeam } from "./ManageYourTeam";
 import { PublishAListing } from "./PublishAListing";
+import { RelationTypes } from "./RelationTypes";
 import { ResetYourPassword } from "./ResetYourPassword";
 import { RolesAndPermissions } from "./RolesAndPermissions";
 import { RunYourNetwork } from "./RunYourNetwork";
@@ -58,6 +59,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "send-feedback": SendFeedback,
   "roles-and-permissions": RolesAndPermissions,
   "listing-fields": ListingFields,
+  "relation-types": RelationTypes,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
