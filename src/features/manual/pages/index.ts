@@ -12,6 +12,7 @@ import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
 import { DataSources } from "./DataSources";
 import { DeleteYourAccount } from "./DeleteYourAccount";
+import { FacilitatorsAndNetworks } from "./FacilitatorsAndNetworks";
 import { FindOrganisations } from "./FindOrganisations";
 import { FollowAnOrganisation } from "./FollowAnOrganisation";
 import { GettingStarted } from "./GettingStarted";
@@ -76,6 +77,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "people-and-organisations": PeopleAndOrganisations,
   "claimed-and-unclaimed": ClaimedAndUnclaimed,
   "what-is-visible": WhatIsVisible,
+  "facilitators-and-networks": FacilitatorsAndNetworks,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
