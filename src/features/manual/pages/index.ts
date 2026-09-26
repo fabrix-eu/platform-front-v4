@@ -4,6 +4,7 @@ import { AddAnEvent } from "./AddAnEvent";
 import { AddAPartner } from "./AddAPartner";
 import { AttendAnEvent } from "./AttendAnEvent";
 import { BringYourPartners } from "./BringYourPartners";
+import { ClaimedAndUnclaimed } from "./ClaimedAndUnclaimed";
 import { ClaimYourOrganisation } from "./ClaimYourOrganisation";
 import { CompassQuestionnaires } from "./CompassQuestionnaires";
 import { CompleteTheCompass } from "./CompleteTheCompass";
@@ -72,6 +73,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "data-sources": DataSources,
   "how-the-network-grows": HowTheNetworkGrows,
   "people-and-organisations": PeopleAndOrganisations,
+  "claimed-and-unclaimed": ClaimedAndUnclaimed,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
