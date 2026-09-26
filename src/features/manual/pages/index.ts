@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import type { ManualPage } from "../contents";
 import { BringYourPartners } from "./BringYourPartners";
+import { ClaimYourOrganisation } from "./ClaimYourOrganisation";
 import { CreateAnAccount } from "./CreateAnAccount";
 import { DeleteYourAccount } from "./DeleteYourAccount";
 import { GettingStarted } from "./GettingStarted";
@@ -22,6 +23,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "reset-your-password": ResetYourPassword,
   "manage-notifications": ManageNotifications,
   "delete-your-account": DeleteYourAccount,
+  "claim-your-organisation": ClaimYourOrganisation,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
