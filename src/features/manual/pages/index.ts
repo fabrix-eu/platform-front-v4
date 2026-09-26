@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import type { ManualPage } from "../contents";
 import { BringYourPartners } from "./BringYourPartners";
 import { ClaimYourOrganisation } from "./ClaimYourOrganisation";
+import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
 import { DeleteYourAccount } from "./DeleteYourAccount";
 import { GettingStarted } from "./GettingStarted";
@@ -24,6 +25,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "manage-notifications": ManageNotifications,
   "delete-your-account": DeleteYourAccount,
   "claim-your-organisation": ClaimYourOrganisation,
+  "complete-your-profile": CompleteYourProfile,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
