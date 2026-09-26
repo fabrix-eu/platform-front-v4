@@ -13,6 +13,7 @@ import { FindOrganisations } from "./FindOrganisations";
 import { FollowAnOrganisation } from "./FollowAnOrganisation";
 import { GettingStarted } from "./GettingStarted";
 import { JoinAnOrganisation } from "./JoinAnOrganisation";
+import { ListingFields } from "./ListingFields";
 import { ManageNotifications } from "./ManageNotifications";
 import { ManageYourListings } from "./ManageYourListings";
 import { ManageYourTeam } from "./ManageYourTeam";
@@ -56,6 +57,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "follow-an-organisation": FollowAnOrganisation,
   "send-feedback": SendFeedback,
   "roles-and-permissions": RolesAndPermissions,
+  "listing-fields": ListingFields,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
