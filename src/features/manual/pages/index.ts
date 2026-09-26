@@ -9,6 +9,7 @@ import { CompassQuestionnaires } from "./CompassQuestionnaires";
 import { CompleteTheCompass } from "./CompleteTheCompass";
 import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
+import { DataSources } from "./DataSources";
 import { DeleteYourAccount } from "./DeleteYourAccount";
 import { FindOrganisations } from "./FindOrganisations";
 import { FollowAnOrganisation } from "./FollowAnOrganisation";
@@ -66,6 +67,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "notification-types": NotificationTypes,
   "compass-questionnaires": CompassQuestionnaires,
   "network-records": NetworkRecords,
+  "data-sources": DataSources,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
