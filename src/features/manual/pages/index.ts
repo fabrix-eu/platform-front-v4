@@ -13,6 +13,7 @@ import { ManageYourTeam } from "./ManageYourTeam";
 import { PublishAListing } from "./PublishAListing";
 import { ResetYourPassword } from "./ResetYourPassword";
 import { WhatYouDo } from "./WhatYouDo";
+import { SearchTheMarketplace } from "./SearchTheMarketplace";
 import { YourFirstListing } from "./YourFirstListing";
 import { YourProfile } from "./YourProfile";
 
@@ -34,6 +35,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "join-an-organisation": JoinAnOrganisation,
   "publish-a-listing": PublishAListing,
   "manage-your-listings": ManageYourListings,
+  "search-the-marketplace": SearchTheMarketplace,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
