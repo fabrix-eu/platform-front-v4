@@ -14,6 +14,7 @@ import { DeleteYourAccount } from "./DeleteYourAccount";
 import { FindOrganisations } from "./FindOrganisations";
 import { FollowAnOrganisation } from "./FollowAnOrganisation";
 import { GettingStarted } from "./GettingStarted";
+import { HowTheNetworkGrows } from "./HowTheNetworkGrows";
 import { JoinAnOrganisation } from "./JoinAnOrganisation";
 import { ListingFields } from "./ListingFields";
 import { ManageNotifications } from "./ManageNotifications";
@@ -68,6 +69,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "compass-questionnaires": CompassQuestionnaires,
   "network-records": NetworkRecords,
   "data-sources": DataSources,
+  "how-the-network-grows": HowTheNetworkGrows,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
