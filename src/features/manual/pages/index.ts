@@ -1,5 +1,7 @@
 import type { ComponentType } from "react";
 import type { ManualPage } from "../contents";
+import { AddAnEvent } from "./AddAnEvent";
+import { AttendAnEvent } from "./AttendAnEvent";
 import { BringYourPartners } from "./BringYourPartners";
 import { ClaimYourOrganisation } from "./ClaimYourOrganisation";
 import { CompleteYourProfile } from "./CompleteYourProfile";
@@ -36,6 +38,8 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "publish-a-listing": PublishAListing,
   "manage-your-listings": ManageYourListings,
   "search-the-marketplace": SearchTheMarketplace,
+  "add-an-event": AddAnEvent,
+  "attend-an-event": AttendAnEvent,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
