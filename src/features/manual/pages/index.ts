@@ -5,6 +5,7 @@ import { AddAPartner } from "./AddAPartner";
 import { AttendAnEvent } from "./AttendAnEvent";
 import { BringYourPartners } from "./BringYourPartners";
 import { ClaimYourOrganisation } from "./ClaimYourOrganisation";
+import { CompassQuestionnaires } from "./CompassQuestionnaires";
 import { CompleteTheCompass } from "./CompleteTheCompass";
 import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
@@ -62,6 +63,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "listing-fields": ListingFields,
   "relation-types": RelationTypes,
   "notification-types": NotificationTypes,
+  "compass-questionnaires": CompassQuestionnaires,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
