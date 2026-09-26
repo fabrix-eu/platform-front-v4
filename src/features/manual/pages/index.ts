@@ -5,6 +5,7 @@ import { AddAPartner } from "./AddAPartner";
 import { AttendAnEvent } from "./AttendAnEvent";
 import { BringYourPartners } from "./BringYourPartners";
 import { ClaimYourOrganisation } from "./ClaimYourOrganisation";
+import { CompleteTheCompass } from "./CompleteTheCompass";
 import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
 import { DeleteYourAccount } from "./DeleteYourAccount";
@@ -46,6 +47,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "find-organisations": FindOrganisations,
   "add-a-partner": AddAPartner,
   "send-a-message": SendAMessage,
+  "complete-the-compass": CompleteTheCompass,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
