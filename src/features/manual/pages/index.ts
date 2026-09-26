@@ -29,6 +29,7 @@ import { RelationTypes } from "./RelationTypes";
 import { ResetYourPassword } from "./ResetYourPassword";
 import { RolesAndPermissions } from "./RolesAndPermissions";
 import { RunYourNetwork } from "./RunYourNetwork";
+import { WhatIsVisible } from "./WhatIsVisible";
 import { WhatYouDo } from "./WhatYouDo";
 import { SearchTheMarketplace } from "./SearchTheMarketplace";
 import { SendAMessage } from "./SendAMessage";
@@ -74,6 +75,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "how-the-network-grows": HowTheNetworkGrows,
   "people-and-organisations": PeopleAndOrganisations,
   "claimed-and-unclaimed": ClaimedAndUnclaimed,
+  "what-is-visible": WhatIsVisible,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
