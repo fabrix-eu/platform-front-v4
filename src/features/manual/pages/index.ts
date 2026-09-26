@@ -17,6 +17,7 @@ import { ListingFields } from "./ListingFields";
 import { ManageNotifications } from "./ManageNotifications";
 import { ManageYourListings } from "./ManageYourListings";
 import { ManageYourTeam } from "./ManageYourTeam";
+import { NotificationTypes } from "./NotificationTypes";
 import { PublishAListing } from "./PublishAListing";
 import { RelationTypes } from "./RelationTypes";
 import { ResetYourPassword } from "./ResetYourPassword";
@@ -60,6 +61,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "roles-and-permissions": RolesAndPermissions,
   "listing-fields": ListingFields,
   "relation-types": RelationTypes,
+  "notification-types": NotificationTypes,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
