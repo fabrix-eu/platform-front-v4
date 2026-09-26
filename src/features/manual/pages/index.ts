@@ -22,6 +22,7 @@ import { RunYourNetwork } from "./RunYourNetwork";
 import { WhatYouDo } from "./WhatYouDo";
 import { SearchTheMarketplace } from "./SearchTheMarketplace";
 import { SendAMessage } from "./SendAMessage";
+import { SendFeedback } from "./SendFeedback";
 import { YourFirstListing } from "./YourFirstListing";
 import { YourProfile } from "./YourProfile";
 
@@ -52,6 +53,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "complete-the-compass": CompleteTheCompass,
   "run-your-network": RunYourNetwork,
   "follow-an-organisation": FollowAnOrganisation,
+  "send-feedback": SendFeedback,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
