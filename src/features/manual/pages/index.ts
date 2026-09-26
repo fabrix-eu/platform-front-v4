@@ -18,6 +18,7 @@ import { ManageYourListings } from "./ManageYourListings";
 import { ManageYourTeam } from "./ManageYourTeam";
 import { PublishAListing } from "./PublishAListing";
 import { ResetYourPassword } from "./ResetYourPassword";
+import { RolesAndPermissions } from "./RolesAndPermissions";
 import { RunYourNetwork } from "./RunYourNetwork";
 import { WhatYouDo } from "./WhatYouDo";
 import { SearchTheMarketplace } from "./SearchTheMarketplace";
@@ -54,6 +55,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "run-your-network": RunYourNetwork,
   "follow-an-organisation": FollowAnOrganisation,
   "send-feedback": SendFeedback,
+  "roles-and-permissions": RolesAndPermissions,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
