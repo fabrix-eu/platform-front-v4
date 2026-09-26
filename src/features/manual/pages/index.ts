@@ -7,6 +7,7 @@ import { ClaimYourOrganisation } from "./ClaimYourOrganisation";
 import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
 import { DeleteYourAccount } from "./DeleteYourAccount";
+import { FindOrganisations } from "./FindOrganisations";
 import { GettingStarted } from "./GettingStarted";
 import { JoinAnOrganisation } from "./JoinAnOrganisation";
 import { ManageNotifications } from "./ManageNotifications";
@@ -40,6 +41,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "search-the-marketplace": SearchTheMarketplace,
   "add-an-event": AddAnEvent,
   "attend-an-event": AttendAnEvent,
+  "find-organisations": FindOrganisations,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
