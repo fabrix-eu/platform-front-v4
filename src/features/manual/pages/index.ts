@@ -10,6 +10,7 @@ import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
 import { DeleteYourAccount } from "./DeleteYourAccount";
 import { FindOrganisations } from "./FindOrganisations";
+import { FollowAnOrganisation } from "./FollowAnOrganisation";
 import { GettingStarted } from "./GettingStarted";
 import { JoinAnOrganisation } from "./JoinAnOrganisation";
 import { ManageNotifications } from "./ManageNotifications";
@@ -17,6 +18,7 @@ import { ManageYourListings } from "./ManageYourListings";
 import { ManageYourTeam } from "./ManageYourTeam";
 import { PublishAListing } from "./PublishAListing";
 import { ResetYourPassword } from "./ResetYourPassword";
+import { RunYourNetwork } from "./RunYourNetwork";
 import { WhatYouDo } from "./WhatYouDo";
 import { SearchTheMarketplace } from "./SearchTheMarketplace";
 import { SendAMessage } from "./SendAMessage";
@@ -48,6 +50,8 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "add-a-partner": AddAPartner,
   "send-a-message": SendAMessage,
   "complete-the-compass": CompleteTheCompass,
+  "run-your-network": RunYourNetwork,
+  "follow-an-organisation": FollowAnOrganisation,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
