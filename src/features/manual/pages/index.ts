@@ -18,6 +18,7 @@ import { ListingFields } from "./ListingFields";
 import { ManageNotifications } from "./ManageNotifications";
 import { ManageYourListings } from "./ManageYourListings";
 import { ManageYourTeam } from "./ManageYourTeam";
+import { NetworkRecords } from "./NetworkRecords";
 import { NotificationTypes } from "./NotificationTypes";
 import { PublishAListing } from "./PublishAListing";
 import { RelationTypes } from "./RelationTypes";
@@ -64,6 +65,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "relation-types": RelationTypes,
   "notification-types": NotificationTypes,
   "compass-questionnaires": CompassQuestionnaires,
+  "network-records": NetworkRecords,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
