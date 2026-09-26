@@ -7,6 +7,7 @@ import { CreateAnAccount } from "./CreateAnAccount";
 import { DeleteYourAccount } from "./DeleteYourAccount";
 import { GettingStarted } from "./GettingStarted";
 import { ManageNotifications } from "./ManageNotifications";
+import { ManageYourTeam } from "./ManageYourTeam";
 import { ResetYourPassword } from "./ResetYourPassword";
 import { WhatYouDo } from "./WhatYouDo";
 import { YourFirstListing } from "./YourFirstListing";
@@ -26,6 +27,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "delete-your-account": DeleteYourAccount,
   "claim-your-organisation": ClaimYourOrganisation,
   "complete-your-profile": CompleteYourProfile,
+  "manage-your-team": ManageYourTeam,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
