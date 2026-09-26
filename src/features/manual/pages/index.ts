@@ -22,6 +22,7 @@ import { ManageYourListings } from "./ManageYourListings";
 import { ManageYourTeam } from "./ManageYourTeam";
 import { NetworkRecords } from "./NetworkRecords";
 import { NotificationTypes } from "./NotificationTypes";
+import { PeopleAndOrganisations } from "./PeopleAndOrganisations";
 import { PublishAListing } from "./PublishAListing";
 import { RelationTypes } from "./RelationTypes";
 import { ResetYourPassword } from "./ResetYourPassword";
@@ -70,6 +71,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "network-records": NetworkRecords,
   "data-sources": DataSources,
   "how-the-network-grows": HowTheNetworkGrows,
+  "people-and-organisations": PeopleAndOrganisations,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
