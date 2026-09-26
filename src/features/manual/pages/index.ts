@@ -30,6 +30,7 @@ import { RelationTypes } from "./RelationTypes";
 import { ResetYourPassword } from "./ResetYourPassword";
 import { RolesAndPermissions } from "./RolesAndPermissions";
 import { RunYourNetwork } from "./RunYourNetwork";
+import { TheImpactCompass } from "./TheImpactCompass";
 import { WhatIsVisible } from "./WhatIsVisible";
 import { WhatYouDo } from "./WhatYouDo";
 import { SearchTheMarketplace } from "./SearchTheMarketplace";
@@ -78,6 +79,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "claimed-and-unclaimed": ClaimedAndUnclaimed,
   "what-is-visible": WhatIsVisible,
   "facilitators-and-networks": FacilitatorsAndNetworks,
+  "the-impact-compass": TheImpactCompass,
   "your-profile": YourProfile,
   "what-you-do": WhatYouDo,
 };
