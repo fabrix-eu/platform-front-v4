@@ -39,7 +39,7 @@ export function DangerZone() {
         </DialogTrigger>
         <DialogContent
           title="Delete your account?"
-          description="This cannot be undone. Your profile and your messages go with it."
+          description="This cannot be undone. Your profile goes with it; what you wrote for an organisation stays in its conversations, without your name."
           footer={
             <div className="flex flex-wrap justify-end gap-3">
               <DialogClose asChild>
