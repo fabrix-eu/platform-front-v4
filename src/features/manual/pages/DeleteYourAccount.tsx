@@ -10,7 +10,7 @@ const OUTCOMES = [
   ["You share the organisation with colleagues", "It carries on without you. If you were its only owner, the longest-standing member becomes owner, so nobody is locked out."],
   ["You are its only member", "The organisation goes back to the directory as an unclaimed profile. Its listings and its Compass answers are deleted; the entry itself stays, with its connections, so partners who declared a link to it keep it."],
   ["You have several organisations", "Each one is settled on its own, by the same two rules."],
-  ["Everything personal", "Your profile, your messages, your notifications and your preferences go with the account."],
+  ["Everything personal", "Your profile, your notifications, your preferences, and the conversations you held as a person go with the account. Messages you wrote for an organisation stay in its conversations, signed “Someone”."],
 ];
 
 /** A how-to for a rare, irreversible action: what it does to what you leave behind. */
