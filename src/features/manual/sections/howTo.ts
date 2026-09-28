@@ -120,6 +120,12 @@ export const howTo: ManualSection = {
       summary: "Open an organisation's record, assess its health and needs, and log what you did with it.",
     },
     {
+      area: "Data",
+      page: "explore-the-data",
+      label: "Explore the city data",
+      summary: "Draw a pilot city's textile industry from its business register, by activity, year and density.",
+    },
+    {
       area: "Feedback",
       page: "send-feedback",
       label: "Send feedback",

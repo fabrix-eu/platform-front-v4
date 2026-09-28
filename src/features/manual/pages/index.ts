@@ -12,6 +12,7 @@ import { CompleteYourProfile } from "./CompleteYourProfile";
 import { CreateAnAccount } from "./CreateAnAccount";
 import { DataSources } from "./DataSources";
 import { DeleteYourAccount } from "./DeleteYourAccount";
+import { ExploreTheData } from "./ExploreTheData";
 import { FacilitatorsAndNetworks } from "./FacilitatorsAndNetworks";
 import { FindOrganisations } from "./FindOrganisations";
 import { FollowAnOrganisation } from "./FollowAnOrganisation";
@@ -66,6 +67,7 @@ export const PAGES: Partial<Record<ManualPage, ComponentType>> = {
   "complete-the-compass": CompleteTheCompass,
   "run-your-network": RunYourNetwork,
   "follow-an-organisation": FollowAnOrganisation,
+  "explore-the-data": ExploreTheData,
   "send-feedback": SendFeedback,
   "roles-and-permissions": RolesAndPermissions,
   "listing-fields": ListingFields,
