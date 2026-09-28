@@ -11,7 +11,7 @@ const ESSENTIALS = [
   ["Address", "Section A, picked from the suggestions — the point on the map."],
   ["A way to contact you", "Section A: a website, a general email or a phone number. One is enough."],
   ["Your part in the making process", "Your organisation's type: producer, recycler, designer… Set when it was created."],
-  ["One sector", "Section B. Not editable from the profile yet: it is set when the organisation is created, so a claimed profile may show it missing."],
+  ["One sector", "Section B. A word or two — most organisations put Textile & clothing."],
   ["How many people work here", "Section C. The number stays private; only the EU size band it falls in is used."],
 ];
 
@@ -63,7 +63,16 @@ export function CompleteYourProfile() {
           <Figure src={`${SHOT}03-identity.png`} alt="The Identity section open: name, description, address, contacts, kind, legal form and VAT number" />
         </Step>
 
-        <Step n={4} title="C · Size &amp; reach">
+        <Step n={4} title="B · What you do">
+          <p>
+            Your sector, then your specialties: the areas you work in, by category and sub-category, in the
+            same vocabulary as the Marketplace. Searches and matches run on them, so the more precise the
+            better. Both are public.
+          </p>
+          <Figure src={`${SHOT}06-what-you-do.png`} alt="The What you do section open: the sector field, then the specialties as pills by category, with the chosen categories refined below" />
+        </Step>
+
+        <Step n={5} title="C · Size &amp; reach">
           <p>
             How many people work here, how long you have been going, and a yearly turnover band. These are
             private: the Directory only ever uses the size band, and the Compass uses them to compare you
@@ -72,7 +81,7 @@ export function CompleteYourProfile() {
           <Figure src={`${SHOT}04-size-reach.png`} alt="The Size & reach section open: number of people, development stage, turnover band" />
         </Step>
 
-        <Step n={5} title="Photos &amp; media">
+        <Step n={6} title="Photos &amp; media">
           <p>
             A logo, a banner, and a gallery of photos with a caption each — JPG, PNG or WebP. This section
             does not count in the ring, but it is the first thing a partner looks at. Make sure people shown
@@ -89,9 +98,7 @@ export function CompleteYourProfile() {
       <FactList rows={STATUSES} />
 
       <Banner tone="info" label="Not yet editable" className="mt-10">
-        <strong>B · What you do</strong> and <strong>E · Certifications</strong> show what you set when the
-        organisation was created and cannot be changed from the editor yet. If yours is wrong, write to the
-        FABRIX team. The vocabulary itself is in{" "}
+        <strong>E · Certifications</strong> has no form yet. The vocabulary of section B is in{" "}
         <Link to="/manual/$page" params={{ page: "what-you-do" }} className={link}>
           What you do
         </Link>

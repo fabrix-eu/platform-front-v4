@@ -6,7 +6,7 @@ import { CATEGORIES_BY_TYPE, categoryLabel, LISTING_TYPE_META, LISTING_TYPES, su
 
 // Specialties share the listing taxonomy: a partner who searches "sorting" finds both
 // the listings and the organisations that do it. Values travel as hidden `specialties` inputs.
-export function SpecialtiesField({ initial = [] }: { initial?: string[] }) {
+export function SpecialtiesField({ initial = [], legend = "What you do" }: { initial?: string[]; legend?: string }) {
   // Multi-select with dependent children: local state, mirrored into FormData.
   const [selected, setSelected] = useState<string[]>(initial);
   const has = (value: string) => selected.includes(value);
@@ -19,7 +19,7 @@ export function SpecialtiesField({ initial = [] }: { initial?: string[] }) {
 
   return (
     <fieldset>
-      <legend className={labelClass}>What you do</legend>
+      <legend className={labelClass}>{legend}</legend>
       <p className="text-fx-small text-fx-muted">Pick the areas you work in, then refine. Partners and facilitators find you by them.</p>
 
       <div className="mt-5 space-y-6">
