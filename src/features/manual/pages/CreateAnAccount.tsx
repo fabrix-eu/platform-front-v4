@@ -60,18 +60,20 @@ export function CreateAnAccount() {
         <Step n={5} title="Confirm your email">
           <p>
             Creating the account does not sign you in. We send a verification email; open the link inside to
-            confirm the address is yours, then sign in with the email and password you chose.
+            confirm the address is yours, then sign in with the email and password you chose. Until you do,
+            signing in is refused: the page says so and offers to send the link again.
           </p>
           <Figure src={`${SHOT}06-check-inbox.png`} alt="Check your inbox: the page shown after creating the account" />
           <Figure src={`${SHOT}07-verified.png`} alt="Email verified: your account is active, you can sign in now" caption="After the link. Sign in with the email and password you chose." />
+          <Figure src={`${SHOT}08-verify-first.png`} alt="Sign in refused: a notice asks to verify the email address first, with a Send it again button" caption="Before the link: the sign-in page refuses, and Send it again sends a fresh one." />
         </Step>
       </ol>
 
       <Eyebrow className="mt-12 mb-3">If something goes wrong</Eyebrow>
       <FactList
         rows={[
-          ["The email never came", "Check the spam folder first. There is no button to send it again yet — write to the FABRIX team, who can confirm the address for you."],
-          ["The link says Invalid", "Verification links expire. Ask the FABRIX team for a new one."],
+          ["The email never came", "Check the spam folder first. Then press Send it again — on the Check your inbox page, or on the sign-in page after it refused you. One resend a minute; the previous links stop working."],
+          ["The link says Invalid", "A link lasts 24 hours, and asking for a new one cancels the older ones. Get a fresh one from the sign-in page: enter your email and password, then Send it again."],
           ["Wrong organisation", "A claim on the wrong profile can be left to be rejected; a created organisation can be given back later from its Team tab."],
         ]}
       />

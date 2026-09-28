@@ -4,10 +4,16 @@ const API_BASE =
 
 // `errors` is usually { field: [msg] }, but some endpoints (registrations/with_organization)
 // render a bare string — it becomes a `base` error so FormError still shows it.
-type ErrorBody = { error?: string | { message?: string }; errors?: Record<string, string[]> | string };
+type ErrorBody = {
+  error?: string | { message?: string };
+  errors?: Record<string, string[]> | string;
+  /** A machine-readable reason next to some errors (e.g. `email_unverified` on sign-in). */
+  code?: string;
+};
 
 export class ApiError extends Error {
   status: number;
+  code?: string;
   errors: Record<string, string[]>;
 
   constructor(status: number, data: ErrorBody) {
@@ -16,6 +22,7 @@ export class ApiError extends Error {
     super(message ?? "Request failed");
     this.name = "ApiError";
     this.status = status;
+    this.code = data.code;
     this.errors = typeof data.errors === "string" ? { base: [data.errors] } : (data.errors ?? {});
   }
 }

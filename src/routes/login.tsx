@@ -5,6 +5,8 @@ import { Field } from "@/components/Field";
 import { FormError } from "@/components/FieldError";
 import { AuthShell, linkClass, submitClass } from "@/features/auth/AuthShell";
 import { PasswordInput } from "@/features/auth/PasswordInput";
+import { ResendVerification } from "@/features/auth/ResendVerification";
+import { isUnverified } from "@/features/auth/api";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -16,6 +18,7 @@ function LoginPage() {
     mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
     onSuccess: () => navigate({ to: "/" }),
   });
+  const unverified = isUnverified(mutation.error);
 
   return (
     <AuthShell
@@ -37,7 +40,13 @@ function LoginPage() {
           mutation.mutate({ email: String(fd.get("email")).trim(), password: String(fd.get("password")) });
         }}
       >
-        <FormError mutation={mutation} />
+        {unverified ? (
+          <div className="mb-4">
+            <ResendVerification email={mutation.variables?.email} reason={mutation.error?.message} />
+          </div>
+        ) : (
+          <FormError mutation={mutation} />
+        )}
         <Field label="Email" name="email" type="email" required autoComplete="email" mutation={mutation} />
         <PasswordInput
           name="password"
