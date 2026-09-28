@@ -34,6 +34,7 @@ export const MANUAL_PAGES = [
   "complete-the-compass",
   "run-your-network",
   "follow-an-organisation",
+  "explore-the-data",
   "send-feedback",
   // Reference
   "your-profile",
