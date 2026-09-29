@@ -1,4 +1,4 @@
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import type { OrganizationDraft } from "@/features/organizations/types";
 
 export interface RegisterParams {
@@ -27,6 +27,15 @@ export function registerWithClaim(user: RegisterParams, organizationId: string):
 export function verifyEmail(token: string): Promise<{ message: string }> {
   return api.get("/registrations/verify", { token });
 }
+
+// Always 200, whether or not the address has an unverified account behind it.
+export function resendVerification(email: string): Promise<void> {
+  return api.post("/registrations/resend_verification", { email });
+}
+
+/** Sign-in refused because the address was never confirmed (the password was right). */
+export const isUnverified = (error: Error | null): boolean =>
+  error instanceof ApiError && error.code === "email_unverified";
 
 // The API always answers 200 here, whether or not the email exists.
 export function requestPasswordReset(email: string): Promise<void> {
