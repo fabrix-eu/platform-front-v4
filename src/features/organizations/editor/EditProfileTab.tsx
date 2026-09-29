@@ -10,11 +10,13 @@ import { IdentityForm } from "./sections/IdentityForm";
 import { OffersNeedsForm } from "./sections/OffersNeedsForm";
 import { PhotosMediaForm } from "./sections/PhotosMediaForm";
 import { SizeReachForm } from "./sections/SizeReachForm";
+import { WhatYouDoForm } from "./sections/WhatYouDoForm";
 import type { EditorSectionKey } from "./search";
 
 // The sections built so far; the others show a "comes next" placeholder.
 const FORMS: Partial<Record<EditorSectionKey, (props: { org: OrganizationProfile }) => ReactNode>> = {
   identity: IdentityForm,
+  "what-you-do": WhatYouDoForm,
   "size-reach": SizeReachForm,
   "offers-needs": OffersNeedsForm,
   photos: PhotosMediaForm,
