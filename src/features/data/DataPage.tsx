@@ -73,8 +73,8 @@ export function DataPage({ search, onChange }: DataPageProps) {
         {CITIES.map((key) => (
           <TabLink
             key={key}
-            from="/data"
-            to="/data"
+            from="/data/map"
+            to="/data/map"
             search={(prev) => ({ ...prev, city: key, cats: undefined })}
             active={city.key === key}
             resetScroll={false}
