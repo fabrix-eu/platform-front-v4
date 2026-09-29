@@ -8,7 +8,8 @@ const SHOT = "/manual/reset-your-password/";
 
 const TROUBLE = [
   ["No email", "Check the spam folder, and the address you typed: the page says “Check your inbox” whether or not an account exists with it, so a typo looks like success. Ask again with the right address."],
-  ["Invalid link", "A reset link works once and for two hours. After that, the page says so and offers a new link."],
+  ["Invalid link", "A reset link works once and for two hours, and asking for a new one cancels the older ones. After that, the page says so and offers a new link."],
+  ["Still signed in elsewhere", "Resetting the password signs out every other device: each is asked to sign in again within a day at most."],
   ["Passwords do not match", "The form says which field is wrong, in place. Retype both."],
 ];
 
@@ -35,7 +36,8 @@ export function ResetYourPassword() {
         <Step n={2} title="Open the link and choose a new password">
           <p>
             The email carries a link to <em>Reset your password</em>. Type the new password twice and press{" "}
-            <strong>Reset password</strong>. The link is good for two hours.
+            <strong>Reset password</strong>. The link is good for two hours, and only the latest one you asked
+            for works. Once changed, every other device is signed out.
           </p>
           <Figure src={`${SHOT}03-reset.png`} alt="Reset your password: new password and confirmation" />
           <Figure src={`${SHOT}04-changed.png`} alt="Password changed: you can sign in with it now" caption="Done. Sign in with the new password." />
