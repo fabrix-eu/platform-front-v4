@@ -7,8 +7,9 @@ import { dataSearchSchema } from "@/features/data/search";
 // These registers name individual businesses with their address, so they are open to
 // the people who study the ecosystem — admins, facilitators, and accounts with no
 // organisation — and not to the organisations competing inside it. The API refuses the
-// same people; this only saves them a page that would answer 403.
-export const Route = createFileRoute("/_auth/data")({
+// same people; this only saves them a page that would answer 403. The presentation of the
+// data, open to everyone, is /data.
+export const Route = createFileRoute("/_auth/data/map")({
   validateSearch: dataSearchSchema,
   beforeLoad: async ({ context }) => {
     const me = await context.queryClient.ensureQueryData(meQueryOptions);

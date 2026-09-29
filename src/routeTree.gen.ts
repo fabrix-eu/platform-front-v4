@@ -21,13 +21,13 @@ import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as VerifyInstructionsRouteImport } from './routes/verify-instructions'
 import { Route as AuthOrgSlugRouteImport } from './routes/_auth/$orgSlug'
 import { Route as AuthAdminRouteImport } from './routes/_auth/admin'
-import { Route as AuthDataRouteImport } from './routes/_auth/data'
 import { Route as AuthFacilitatorRouteImport } from './routes/_auth/facilitator'
 import { Route as AuthGlobalRouteImport } from './routes/_auth/global'
 import { Route as AuthHomeRouteImport } from './routes/_auth/home'
 import { Route as AuthMessagesRouteImport } from './routes/_auth/messages'
 import { Route as AuthNotificationsRouteImport } from './routes/_auth/notifications'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
+import { Route as OpenDataRouteImport } from './routes/_open/data'
 import { Route as AuthOrgSlugDashboardRouteImport } from './routes/_auth/$orgSlug/dashboard'
 import { Route as AuthOrgSlugListingsRouteImport } from './routes/_auth/$orgSlug/listings'
 import { Route as AuthOrgSlugMessagesRouteImport } from './routes/_auth/$orgSlug/messages'
@@ -38,6 +38,7 @@ import { Route as AuthAdminClaimsRouteImport } from './routes/_auth/admin/claims
 import { Route as AuthAdminFeedbacksRouteImport } from './routes/_auth/admin/feedbacks'
 import { Route as AuthAdminNetworksRouteImport } from './routes/_auth/admin/networks'
 import { Route as AuthAdminOrganizationsRouteImport } from './routes/_auth/admin/organizations'
+import { Route as AuthDataMapRouteImport } from './routes/_auth/data.map'
 import { Route as AuthFacilitatorIndexRouteImport } from './routes/_auth/facilitator/index'
 import { Route as AuthFacilitatorNetworkSlugRouteImport } from './routes/_auth/facilitator/$networkSlug'
 import { Route as AuthMarketplaceNewRouteImport } from './routes/_auth/marketplace/new'
@@ -114,11 +115,6 @@ const AuthAdminRoute = AuthAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthDataRoute = AuthDataRouteImport.update({
-  id: '/data',
-  path: '/data',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthFacilitatorRoute = AuthFacilitatorRouteImport.update({
   id: '/facilitator',
   path: '/facilitator',
@@ -148,6 +144,11 @@ const AuthSettingsRoute = AuthSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => AuthRoute,
+} as any)
+const OpenDataRoute = OpenDataRouteImport.update({
+  id: '/data',
+  path: '/data',
+  getParentRoute: () => OpenRoute,
 } as any)
 const AuthOrgSlugDashboardRoute = AuthOrgSlugDashboardRouteImport.update({
   id: '/dashboard',
@@ -198,6 +199,11 @@ const AuthAdminOrganizationsRoute = AuthAdminOrganizationsRouteImport.update({
   id: '/organizations',
   path: '/organizations',
   getParentRoute: () => AuthAdminRoute,
+} as any)
+const AuthDataMapRoute = AuthDataMapRouteImport.update({
+  id: '/data/map',
+  path: '/data/map',
+  getParentRoute: () => AuthRoute,
 } as any)
 const AuthFacilitatorIndexRoute = AuthFacilitatorIndexRouteImport.update({
   id: '/',
@@ -302,13 +308,13 @@ export interface FileRoutesByFullPath {
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
   '/admin': typeof AuthAdminRouteWithChildren
-  '/data': typeof AuthDataRoute
   '/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/global': typeof AuthGlobalRoute
   '/home': typeof AuthHomeRoute
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
+  '/data': typeof OpenDataRoute
   '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -318,6 +324,7 @@ export interface FileRoutesByFullPath {
   '/admin/feedbacks': typeof AuthAdminFeedbacksRoute
   '/admin/networks': typeof AuthAdminNetworksRoute
   '/admin/organizations': typeof AuthAdminOrganizationsRoute
+  '/data/map': typeof AuthDataMapRoute
   '/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
@@ -347,12 +354,12 @@ export interface FileRoutesByTo {
   '/verify-email': typeof VerifyEmailRoute
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/$orgSlug': typeof AuthOrgSlugRouteWithChildren
-  '/data': typeof AuthDataRoute
   '/global': typeof AuthGlobalRoute
   '/home': typeof AuthHomeRoute
   '/messages': typeof AuthMessagesRoute
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
+  '/data': typeof OpenDataRoute
   '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -362,6 +369,7 @@ export interface FileRoutesByTo {
   '/admin/feedbacks': typeof AuthAdminFeedbacksRoute
   '/admin/networks': typeof AuthAdminNetworksRoute
   '/admin/organizations': typeof AuthAdminOrganizationsRoute
+  '/data/map': typeof AuthDataMapRoute
   '/marketplace/new': typeof AuthMarketplaceNewRoute
   '/organizations/new': typeof AuthOrganizationsNewRoute
   '/events/$eventId': typeof OpenEventsEventIdRoute
@@ -394,13 +402,13 @@ export interface FileRoutesById {
   '/verify-instructions': typeof VerifyInstructionsRoute
   '/_auth/$orgSlug': typeof AuthOrgSlugRouteWithChildren
   '/_auth/admin': typeof AuthAdminRouteWithChildren
-  '/_auth/data': typeof AuthDataRoute
   '/_auth/facilitator': typeof AuthFacilitatorRouteWithChildren
   '/_auth/global': typeof AuthGlobalRoute
   '/_auth/home': typeof AuthHomeRoute
   '/_auth/messages': typeof AuthMessagesRoute
   '/_auth/notifications': typeof AuthNotificationsRoute
   '/_auth/settings': typeof AuthSettingsRoute
+  '/_open/data': typeof OpenDataRoute
   '/_auth/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/_auth/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/_auth/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -410,6 +418,7 @@ export interface FileRoutesById {
   '/_auth/admin/feedbacks': typeof AuthAdminFeedbacksRoute
   '/_auth/admin/networks': typeof AuthAdminNetworksRoute
   '/_auth/admin/organizations': typeof AuthAdminOrganizationsRoute
+  '/_auth/data/map': typeof AuthDataMapRoute
   '/_auth/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugRouteWithChildren
   '/_auth/marketplace/new': typeof AuthMarketplaceNewRoute
   '/_auth/organizations/new': typeof AuthOrganizationsNewRoute
@@ -442,13 +451,13 @@ export interface FileRouteTypes {
     | '/verify-instructions'
     | '/$orgSlug'
     | '/admin'
-    | '/data'
     | '/facilitator'
     | '/global'
     | '/home'
     | '/messages'
     | '/notifications'
     | '/settings'
+    | '/data'
     | '/$orgSlug/dashboard'
     | '/$orgSlug/listings'
     | '/$orgSlug/messages'
@@ -458,6 +467,7 @@ export interface FileRouteTypes {
     | '/admin/feedbacks'
     | '/admin/networks'
     | '/admin/organizations'
+    | '/data/map'
     | '/facilitator/$networkSlug'
     | '/marketplace/new'
     | '/organizations/new'
@@ -487,12 +497,12 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/verify-instructions'
     | '/$orgSlug'
-    | '/data'
     | '/global'
     | '/home'
     | '/messages'
     | '/notifications'
     | '/settings'
+    | '/data'
     | '/$orgSlug/dashboard'
     | '/$orgSlug/listings'
     | '/$orgSlug/messages'
@@ -502,6 +512,7 @@ export interface FileRouteTypes {
     | '/admin/feedbacks'
     | '/admin/networks'
     | '/admin/organizations'
+    | '/data/map'
     | '/marketplace/new'
     | '/organizations/new'
     | '/events/$eventId'
@@ -533,13 +544,13 @@ export interface FileRouteTypes {
     | '/verify-instructions'
     | '/_auth/$orgSlug'
     | '/_auth/admin'
-    | '/_auth/data'
     | '/_auth/facilitator'
     | '/_auth/global'
     | '/_auth/home'
     | '/_auth/messages'
     | '/_auth/notifications'
     | '/_auth/settings'
+    | '/_open/data'
     | '/_auth/$orgSlug/dashboard'
     | '/_auth/$orgSlug/listings'
     | '/_auth/$orgSlug/messages'
@@ -549,6 +560,7 @@ export interface FileRouteTypes {
     | '/_auth/admin/feedbacks'
     | '/_auth/admin/networks'
     | '/_auth/admin/organizations'
+    | '/_auth/data/map'
     | '/_auth/facilitator/$networkSlug'
     | '/_auth/marketplace/new'
     | '/_auth/organizations/new'
@@ -668,13 +680,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/data': {
-      id: '/_auth/data'
-      path: '/data'
-      fullPath: '/data'
-      preLoaderRoute: typeof AuthDataRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/facilitator': {
       id: '/_auth/facilitator'
       path: '/facilitator'
@@ -716,6 +721,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings'
       preLoaderRoute: typeof AuthSettingsRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/_open/data': {
+      id: '/_open/data'
+      path: '/data'
+      fullPath: '/data'
+      preLoaderRoute: typeof OpenDataRouteImport
+      parentRoute: typeof OpenRoute
     }
     '/_auth/$orgSlug/dashboard': {
       id: '/_auth/$orgSlug/dashboard'
@@ -786,6 +798,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/organizations'
       preLoaderRoute: typeof AuthAdminOrganizationsRouteImport
       parentRoute: typeof AuthAdminRoute
+    }
+    '/_auth/data/map': {
+      id: '/_auth/data/map'
+      path: '/data/map'
+      fullPath: '/data/map'
+      preLoaderRoute: typeof AuthDataMapRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/facilitator/': {
       id: '/_auth/facilitator/'
@@ -989,13 +1008,13 @@ const AuthFacilitatorRouteWithChildren = AuthFacilitatorRoute._addFileChildren(
 interface AuthRouteChildren {
   AuthOrgSlugRoute: typeof AuthOrgSlugRouteWithChildren
   AuthAdminRoute: typeof AuthAdminRouteWithChildren
-  AuthDataRoute: typeof AuthDataRoute
   AuthFacilitatorRoute: typeof AuthFacilitatorRouteWithChildren
   AuthGlobalRoute: typeof AuthGlobalRoute
   AuthHomeRoute: typeof AuthHomeRoute
   AuthMessagesRoute: typeof AuthMessagesRoute
   AuthNotificationsRoute: typeof AuthNotificationsRoute
   AuthSettingsRoute: typeof AuthSettingsRoute
+  AuthDataMapRoute: typeof AuthDataMapRoute
   AuthMarketplaceNewRoute: typeof AuthMarketplaceNewRoute
   AuthOrganizationsNewRoute: typeof AuthOrganizationsNewRoute
   AuthMarketplaceIdEditRoute: typeof AuthMarketplaceIdEditRoute
@@ -1004,13 +1023,13 @@ interface AuthRouteChildren {
 const AuthRouteChildren: AuthRouteChildren = {
   AuthOrgSlugRoute: AuthOrgSlugRouteWithChildren,
   AuthAdminRoute: AuthAdminRouteWithChildren,
-  AuthDataRoute: AuthDataRoute,
   AuthFacilitatorRoute: AuthFacilitatorRouteWithChildren,
   AuthGlobalRoute: AuthGlobalRoute,
   AuthHomeRoute: AuthHomeRoute,
   AuthMessagesRoute: AuthMessagesRoute,
   AuthNotificationsRoute: AuthNotificationsRoute,
   AuthSettingsRoute: AuthSettingsRoute,
+  AuthDataMapRoute: AuthDataMapRoute,
   AuthMarketplaceNewRoute: AuthMarketplaceNewRoute,
   AuthOrganizationsNewRoute: AuthOrganizationsNewRoute,
   AuthMarketplaceIdEditRoute: AuthMarketplaceIdEditRoute,
@@ -1019,6 +1038,7 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface OpenRouteChildren {
+  OpenDataRoute: typeof OpenDataRoute
   OpenEventsEventIdRoute: typeof OpenEventsEventIdRoute
   OpenManualPageRoute: typeof OpenManualPageRoute
   OpenMarketplaceIdRoute: typeof OpenMarketplaceIdRoute
@@ -1029,6 +1049,7 @@ interface OpenRouteChildren {
 }
 
 const OpenRouteChildren: OpenRouteChildren = {
+  OpenDataRoute: OpenDataRoute,
   OpenEventsEventIdRoute: OpenEventsEventIdRoute,
   OpenManualPageRoute: OpenManualPageRoute,
   OpenMarketplaceIdRoute: OpenMarketplaceIdRoute,

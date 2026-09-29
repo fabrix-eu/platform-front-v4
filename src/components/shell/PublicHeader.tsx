@@ -7,6 +7,7 @@ const NAV = [
   { to: "/marketplace", label: "Marketplace" },
   { to: "/events", label: "Events" },
   { to: "/manual", label: "User Manual" },
+  { to: "/data", label: "Data" },
 ] as const;
 
 const LINK = "text-fx-nav font-medium whitespace-nowrap text-fx-ink2 transition hover:text-fx-ink";

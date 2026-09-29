@@ -97,7 +97,7 @@ export function NavSections({ me, currentOrg, counts }: NavSectionsProps) {
 
       <Group label="Resources">
         <NavLink to="/manual" icon={BookOpen}>User manual</NavLink>
-        {canSeeCityData(me) && <NavLink to="/data" icon={Database}>Data</NavLink>}
+        {canSeeCityData(me) && <NavLink to="/data/map" icon={Database}>Data</NavLink>}
       </Group>
 
       {isAdmin(me) && (

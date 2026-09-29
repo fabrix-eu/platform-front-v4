@@ -14,7 +14,7 @@ const CONTROLS = [
 ];
 
 const RULES = [
-  ["Who sees it", "Facilitators, the FABRIX team, and accounts without an organisation — viewers. Members of an organisation do not have the Data entry in their sidebar."],
+  ["Who sees it", "Facilitators, the FABRIX team, and accounts without an organisation — viewers. Members of an organisation do not have the Data entry in their sidebar. The public Data page, open to everyone, presents the datasets and takes requests for extracts without showing the map."],
   ["Shareable", "City, year, activities, cells and secondary-activity choice are all in the page's address: a view can be sent as a link."],
   ["Not on FABRIX", "These are registered businesses, not platform members. Nothing links a dot to a profile, and there is no export."],
 ];

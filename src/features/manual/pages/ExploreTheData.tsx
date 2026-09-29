@@ -36,7 +36,9 @@ export function ExploreTheData() {
 
       <Banner tone="info" label="Who has it" className="mt-6">
         <strong>Data</strong> appears in the sidebar, under Resources, for facilitators, the FABRIX team
-        and accounts without an organisation. Members of an organisation do not see it.
+        and accounts without an organisation. Members of an organisation do not see it. The public{" "}
+        <strong>Data</strong> page, in the top bar next to the manual, presents the datasets to everyone and
+        takes requests for extracts; the map behind it is this page.
       </Banner>
 
       <ol className="mt-8 flex flex-col gap-4">
