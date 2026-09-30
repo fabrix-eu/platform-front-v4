@@ -16,6 +16,3 @@ dist-ssr
 
 # TS build info
 *.tsbuildinfo
-
-# platform-back feature specs build the SPA here (spec/support/system_test_setup.rb)
-dist-test
