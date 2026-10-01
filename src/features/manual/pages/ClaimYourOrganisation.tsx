@@ -25,9 +25,11 @@ export function ClaimYourOrganisation() {
 
       <Banner tone="info" label="Invited?" className="mt-6">
         If a partner added your organisation and gave your email, you received an invitation to claim it.
-        The path is the same as below: sign up or sign in, find the profile, claim it. Mention the partner
-        in your message — it makes the review immediate.
+        Open its link: with no account yet, you create one there and the profile is yours at once; signed
+        in with that address, one click does it. No review — the partner vouched for you. The rest of this
+        page is for a profile nobody invited you to.
       </Banner>
+      <Figure src={`${SHOT}03-invitation.png`} alt="The claim invitation page: who added the organisation and named you, the invited email, and the account form that claims the profile" caption="The invitation's link. One form: your name and a password, and the profile is yours." />
 
       <ol className="mt-8 flex flex-col gap-4">
         <Step n={1} title="Find the profile">

@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/lib/auth";
 import { Field } from "@/components/Field";
@@ -9,14 +10,18 @@ import { ResendVerification } from "@/features/auth/ResendVerification";
 import { isUnverified } from "@/features/auth/api";
 
 export const Route = createFileRoute("/login")({
+  // Where to go once signed in: an invitation page sends its visitor here and wants them back.
+  // A path of this app only — anything else falls back to the home.
+  validateSearch: z.object({ redirect: z.string().regex(/^\/[^/]/).optional() }),
   component: LoginPage,
 });
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
   const mutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
-    onSuccess: () => navigate({ to: "/" }),
+    onSuccess: () => (redirect ? navigate({ href: redirect }) : navigate({ to: "/" })),
   });
   const unverified = isUnverified(mutation.error);
 

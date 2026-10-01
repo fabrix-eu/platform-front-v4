@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as OpenRouteImport } from './routes/_open'
+import { Route as ClaimOrganizationRouteImport } from './routes/claim-organization'
 import { Route as DesignRouteImport } from './routes/design'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as NetworkInvitationRouteImport } from './routes/network-invitation'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
@@ -28,6 +30,7 @@ import { Route as AuthMessagesRouteImport } from './routes/_auth/messages'
 import { Route as AuthNotificationsRouteImport } from './routes/_auth/notifications'
 import { Route as AuthSettingsRouteImport } from './routes/_auth/settings'
 import { Route as OpenDataRouteImport } from './routes/_open/data'
+import { Route as InvitationsTokenRouteImport } from './routes/invitations.$token'
 import { Route as AuthOrgSlugDashboardRouteImport } from './routes/_auth/$orgSlug/dashboard'
 import { Route as AuthOrgSlugListingsRouteImport } from './routes/_auth/$orgSlug/listings'
 import { Route as AuthOrgSlugMessagesRouteImport } from './routes/_auth/$orgSlug/messages'
@@ -70,6 +73,11 @@ const OpenRoute = OpenRouteImport.update({
   id: '/_open',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClaimOrganizationRoute = ClaimOrganizationRouteImport.update({
+  id: '/claim-organization',
+  path: '/claim-organization',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DesignRoute = DesignRouteImport.update({
   id: '/design',
   path: '/design',
@@ -83,6 +91,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NetworkInvitationRoute = NetworkInvitationRouteImport.update({
+  id: '/network-invitation',
+  path: '/network-invitation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -149,6 +162,11 @@ const OpenDataRoute = OpenDataRouteImport.update({
   id: '/data',
   path: '/data',
   getParentRoute: () => OpenRoute,
+} as any)
+const InvitationsTokenRoute = InvitationsTokenRouteImport.update({
+  id: '/invitations/$token',
+  path: '/invitations/$token',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthOrgSlugDashboardRoute = AuthOrgSlugDashboardRouteImport.update({
   id: '/dashboard',
@@ -299,9 +317,11 @@ const AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/claim-organization': typeof ClaimOrganizationRoute
   '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/network-invitation': typeof NetworkInvitationRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -315,6 +335,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
   '/data': typeof OpenDataRoute
+  '/invitations/$token': typeof InvitationsTokenRoute
   '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -346,9 +367,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/claim-organization': typeof ClaimOrganizationRoute
   '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/network-invitation': typeof NetworkInvitationRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -360,6 +383,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthNotificationsRoute
   '/settings': typeof AuthSettingsRoute
   '/data': typeof OpenDataRoute
+  '/invitations/$token': typeof InvitationsTokenRoute
   '/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -393,9 +417,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_open': typeof OpenRouteWithChildren
+  '/claim-organization': typeof ClaimOrganizationRoute
   '/design': typeof DesignRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/network-invitation': typeof NetworkInvitationRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -409,6 +435,7 @@ export interface FileRoutesById {
   '/_auth/notifications': typeof AuthNotificationsRoute
   '/_auth/settings': typeof AuthSettingsRoute
   '/_open/data': typeof OpenDataRoute
+  '/invitations/$token': typeof InvitationsTokenRoute
   '/_auth/$orgSlug/dashboard': typeof AuthOrgSlugDashboardRoute
   '/_auth/$orgSlug/listings': typeof AuthOrgSlugListingsRoute
   '/_auth/$orgSlug/messages': typeof AuthOrgSlugMessagesRoute
@@ -442,9 +469,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/claim-organization'
     | '/design'
     | '/forgot-password'
     | '/login'
+    | '/network-invitation'
     | '/register'
     | '/reset-password'
     | '/verify-email'
@@ -458,6 +487,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/settings'
     | '/data'
+    | '/invitations/$token'
     | '/$orgSlug/dashboard'
     | '/$orgSlug/listings'
     | '/$orgSlug/messages'
@@ -489,9 +519,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/claim-organization'
     | '/design'
     | '/forgot-password'
     | '/login'
+    | '/network-invitation'
     | '/register'
     | '/reset-password'
     | '/verify-email'
@@ -503,6 +535,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/settings'
     | '/data'
+    | '/invitations/$token'
     | '/$orgSlug/dashboard'
     | '/$orgSlug/listings'
     | '/$orgSlug/messages'
@@ -535,9 +568,11 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_open'
+    | '/claim-organization'
     | '/design'
     | '/forgot-password'
     | '/login'
+    | '/network-invitation'
     | '/register'
     | '/reset-password'
     | '/verify-email'
@@ -551,6 +586,7 @@ export interface FileRouteTypes {
     | '/_auth/notifications'
     | '/_auth/settings'
     | '/_open/data'
+    | '/invitations/$token'
     | '/_auth/$orgSlug/dashboard'
     | '/_auth/$orgSlug/listings'
     | '/_auth/$orgSlug/messages'
@@ -585,13 +621,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
   OpenRoute: typeof OpenRouteWithChildren
+  ClaimOrganizationRoute: typeof ClaimOrganizationRoute
   DesignRoute: typeof DesignRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  NetworkInvitationRoute: typeof NetworkInvitationRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
   VerifyInstructionsRoute: typeof VerifyInstructionsRoute
+  InvitationsTokenRoute: typeof InvitationsTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -617,6 +656,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/claim-organization': {
+      id: '/claim-organization'
+      path: '/claim-organization'
+      fullPath: '/claim-organization'
+      preLoaderRoute: typeof ClaimOrganizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/design': {
       id: '/design'
       path: '/design'
@@ -636,6 +682,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/network-invitation': {
+      id: '/network-invitation'
+      path: '/network-invitation'
+      fullPath: '/network-invitation'
+      preLoaderRoute: typeof NetworkInvitationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -728,6 +781,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/data'
       preLoaderRoute: typeof OpenDataRouteImport
       parentRoute: typeof OpenRoute
+    }
+    '/invitations/$token': {
+      id: '/invitations/$token'
+      path: '/invitations/$token'
+      fullPath: '/invitations/$token'
+      preLoaderRoute: typeof InvitationsTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_auth/$orgSlug/dashboard': {
       id: '/_auth/$orgSlug/dashboard'
@@ -1065,13 +1125,16 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   OpenRoute: OpenRouteWithChildren,
+  ClaimOrganizationRoute: ClaimOrganizationRoute,
   DesignRoute: DesignRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  NetworkInvitationRoute: NetworkInvitationRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   VerifyEmailRoute: VerifyEmailRoute,
   VerifyInstructionsRoute: VerifyInstructionsRoute,
+  InvitationsTokenRoute: InvitationsTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
