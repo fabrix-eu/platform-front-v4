@@ -59,6 +59,7 @@ import { Route as AuthOrgSlugSettingsMembersRouteImport } from './routes/_auth/$
 import { Route as AuthFacilitatorNetworkSlugIndexRouteImport } from './routes/_auth/facilitator/$networkSlug/index'
 import { Route as AuthMarketplaceIdEditRouteImport } from './routes/_auth/marketplace/$id.edit'
 import { Route as AuthFacilitatorNetworkSlugOrganizationsRecordIdRouteImport } from './routes/_auth/facilitator/$networkSlug/organizations/$recordId'
+import { Route as AuthFacilitatorNetworkSlugOrganizationsNewRouteImport } from './routes/_auth/facilitator/$networkSlug/organizations/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -314,6 +315,12 @@ const AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute =
     path: '/organizations/$recordId',
     getParentRoute: () => AuthFacilitatorNetworkSlugRoute,
   } as any)
+const AuthFacilitatorNetworkSlugOrganizationsNewRoute =
+  AuthFacilitatorNetworkSlugOrganizationsNewRouteImport.update({
+    id: '/organizations/new',
+    path: '/organizations/new',
+    getParentRoute: () => AuthFacilitatorNetworkSlugRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -364,6 +371,7 @@ export interface FileRoutesByFullPath {
   '/$orgSlug/assessments/': typeof AuthOrgSlugAssessmentsIndexRoute
   '/facilitator/$networkSlug/': typeof AuthFacilitatorNetworkSlugIndexRoute
   '/facilitator/$networkSlug/organizations/$recordId': typeof AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute
+  '/facilitator/$networkSlug/organizations/new': typeof AuthFacilitatorNetworkSlugOrganizationsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -411,6 +419,7 @@ export interface FileRoutesByTo {
   '/$orgSlug/assessments': typeof AuthOrgSlugAssessmentsIndexRoute
   '/facilitator/$networkSlug': typeof AuthFacilitatorNetworkSlugIndexRoute
   '/facilitator/$networkSlug/organizations/$recordId': typeof AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute
+  '/facilitator/$networkSlug/organizations/new': typeof AuthFacilitatorNetworkSlugOrganizationsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -464,6 +473,7 @@ export interface FileRoutesById {
   '/_auth/$orgSlug/assessments/': typeof AuthOrgSlugAssessmentsIndexRoute
   '/_auth/facilitator/$networkSlug/': typeof AuthFacilitatorNetworkSlugIndexRoute
   '/_auth/facilitator/$networkSlug/organizations/$recordId': typeof AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute
+  '/_auth/facilitator/$networkSlug/organizations/new': typeof AuthFacilitatorNetworkSlugOrganizationsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -516,6 +526,7 @@ export interface FileRouteTypes {
     | '/$orgSlug/assessments/'
     | '/facilitator/$networkSlug/'
     | '/facilitator/$networkSlug/organizations/$recordId'
+    | '/facilitator/$networkSlug/organizations/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -563,6 +574,7 @@ export interface FileRouteTypes {
     | '/$orgSlug/assessments'
     | '/facilitator/$networkSlug'
     | '/facilitator/$networkSlug/organizations/$recordId'
+    | '/facilitator/$networkSlug/organizations/new'
   id:
     | '__root__'
     | '/'
@@ -615,6 +627,7 @@ export interface FileRouteTypes {
     | '/_auth/$orgSlug/assessments/'
     | '/_auth/facilitator/$networkSlug/'
     | '/_auth/facilitator/$networkSlug/organizations/$recordId'
+    | '/_auth/facilitator/$networkSlug/organizations/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -985,6 +998,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthFacilitatorNetworkSlugOrganizationsRecordIdRouteImport
       parentRoute: typeof AuthFacilitatorNetworkSlugRoute
     }
+    '/_auth/facilitator/$networkSlug/organizations/new': {
+      id: '/_auth/facilitator/$networkSlug/organizations/new'
+      path: '/organizations/new'
+      fullPath: '/facilitator/$networkSlug/organizations/new'
+      preLoaderRoute: typeof AuthFacilitatorNetworkSlugOrganizationsNewRouteImport
+      parentRoute: typeof AuthFacilitatorNetworkSlugRoute
+    }
   }
 }
 
@@ -1037,6 +1057,7 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 interface AuthFacilitatorNetworkSlugRouteChildren {
   AuthFacilitatorNetworkSlugIndexRoute: typeof AuthFacilitatorNetworkSlugIndexRoute
   AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute: typeof AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute
+  AuthFacilitatorNetworkSlugOrganizationsNewRoute: typeof AuthFacilitatorNetworkSlugOrganizationsNewRoute
 }
 
 const AuthFacilitatorNetworkSlugRouteChildren: AuthFacilitatorNetworkSlugRouteChildren =
@@ -1044,6 +1065,8 @@ const AuthFacilitatorNetworkSlugRouteChildren: AuthFacilitatorNetworkSlugRouteCh
     AuthFacilitatorNetworkSlugIndexRoute: AuthFacilitatorNetworkSlugIndexRoute,
     AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute:
       AuthFacilitatorNetworkSlugOrganizationsRecordIdRoute,
+    AuthFacilitatorNetworkSlugOrganizationsNewRoute:
+      AuthFacilitatorNetworkSlugOrganizationsNewRoute,
   }
 
 const AuthFacilitatorNetworkSlugRouteWithChildren =

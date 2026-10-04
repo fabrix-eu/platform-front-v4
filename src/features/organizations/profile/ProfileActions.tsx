@@ -1,6 +1,7 @@
 import { MessageSquare, Pencil, Plus } from "lucide-react";
 import type { MeOrganization, User } from "@/lib/auth";
 import { Button, ButtonLink } from "@/components/ui/Button";
+import { AddToNetworkButton } from "@/features/facilitator/add/AddToNetworkButton";
 import { ContactOrganizationDialog } from "@/features/messages/ContactOrganizationDialog";
 import type { OrganizationProfile } from "../types";
 import { ClaimDialog } from "./ClaimDialog";
@@ -58,6 +59,7 @@ export function ProfileActions({ org, me, membership }: ProfileActionsProps) {
         />
       )}
       {org.claimed ? <JoinRequestDialog org={org} /> : <ClaimDialog org={org} />}
+      {me.networks.length > 0 && <AddToNetworkButton organizationId={org.id} networks={me.networks} />}
     </div>
   );
 }

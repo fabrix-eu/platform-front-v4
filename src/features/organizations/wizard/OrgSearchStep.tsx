@@ -13,6 +13,8 @@ interface OrgSearchStepProps {
   onPick: (organization: OrganizationSummary) => void;
   onCreate: (name: string) => void;
   placeholder?: string;
+  /** Before two letters are typed: what searching first is for. */
+  hint?: string;
   /** Under the results — e.g. "I'm not part of an organisation". */
   footer?: ReactNode;
 }
@@ -20,7 +22,13 @@ interface OrgSearchStepProps {
 const ROW = "flex w-full items-center gap-3 rounded-fx border p-3 text-left transition focus-visible:ring-3 focus-visible:ring-fx-emphasis-soft focus-visible:outline-none";
 
 // Search first, create last: the organisation may already be on FABRIX, waiting to be claimed.
-export function OrgSearchStep({ onPick, onCreate, placeholder = "Type your organisation's name", footer }: OrgSearchStepProps) {
+export function OrgSearchStep({
+  onPick,
+  onCreate,
+  placeholder = "Type your organisation's name",
+  hint = "Type at least two letters. If it is already on FABRIX, you can claim it instead of creating it again.",
+  footer,
+}: OrgSearchStepProps) {
   // Ephemeral: what is being typed (a wizard step, not a shareable view).
   const [term, setTerm] = useState("");
   const debounced = useDebounced(term.trim(), 300);
@@ -32,7 +40,7 @@ export function OrgSearchStep({ onPick, onCreate, placeholder = "Type your organ
       <SearchInput autoFocus value={term} onChange={(e) => setTerm(e.currentTarget.value)} placeholder={placeholder} aria-label="Organisation name" />
 
       {!ready ? (
-        <p className="text-fx-small text-fx-muted">Type at least two letters. If it is already on FABRIX, you can claim it instead of creating it again.</p>
+        <p className="text-fx-small text-fx-muted">{hint}</p>
       ) : (
         <ul className="space-y-2" aria-busy={query.isFetching}>
           {query.isPending && <li className="text-fx-small text-fx-muted">Searching…</li>}
