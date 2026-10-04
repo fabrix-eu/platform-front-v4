@@ -1,10 +1,12 @@
 import { lazy, Suspense } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
+import { Plus } from "lucide-react";
 import { useDebounced } from "@/lib/useDebounced";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
+import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { InfiniteScrollSentinel } from "@/features/explore/InfiniteScrollSentinel";
@@ -23,6 +25,15 @@ interface OrganisationsTabProps {
   network: Network;
   search: NetworkSearch;
   onChange: (patch: Partial<NetworkSearch>) => void;
+}
+
+function AddButton({ networkSlug }: { networkSlug: string }) {
+  return (
+    <ButtonLink to="/facilitator/$networkSlug/organizations/new" params={{ networkSlug }}>
+      <Plus className="size-4" strokeWidth={2.6} />
+      Add an organisation
+    </ButtonLink>
+  );
 }
 
 function Cards({ networkSlug, records }: { networkSlug: string; records: NetworkOrganization[] }) {
@@ -80,7 +91,10 @@ export function OrganisationsTab({ network, search, onChange }: OrganisationsTab
             ? "The whole network"
             : `${total == null ? "…" : total} organisation${total === 1 ? "" : "s"}${hasOrgFilters(search) ? " matching your filters" : ""}`}
         </p>
-        <ViewToggle view={view} onChange={(next) => onChange({ org_view: next === "table" ? undefined : next })} />
+        <div className="flex flex-wrap items-center gap-3">
+          <ViewToggle view={view} onChange={(next) => onChange({ org_view: next === "table" ? undefined : next })} />
+          <AddButton networkSlug={network.slug} />
+        </div>
       </div>
 
       <OrganisationFilters search={search} onChange={onChange} />
@@ -109,6 +123,7 @@ export function OrganisationsTab({ network, search, onChange }: OrganisationsTab
               ? "No organisation in this network matches these filters."
               : "Add the organisations this network follows to keep their data, your notes and your interactions in one place."
           }
+          action={hasOrgFilters(search) ? undefined : <AddButton networkSlug={network.slug} />}
         />
       ) : view === "map" ? (
         <div className="h-[32rem] overflow-hidden rounded-fx-lg border border-fx-line">
