@@ -70,7 +70,7 @@ export function CompleteYourProfile() {
             support others who make things, then the materials you work with. The Directory filters on your
             place in the chain, and your badge shows it, so the more precise the better. All are public.
           </p>
-          <Figure src={`${SHOT}06-what-you-do.png`} alt="The What you do section open: the sector field, then the specialties as pills by category, with the chosen categories refined below" />
+          <Figure src={`${SHOT}06-what-you-do.png`} alt="The What you do section open: the stages of the value chain, the supporting roles, then the materials" />
         </Step>
 
         <Step n={5} title="C · Size &amp; reach">
