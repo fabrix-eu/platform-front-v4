@@ -5,6 +5,7 @@ import type { OrganizationProfile } from "../../types";
 import { FormGroup } from "./FormGroup";
 import { ImageSlot } from "./ImageSlot";
 import { PhotoGallery } from "./PhotoGallery";
+import { VideoLinksForm } from "./VideoLinksForm";
 
 const publicBadge = (
   <Badge tone="teal">
@@ -13,9 +14,8 @@ const publicBadge = (
   </Badge>
 );
 
-// Photos & media — on existing attributes: the photo gallery, the logo (image_url) and
-// the banner (cover_url). Each change saves on its own: there is no form to submit.
-// The prototype's video links and documents have no field on the API yet.
+// Photos & media — the photo gallery, video links, the logo (image_url) and the banner
+// (cover_url). Each saves on its own. The prototype's documents are not built yet.
 export function PhotosMediaForm({ org }: { org: OrganizationProfile }) {
   return (
     <div className="space-y-7">
@@ -34,6 +34,10 @@ export function PhotosMediaForm({ org }: { org: OrganizationProfile }) {
             </span>
           </span>
         </Banner>
+      </FormGroup>
+
+      <FormGroup title="Videos" description="Link to a video hosted elsewhere — it plays from there." aside={publicBadge}>
+        <VideoLinksForm org={org} />
       </FormGroup>
 
       <FormGroup title="Logo & banner" description="How you show up in the Directory, on the Marketplace and at the top of your profile." aside={publicBadge}>

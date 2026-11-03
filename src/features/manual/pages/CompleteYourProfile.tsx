@@ -10,8 +10,8 @@ const ESSENTIALS = [
   ["Name", "Section A. The name partners search for."],
   ["Address", "Section A, picked from the suggestions — the point on the map."],
   ["A way to contact you", "Section A: a website, a general email or a phone number. One is enough."],
-  ["Your part in the making process", "Your organisation's type: producer, recycler, designer… Set when it was created."],
-  ["One sector", "Section B. A word or two — most organisations put Textile & clothing."],
+  ["Your part in the making process", "Section B: where you come in the making process, how you support others — or that you only support."],
+  ["One sector", "Section B. Picked from the list — most organisations pick Textile & clothing."],
   ["How many people work here", "Section C. The number stays private; only the EU size band it falls in is used."],
 ];
 
@@ -55,26 +55,29 @@ export function CompleteYourProfile() {
 
         <Step n={3} title="A · Identity">
           <p>
-            Name and description, the address picked from suggestions, then contacts: website, general
-            email, phone, LinkedIn, Instagram. Below, what kind of organisation you are (company, non-profit,
-            cooperative…), its legal form and VAT number. The section is public; the legal form and the VAT
-            number are not displayed on your page. Press <strong>Save identity</strong> at the bottom.
+            Name, a one-line summary and the longer story, the address picked from suggestions — with the
+            site name if you are one site of a larger organisation — then contacts: website, general email,
+            phone, LinkedIn, Instagram. Below, what kind of organisation you are (company, non-profit,
+            cooperative…), the year it started, and your registration and VAT numbers — or that you have
+            neither, which is an answer too. Press <strong>Save identity</strong> at the bottom.
           </p>
           <Figure src={`${SHOT}03-identity.png`} alt="The Identity section open: name, description, address, contacts, kind, legal form and VAT number" />
         </Step>
 
         <Step n={4} title="B · What you do">
           <p>
-            Your sector, then your specialties: the areas you work in, by category and sub-category, in the
-            same vocabulary as the Marketplace. Searches and matches run on them, so the more precise the
-            better. Both are public.
+            Where you come in the making process — from raw materials to collection and recovery — and how
+            you support others who make things. Then your sectors, the materials you work with, and your
+            specialties, in the same vocabulary as the Marketplace. Searches and matches run on them, so the
+            more precise the better. All are public. Your organisation type follows from these answers.
           </p>
           <Figure src={`${SHOT}06-what-you-do.png`} alt="The What you do section open: the sector field, then the specialties as pills by category, with the chosen categories refined below" />
         </Step>
 
         <Step n={5} title="C · Size &amp; reach">
           <p>
-            How many people work here, how long you have been going, and a yearly turnover band. These are
+            How many people work here and in full-time equivalent, how long you have been going, a yearly
+            turnover band, and how far your customers reach. These are
             private: the Directory only ever uses the size band, and the Compass uses them to compare you
             with organisations like yours.
           </p>

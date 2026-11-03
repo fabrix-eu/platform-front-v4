@@ -43,7 +43,8 @@ export function YourProfile() {
       <Eyebrow className="mt-10 mb-3">What your organisation is</Eyebrow>
       <p className="text-fx-body text-fx-ink2">
         Your organisation has one nature, shown next to its name. It says what you <em>are</em> — where the
-        areas you pick under <em>What you do</em> say what you <em>make, offer or need</em>.
+        areas you pick under <em>What you do</em> say what you <em>make, offer or need</em>. You do not pick
+        it: it follows from where you come in the making process and how you support others.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
         {Object.entries(ORG_KIND_LABELS).map(([kind, label]) => (
