@@ -8,7 +8,7 @@ const SHOT = "/manual/run-your-network/";
 
 const TABS = [
   ["Overview", "The network's description, three numbers — organisations followed, open tasks, overdue — the next tasks up, and the territory: its centre, its radius, who runs it."],
-  ["Organisations", "The organisations you follow: a table, cards, a map of their addresses over your territory, or a graph of the connections between them. Filters by type, speciality, economic health, country and workforce."],
+  ["Organisations", "The organisations you follow: a table, cards, a map of their addresses over your territory, or a graph of the connections between them. Filters by stage of the value chain, supporting role, economic health, country and workforce."],
   ["Tasks", "Your team's to-do list for the network, with due dates. Overdue ones are in red; tick them done. Tasks about one organisation also show on its record."],
   ["Team", "Who has facilitator access, the people at the organisation the network is linked to who could be granted it, pending invitations, and the way to invite a co-facilitator by email."],
   ["Settings", "Name, description, the linked organisation, the territory's centre and radius. The address of the network cannot be changed once created."],

@@ -53,7 +53,7 @@ export function SearchTheMarketplace() {
             &amp; materials, Offcuts, roll-ends &amp; deadstock, within 50 km, Netherlands. Picking an activity
             reveals its categories.
           </p>
-          <Figure src={`${SHOT}02-filters.png`} alt="The filter column with Materials selected: the four categories of Materials appear, then the location choices" />
+          <Figure src={`${SHOT}02-filters.png`} alt="The filter column with Equipment, goods & materials selected: its categories appear, then the location choices" />
           <FactList rows={FILTERS} />
         </Step>
 

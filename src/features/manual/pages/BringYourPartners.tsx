@@ -85,12 +85,12 @@ export function BringYourPartners() {
 
         <Step n={5} title="Their details, and the person to invite">
           <p>
-            Their name, their type, and their <strong>address</strong> picked from the suggestions — that is
-            what puts them on the map. <strong>What you do</strong> is optional; pick what you know. Then{" "}
+            Their name, their <strong>address</strong> picked from the suggestions — that is what puts them
+            on the map — and where they sit in the value chain, or how they support it. Then{" "}
             <strong>Their email</strong>: the person who should run the profile. It is optional, but it is
             the whole point — that email is the invitation. Press <strong>Add partner</strong>.
           </p>
-          <Figure src={`${SHOT}06-details.png`} alt="The details form of a partner: name, type, address on the map, what they do, and their email" />
+          <Figure src={`${SHOT}06-details.png`} alt="The details form of a partner: name, address on the map, its place in the value chain, and their email" />
           <Figure src={`${SHOT}07-partner-added.png`} alt="Partner added: the confirmation, with Add another partner" caption="Add another partner keeps you in the flow — do the whole list while you are here." />
         </Step>
 

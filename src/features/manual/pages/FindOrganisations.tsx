@@ -47,7 +47,7 @@ export function FindOrganisations() {
 
         <Step n={2} title="Narrow it">
           <FactList rows={FILTERS} />
-          <Figure src={`${SHOT}02-kinds.png`} alt="The What they are menu open, listing the organisation types with checkboxes" caption="Types combine: tick Collector / sorter and Recycler to see the end of the chain." />
+          <Figure src={`${SHOT}02-stages.png`} alt="The In the value chain filter with 06 Use & upkeep and 07 Collection & recovery picked" caption="Stages combine: pick Use & upkeep and Collection & recovery to see the end of the chain." />
         </Step>
 
         <Step n={3} title="Read the cards, or the map">
