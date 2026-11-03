@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Avatar } from "@/components/ui/Avatar";
 import { Card } from "@/components/ui/Card";
 import { Lightbox } from "@/components/ui/Lightbox";
-import { orgKindLabel } from "../kinds";
+import { positionLabel } from "../position";
 import { relationLabel } from "../relations";
 import type { OrganizationPhoto, OrganizationProfile } from "../types";
 
@@ -91,7 +91,7 @@ export function ConnectionsSection({ org }: { org: OrganizationProfile }) {
               <span className="min-w-0">
                 <span className="block truncate text-fx-body font-bold text-fx-ink group-hover:text-fx-emphasis">{other.name}</span>
                 <span className="block truncate text-fx-small text-fx-muted">
-                  {[...new Set(labelsFor(other.id))].join(" · ") || orgKindLabel(other.kind)}
+                  {[...new Set(labelsFor(other.id))].join(" · ") || positionLabel(other)}
                 </span>
               </span>
             </Link>

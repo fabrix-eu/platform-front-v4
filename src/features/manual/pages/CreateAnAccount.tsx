@@ -42,11 +42,11 @@ export function CreateAnAccount() {
 
         <Step n={3} title="If you create it: its details">
           <p>
-            The wizard grows to three steps. <strong>Organisation name</strong>, its <strong>Type</strong>,
-            and its <strong>Address</strong> picked from the suggestions — the address is required, because
-            it is what puts you on the map. <strong>What you do</strong> can wait; it is editable later.
+            The wizard grows to three steps. <strong>Organisation name</strong>, its <strong>Address</strong>{" "}
+            picked from the suggestions — it is what puts you on the map — and where you sit in the value
+            chain: the stages you work in, or how you support the chain. At least one; you can change it later.
           </p>
-          <Figure src={`${SHOT}04-details.png`} alt="Step 2 of 3, Its details: organisation name, type and address" />
+          <Figure src={`${SHOT}04-details.png`} alt="Step 2 of 3, Its details: organisation name, address, the stages of the value chain and the supporting roles" />
         </Step>
 
         <Step n={4} title="Your account">

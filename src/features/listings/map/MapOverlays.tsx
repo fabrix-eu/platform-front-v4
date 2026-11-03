@@ -2,15 +2,16 @@ import { Link } from "@tanstack/react-router";
 import { MapPin, X } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { LISTING_TYPES, LISTING_TYPE_META, categoryLabel, typeMeta } from "../taxonomy";
+import { LISTING_TYPES, LISTING_TYPE_META, listingCategoryLabel, typeMeta } from "../taxonomy";
 import type { Listing } from "../types";
 
 const DOT: Record<string, string> = {
-  material: "bg-fx-green",
-  capacity: "bg-fx-amber",
-  service: "bg-fx-teal",
-  product: "bg-fx-rose",
-  distribution: "bg-fx-indigo",
+  materials: "bg-fx-amber",
+  capacities: "bg-fx-emphasis",
+  services: "bg-fx-teal",
+  products: "bg-fx-rose",
+  logistics: "bg-fx-ink2",
+  other: "bg-fx-muted",
 };
 
 /** What the colours on the map mean. */
@@ -55,7 +56,7 @@ export function MapSelection({ listing, onClose }: { listing: Listing; onClose: 
       >
         {listing.title}
       </Link>
-      <p className="mt-1 text-fx-small text-fx-muted">{categoryLabel(listing.category)}</p>
+      <p className="mt-1 text-fx-small text-fx-muted">{listingCategoryLabel(listing)}</p>
       <div className="mt-3 flex items-center gap-2 border-t border-fx-line pt-3">
         <Avatar name={org.name} src={org.image_url} size="sm" />
         <span className="min-w-0 flex-1">

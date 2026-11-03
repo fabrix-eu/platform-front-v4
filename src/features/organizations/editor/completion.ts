@@ -7,15 +7,17 @@ export interface Essential {
   done: boolean;
 }
 
-/** The six essentials the ring counts — nothing else counts for or against it. */
+/** The five essentials the ring counts — nothing else counts for or against it. */
 export function essentials(org: OrganizationProfile): Essential[] {
   return [
     { key: "name", label: "Name", done: !!org.name?.trim() },
     { key: "address", label: "Address", done: !!org.address && org.lat != null && org.lon != null },
     { key: "contact", label: "A way to contact you", done: !!(org.email || org.phone || org.website) },
-    // The API has no value-chain role yet: the organisation type stands in for it.
-    { key: "role", label: "Your part in the making process", done: !!org.kind },
-    { key: "sector", label: "One sector", done: !!org.sector },
+    {
+      key: "role",
+      label: "Your part in the making process",
+      done: org.value_chain_stages.length > 0 || org.support_roles.length > 0 || org.support_only,
+    },
     { key: "size", label: "How many people work here", done: org.number_of_workers != null },
   ];
 }
@@ -53,7 +55,7 @@ export function editorSections(org: OrganizationProfile): EditorSection[] {
       letter: "B",
       title: "What you do",
       group: "required",
-      status: statusOf([done.role, done.sector, org.specialties.length > 0]),
+      status: statusOf([done.role, org.materials.length > 0]),
       description:
         "How the platform knows who to put in front of you — matchmaking, and which searches you show up in. The single biggest driver of relevant matches.",
     },
@@ -62,7 +64,7 @@ export function editorSections(org: OrganizationProfile): EditorSection[] {
       letter: "C",
       title: "Size & reach",
       group: "required",
-      status: statusOf([done.size]),
+      status: statusOf([done.size, org.fte != null || org.reach_nearby_pct != null || !!org.turnover_band]),
       description: "This section helps to refine the search functions. It also supports with statistical knowledge for economic support. Exact numbers stay private.",
     },
     {
@@ -78,14 +80,14 @@ export function editorSections(org: OrganizationProfile): EditorSection[] {
       letter: "E",
       title: "Certifications",
       group: "portrait",
-      status: "not_started",
+      status: org.certifications.length > 0 ? "complete" : "not_started",
       description: 'Proof points people filter on. Add the ones you hold and you appear when someone needs exactly your credentials — "None" is a perfectly good answer.',
     },
     {
       key: "photos",
       title: "Photos & media",
       group: "portrait",
-      status: statusOf([org.organization_photos.length > 0, !!org.image_url]),
+      status: statusOf([org.organization_photos.length > 0 || org.video_urls.length > 0, !!org.image_url]),
       description: "The first thing people look at. One good photo of the workshop does more than a paragraph — the cheapest way to look real.",
     },
     {

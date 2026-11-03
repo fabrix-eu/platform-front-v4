@@ -3,7 +3,9 @@ export interface OrganizationSummary {
   id: string;
   name: string;
   slug?: string;
-  kind: string | null;
+  value_chain_stages?: string[];
+  support_roles?: string[];
+  support_roles_other?: string | null;
   address: string | null;
   image_url: string | null;
   lon: number | null;
@@ -33,7 +35,6 @@ export interface OrganizationProfile {
   name: string;
   slug: string;
   description: string | null;
-  kind: string | null;
   address: string | null;
   country_code: string | null;
   lon: number | null;
@@ -45,15 +46,37 @@ export interface OrganizationProfile {
   phone: string | null;
   linkedin: string | null;
   instagram: string | null;
-  specialties: string[];
   claimed: boolean;
   relations_count: number;
-  sector: string | null;
   legal_form: string | null;
   vat_code: string | null;
+  // The profile editor's prototype fields (Organization::OrganizationProfile on the API).
+  tagline: string | null;
+  site_name: string | null;
+  site_relation: string | null;
+  founded_year: number | null;
+  registration_number: string | null;
+  no_identifier: boolean;
+  no_identifier_description: string | null;
+  support_only: boolean;
+  value_chain_stages: string[];
+  support_roles: string[];
+  support_roles_other: string | null;
+  materials: string[];
+  certifications: string[];
+  video_urls: string[];
+  /** EU size class of the headcount — the only size the public sees. */
+  size_band: string | null;
   // Private data: only returned to members and system admins (absent for everyone else).
+  /** Another profile shares the registration number: site name and relation become required. */
+  registration_shared?: boolean;
   number_of_workers?: number | null;
-  turnover?: number | null;
+  fte?: number | null;
+  turnover_band?: string | null;
+  reach_nearby_pct?: number | null;
+  reach_region_pct?: number | null;
+  reach_continent_pct?: number | null;
+  reach_world_pct?: number | null;
   development_stage?: string | null;
   nace_code?: string | null;
   secondary_nace_codes?: string[] | null;
@@ -67,13 +90,14 @@ export interface OrganizationProfile {
   profile_completion?: { sections: Record<string, boolean>; completed: number; total: number };
 }
 
-/** The fields a new organisation needs (Organization validates name, kind, address, country_code). */
+/** The fields a new organisation needs: name, address, and where it sits — a stage or a support role. */
 export interface OrganizationDraft {
   name: string;
-  kind: string;
   address: string;
   country_code: string;
   lat: number | null;
   lon: number | null;
-  specialties: string[];
+  value_chain_stages: string[];
+  support_roles: string[];
+  support_roles_other: string | null;
 }

@@ -6,6 +6,7 @@ import type { OrganizationProfile } from "../types";
 import { editorSections, type SectionGroup } from "./completion";
 import { CompletionCard } from "./CompletionCard";
 import { SectionCard } from "./SectionCard";
+import { CertificationsForm } from "./sections/CertificationsForm";
 import { IdentityForm } from "./sections/IdentityForm";
 import { OffersNeedsForm } from "./sections/OffersNeedsForm";
 import { PhotosMediaForm } from "./sections/PhotosMediaForm";
@@ -19,6 +20,7 @@ const FORMS: Partial<Record<EditorSectionKey, (props: { org: OrganizationProfile
   "what-you-do": WhatYouDoForm,
   "size-reach": SizeReachForm,
   "offers-needs": OffersNeedsForm,
+  certifications: CertificationsForm,
   photos: PhotosMediaForm,
 };
 
@@ -28,7 +30,7 @@ function renderForm(key: EditorSectionKey, org: OrganizationProfile) {
 }
 
 const GROUPS: { key: SectionGroup; title: string; lede: string }[] = [
-  { key: "required", title: "Required to go live", lede: "The six fields that put you on the map." },
+  { key: "required", title: "Required to go live", lede: "The five fields that put you on the map." },
   {
     key: "portrait",
     title: "Build your portrait — tune FABRIX to you",

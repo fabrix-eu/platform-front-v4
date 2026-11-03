@@ -1,3 +1,4 @@
+import { positionLabel } from "@/features/organizations/position";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
@@ -17,7 +18,7 @@ export type SignupChoice =
 
 function ChoiceSummary({ choice }: { choice: SignupChoice }) {
   if (choice.kind === "none") return null;
-  const org = choice.kind === "create" ? { name: choice.draft.name, kind: choice.draft.kind, address: choice.draft.address } : choice.organization;
+  const org = choice.kind === "create" ? { ...choice.draft, image_url: null } : choice.organization;
   const note = {
     create: "You create this organisation on FABRIX and manage its profile.",
     claim: "You ask to manage this profile. The FABRIX team checks the request, then it is yours.",
@@ -26,7 +27,7 @@ function ChoiceSummary({ choice }: { choice: SignupChoice }) {
 
   return (
     <div className="space-y-3">
-      <OrgSummaryCard name={org.name} kind={org.kind} address={org.address} imageUrl={"image_url" in org ? org.image_url : null} />
+      <OrgSummaryCard name={org.name} position={positionLabel(org)} address={org.address} imageUrl={org.image_url} />
       <Banner tone="info">{note}</Banner>
     </div>
   );

@@ -10,8 +10,7 @@ const ESSENTIALS = [
   ["Name", "Section A. The name partners search for."],
   ["Address", "Section A, picked from the suggestions — the point on the map."],
   ["A way to contact you", "Section A: a website, a general email or a phone number. One is enough."],
-  ["Your part in the making process", "Your organisation's type: producer, recycler, designer… Set when it was created."],
-  ["One sector", "Section B. A word or two — most organisations put Textile & clothing."],
+  ["Your part in the making process", "Section B: where you sit in the value chain, how you support it — or that you only support."],
   ["How many people work here", "Section C. The number stays private; only the EU size band it falls in is used."],
 ];
 
@@ -27,8 +26,8 @@ export function CompleteYourProfile() {
   return (
     <div className="max-w-3xl">
       <p className="text-fx-lead text-fx-ink2">
-        Your profile is edited in one place, section by section, and a ring at the top counts six
-        essentials. Reach six and you appear properly in the Directory, count in the local picture, and
+        Your profile is edited in one place, section by section, and a ring at the top counts five
+        essentials. Reach five and you appear properly in the Directory, count in the local picture, and
         can post to the Marketplace. Everything else is portrait: it sharpens who finds you, and never counts
         against you.
       </p>
@@ -40,7 +39,7 @@ export function CompleteYourProfile() {
             <strong>Edit profile</strong>, <strong>Team</strong>, <strong>Public view</strong>. The first
             opens on the ring and the list of what is done and what is missing.
           </p>
-          <Figure src={`${SHOT}01-editor.png`} alt="The profile editor: three tabs, the completion ring at 4 of 6, and the six essentials marked done or missing" caption="Finish your profile opens the first section that still has something missing." />
+          <Figure src={`${SHOT}01-editor.png`} alt="The profile editor: three tabs, the completion ring, and the five essentials marked done or missing" caption="Finish your profile opens the first section that still has something missing." />
         </Step>
 
         <Step n={2} title="Do the required sections first">
@@ -55,26 +54,28 @@ export function CompleteYourProfile() {
 
         <Step n={3} title="A · Identity">
           <p>
-            Name and description, the address picked from suggestions, then contacts: website, general
-            email, phone, LinkedIn, Instagram. Below, what kind of organisation you are (company, non-profit,
-            cooperative…), its legal form and VAT number. The section is public; the legal form and the VAT
-            number are not displayed on your page. Press <strong>Save identity</strong> at the bottom.
+            Name, a one-line summary and the longer story, the address picked from suggestions — with the
+            site name if you are one site of a larger organisation — then contacts: website, general email,
+            phone, LinkedIn, Instagram. Below, what kind of organisation you are (company, non-profit,
+            cooperative…), the year it started, and your registration and VAT numbers — or that you have
+            neither, which is an answer too. Press <strong>Save identity</strong> at the bottom.
           </p>
-          <Figure src={`${SHOT}03-identity.png`} alt="The Identity section open: name, description, address, contacts, kind, legal form and VAT number" />
+          <Figure src={`${SHOT}03-identity.png`} alt="The Identity section open: name, description, address, contacts, legal form and VAT number" />
         </Step>
 
         <Step n={4} title="B · What you do">
           <p>
-            Your sector, then your specialties: the areas you work in, by category and sub-category, in the
-            same vocabulary as the Marketplace. Searches and matches run on them, so the more precise the
-            better. Both are public.
+            Where you sit in the value chain — from raw materials to collection and recovery — and how you
+            support others who make things, then the materials you work with. The Directory filters on your
+            place in the chain, and your badge shows it, so the more precise the better. All are public.
           </p>
-          <Figure src={`${SHOT}06-what-you-do.png`} alt="The What you do section open: the sector field, then the specialties as pills by category, with the chosen categories refined below" />
+          <Figure src={`${SHOT}06-what-you-do.png`} alt="The What you do section open: the stages of the value chain, the supporting roles, then the materials" />
         </Step>
 
         <Step n={5} title="C · Size &amp; reach">
           <p>
-            How many people work here, how long you have been going, and a yearly turnover band. These are
+            How many people work here and in full-time equivalent, how long you have been going, a yearly
+            turnover band, and how far your customers reach. These are
             private: the Directory only ever uses the size band, and the Compass uses them to compare you
             with organisations like yours.
           </p>
@@ -91,7 +92,7 @@ export function CompleteYourProfile() {
         </Step>
       </ol>
 
-      <Eyebrow className="mt-12 mb-3">The six essentials</Eyebrow>
+      <Eyebrow className="mt-12 mb-3">The five essentials</Eyebrow>
       <FactList rows={ESSENTIALS} />
 
       <Eyebrow className="mt-12 mb-3">What the badges mean</Eyebrow>

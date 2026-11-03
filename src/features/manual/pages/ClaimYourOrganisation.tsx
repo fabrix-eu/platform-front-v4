@@ -41,7 +41,7 @@ export function ClaimYourOrganisation() {
             </Link>
             ). Signed in, use <strong>Add an organisation</strong> from the organisation switcher, or open the
             profile from the <strong>Directory</strong>: an unclaimed one carries an <strong>Unclaimed</strong>{" "}
-            badge next to its type.
+            badge next to its place in the value chain.
           </p>
           <Figure src={`${SHOT}01-unclaimed-profile.png`} alt="An unclaimed organisation's profile: the Unclaimed badge and the Claim this profile button" caption="On the profile, the claim is the main button." />
         </Step>

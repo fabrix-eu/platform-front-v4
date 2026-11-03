@@ -28,10 +28,12 @@ interface FieldProps {
   required?: boolean;
   autoComplete?: string;
   hint?: ReactNode;
+  /** Number inputs: "0.1" accepts one decimal. */
+  step?: string;
 }
 
 // Uncontrolled input: no value/onChange, edit pre-fills via defaultValue.
-export function Field({ label, name, mutation, type = "text", inputMode, defaultValue, placeholder, required, autoComplete, hint }: FieldProps) {
+export function Field({ label, name, mutation, type = "text", inputMode, defaultValue, placeholder, required, autoComplete, hint, step }: FieldProps) {
   const invalid = !!fieldError(mutation, name);
   return (
     <div>
@@ -44,6 +46,7 @@ export function Field({ label, name, mutation, type = "text", inputMode, default
         name={name}
         type={type}
         inputMode={inputMode}
+        step={step}
         required={required}
         autoComplete={autoComplete}
         placeholder={placeholder}

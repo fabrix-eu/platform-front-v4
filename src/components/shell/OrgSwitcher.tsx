@@ -5,7 +5,7 @@ import { useCurrentOrg } from "@/lib/activeOrg";
 import { Avatar } from "@/components/ui/Avatar";
 import { ButtonLink } from "@/components/ui/Button";
 import { menuContentClass, menuItemClass, menuLabelClass, menuSeparatorClass } from "@/components/ui/menu";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 
 export function OrgSwitcher() {
   const { me, orgSlug, currentOrg } = useCurrentOrg();
@@ -39,7 +39,11 @@ export function OrgSwitcher() {
           <Avatar name={currentOrg.organization_name} src={currentOrg.organization_image_url} size="sm" />
           <span className="min-w-0 flex-1">
             <span className="block truncate text-fx-body font-bold text-fx-ink">{currentOrg.organization_name}</span>
-            <span className="block truncate text-fx-small text-fx-muted">{orgKindLabel(currentOrg.organization_kind)}</span>
+            <span className="block truncate text-fx-small text-fx-muted">{positionLabel({
+                value_chain_stages: currentOrg.organization_value_chain_stages,
+                support_roles: currentOrg.organization_support_roles,
+                support_roles_other: currentOrg.organization_support_roles_other,
+              })}</span>
           </span>
           <ChevronsUpDown className="size-4 shrink-0 text-fx-muted" />
         </button>

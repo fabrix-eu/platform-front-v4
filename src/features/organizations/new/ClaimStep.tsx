@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Banner } from "@/components/ui/Banner";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import type { OrganizationSummary } from "../types";
+import { positionLabel } from "@/features/organizations/position";
 import { OrgSummaryCard } from "../wizard/OrgSummaryCard";
 import { ClaimForm } from "./ClaimForm";
 
@@ -21,7 +22,7 @@ export function ClaimStep({ organization, onBack, onDone }: ClaimStepProps) {
 
   return (
     <div className="space-y-5">
-      <OrgSummaryCard name={organization.name} kind={organization.kind} address={organization.address} imageUrl={organization.image_url} />
+      <OrgSummaryCard name={organization.name} position={positionLabel(organization)} address={organization.address} imageUrl={organization.image_url} />
       {organization.claimed ? (
         <>
           <Banner

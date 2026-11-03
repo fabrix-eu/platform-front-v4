@@ -9,20 +9,20 @@ import { useToast } from "@/components/Toast";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { updateOrganization } from "../../api";
-import { ORG_KIND_LABELS } from "../../kinds";
 import type { OrganizationProfile } from "../../types";
 import { AddressField } from "../../wizard/AddressField";
 import { FormGroup } from "./FormGroup";
-import { legalFormOptions } from "./legalForms";
+import { IdentifiersGroup } from "./IdentifiersGroup";
+import { legalFormOptions, SITE_RELATIONS } from "./profileOptions";
 
-const FIELDS = ["name", "description", "address", "country_code", "lat", "lon", "website", "email", "phone", "linkedin", "instagram", "kind", "legal_form", "vat_code"];
+const FIELDS = [
+  "name", "tagline", "description", "address", "country_code", "lat", "lon", "site_name", "site_relation", "website", "email", "phone",
+  "linkedin", "instagram", "legal_form", "founded_year", "registration_number", "vat_code", "no_identifier", "no_identifier_description",
+];
 
-// Organization::KINDS — the same list as signup and the directory.
-const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
-
-// A · Identity — who you are, where, how to reach you. Every field is an existing
-// organisation attribute; the prototype's tagline, site name, founding year,
-// registration number and existence check have no field on the API yet.
+// A · Identity — who you are, where, how to reach you. The organisation type (`kind`)
+// is no longer asked: the API derives it from B · What you do and the legal form.
+// The prototype's existence check (peers, facilitator, FABRIX) is not built yet.
 export function IdentityForm({ org }: { org: OrganizationProfile }) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -59,6 +59,7 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
         setAddressError(null);
         mutation.mutate({
           name: text("name") ?? "",
+          tagline: text("tagline"),
           description: text("description"),
           ...(picked ? { address: text("address"), lat: Number(fd.get("lat")), lon: Number(fd.get("lon")), country_code: text("country_code") } : {}),
           website: text("website"),
@@ -66,9 +67,14 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
           phone: text("phone"),
           linkedin: text("linkedin"),
           instagram: text("instagram"),
-          kind: text("kind"),
+          site_name: text("site_name"),
+          site_relation: text("site_relation"),
           legal_form: text("legal_form"),
+          founded_year: text("founded_year") === null ? null : Number(text("founded_year")),
+          no_identifier: fd.get("no_identifier") != null,
+          registration_number: text("registration_number"),
           vat_code: text("vat_code"),
+          no_identifier_description: text("no_identifier_description"),
         });
       }}
     >
@@ -84,6 +90,14 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
 
       <FormGroup title="Who you are">
         <Field label="Organisation name" name="name" required defaultValue={org.name} mutation={mutation} />
+        <Field
+          label="In one line, what does your organisation do?"
+          name="tagline"
+          defaultValue={org.tagline}
+          placeholder="Small-batch cut-and-sew and garment repair in Rotterdam"
+          hint="Shown in the Directory and in search results."
+          mutation={mutation}
+        />
         <TextareaField
           label="Tell people about your organisation"
           name="description"
@@ -102,6 +116,7 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
           onPicked={() => setAddressError(null)}
           mutation={mutation}
         />
+        <SiteFields org={org} mutation={mutation} />
       </FormGroup>
 
       <FormGroup title="How to reach you" description="A shared address, not a person.">
@@ -118,15 +133,6 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
         <div className="grid gap-5 sm:grid-cols-2">
           <SelectField
             label="What kind of organisation are you?"
-            name="kind"
-            required
-            placeholder="Choose a type"
-            defaultValue={org.kind}
-            options={KIND_OPTIONS}
-            mutation={mutation}
-          />
-          <SelectField
-            label="Legal form"
             name="legal_form"
             placeholder="Choose one"
             defaultValue={org.legal_form}
@@ -134,9 +140,19 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
             hint="Recommended"
             mutation={mutation}
           />
-          <Field label="VAT number, if you have one" name="vat_code" placeholder="e.g. NL814213175B01" defaultValue={org.vat_code} hint="Optional" mutation={mutation} />
+          <Field
+            label="What year did the organisation start?"
+            name="founded_year"
+            type="number"
+            inputMode="numeric"
+            defaultValue={org.founded_year?.toString()}
+            hint="Recommended"
+            mutation={mutation}
+          />
         </div>
       </FormGroup>
+
+      <IdentifiersGroup org={org} mutation={mutation} />
 
       <div className="flex justify-end border-t border-fx-line pt-6">
         <Button type="submit" disabled={mutation.isPending}>
@@ -144,5 +160,32 @@ export function IdentityForm({ org }: { org: OrganizationProfile }) {
         </Button>
       </div>
     </form>
+  );
+}
+
+// Normally optional; required once another profile shares the registration number, so
+// two sites of one organisation are never mistaken for each other.
+function SiteFields({ org, mutation }: { org: OrganizationProfile; mutation: Parameters<typeof Field>[0]["mutation"] }) {
+  const required = !!org.registration_shared;
+  return (
+    <div className="grid gap-5 sm:grid-cols-2">
+      <Field
+        label="The name of this site or branch"
+        name="site_name"
+        required={required}
+        defaultValue={org.site_name}
+        hint={required ? "Required — another site shares your registration number." : "Optional"}
+        mutation={mutation}
+      />
+      <SelectField
+        label="Is this a branch, subsidiary, franchise or campus of a larger organisation?"
+        name="site_relation"
+        required={required}
+        placeholder="Choose one"
+        defaultValue={org.site_relation}
+        options={SITE_RELATIONS}
+        mutation={mutation}
+      />
+    </div>
   );
 }

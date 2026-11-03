@@ -11,9 +11,9 @@ const FIELDS: [string, string, string][] = [
   ["Posted by", "required", "The organisation the listing belongs to. Chosen once, when there are several; never changed after."],
   ["Which way round is it?", "required", `${DIRECTIONS.map((d) => DIRECTION_META[d].label).join(" or ")}. Shown as the ${DIRECTIONS.map((d) => DIRECTION_META[d].badge).join(" / ")} badge; the marketplace filters on it.`],
   [ONE_OFF.label, "yes or no", `${ONE_OFF.hint} Shown as a ${ONE_OFF.badge} badge; the Timing filter reads it.`],
-  ["What is it?", "required", "One of the five activities below. Shown as a badge; the Activity filter reads it."],
+  ["What is it?", "required", "One of the activities below. Shown as a badge; the Activity filter reads it."],
   ["Category", "required", "One category of that activity. Shown after the badges; the Category filter reads it."],
-  ["Speciality", "optional", "One speciality of that category, or General. Shown with the category; the Speciality filter reads it."],
+  ["Please specify", "when “Something else”", "What it is, in a few words, when the activity or the category is “Something else”. Shown in place of the category."],
   ["Title", "required", "One line. Searched by the marketplace's search box, with the description."],
   ["Description", "required", "Free text, any length. Searched as well."],
   ["Quantity", "optional", "Free text, shown as typed on the listing."],
@@ -44,7 +44,7 @@ export function ListingFields() {
         each one is for, and the states it can be in — with the labels the form uses.
       </p>
 
-      <Eyebrow className="mt-10 mb-3">The five activities</Eyebrow>
+      <Eyebrow className="mt-10 mb-3">The activities</Eyebrow>
       <div className="flex flex-wrap gap-2">
         {LISTING_TYPES.map((type) => (
           <Badge key={type} tone={LISTING_TYPE_META[type].tone}>
@@ -53,13 +53,11 @@ export function ListingFields() {
         ))}
       </div>
       <p className="mt-3 text-fx-body text-fx-ink2">
-        Each activity has its categories, and each category its specialities: the same three-level
-        vocabulary as an organisation's What you do, listed in full in{" "}
+        Each activity has its categories, ending with “Something else”, listed in full in{" "}
         <Link to="/manual/$page" params={{ page: "what-you-do" }} className={link}>
           What you do
         </Link>
-        . The category must belong to the activity, and the speciality to the category; the form only
-        offers the ones that do.
+        . The category must belong to the activity; the form only offers the ones that do.
       </p>
 
       <Eyebrow className="mt-12 mb-3">The fields</Eyebrow>

@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 import { HEALTH_LABELS, HEALTH_TONES, type NetworkOrganization } from "./types";
 import { asNeeds, NEED_OPTIONS } from "./record/needs";
 
@@ -56,7 +56,7 @@ export function OrganisationsTable({ networkSlug, records }: { networkSlug: stri
                       >
                         {org.name}
                       </Link>
-                      <span className="block truncate text-fx-label text-fx-muted">{orgKindLabel(org.kind)}</span>
+                      <span className="block truncate text-fx-label text-fx-muted">{positionLabel(org)}</span>
                     </div>
                   </div>
                 </td>

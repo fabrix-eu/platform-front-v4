@@ -9,7 +9,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { organizationProfileQueryOptions } from "@/features/organizations/api";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 import { deleteRelation, relationLabel } from "@/features/organizations/relations";
 import type { OrganizationProfile, OrganizationRelation, OrganizationSummary } from "@/features/organizations/types";
 import { AddConnectionDialog } from "./AddConnectionDialog";
@@ -35,7 +35,7 @@ function ConnectionRow({ org, other, relation }: { org: OrganizationProfile; oth
         <Link to="/organizations/$id" params={{ id: other.slug }} preload="intent" className="text-fx-body font-bold text-fx-ink hover:text-fx-emphasis">
           {other.name}
         </Link>
-        <p className="truncate text-fx-small text-fx-muted">{[orgKindLabel(other.kind), other.address].filter(Boolean).join(" · ")}</p>
+        <p className="truncate text-fx-small text-fx-muted">{[positionLabel(other), other.address].filter(Boolean).join(" · ")}</p>
         {relation.description && <p className="mt-1 text-fx-small text-fx-ink2">{relation.description}</p>}
       </div>
       <span className="flex items-center gap-2">

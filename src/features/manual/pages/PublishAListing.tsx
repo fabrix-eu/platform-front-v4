@@ -11,7 +11,7 @@ const FIELDS = [
   ["Posted by", "Only when you belong to several organisations: the one the listing is published as. It cannot be changed afterwards."],
   ["Which way round is it? · required", `${DIRECTION_META.offering.label} or ${DIRECTION_META.needing.label}. From the profile's Offers & needs, the button you pressed already answered it.`],
   [ONE_OFF.label, `${ONE_OFF.hint} Shown as a badge; the marketplace can filter on it.`],
-  ["What is it? · required", "One of five activities, then a Category from that activity — both required. A Speciality refines the category and is optional; “General” means none."],
+  ["What is it? · required", "An activity, then a Category from that activity — both required. Nothing fits? Pick “Something else” and say what it is."],
   ["Title · required", "One line. What it is and how much: the form's example is the right shape."],
   ["Description · required", "What it is, its condition, how and where it can be collected or delivered. Searchable."],
   ["Quantity", "Free text, shown as typed — “300 kg per month”, “2 pallets”, “40 hours a week”."],

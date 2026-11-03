@@ -40,7 +40,7 @@ function ToneDot() {
 
 type PillProps = ButtonHTMLAttributes<HTMLButtonElement> & { selected?: boolean; tone?: BadgeTone };
 
-/** A toggle pill inside a form (e.g. multi-select specialties). */
+/** A toggle pill inside a form or a filter (e.g. the value chain stages). */
 export function Pill({ selected, tone, className, type = "button", children, ...rest }: PillProps) {
   return (
     <button

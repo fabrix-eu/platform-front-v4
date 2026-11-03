@@ -8,7 +8,7 @@ import { token } from "@/features/explore/map/mapTokens";
 import { PointsMap, type MapPoint } from "@/features/explore/map/PointsMap";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 import { HEALTH_LABELS, HEALTH_TONES, type Network, type NetworkOrganization } from "./types";
 
 /** Health is the facilitator's own reading, so it is what the pins carry. */
@@ -138,7 +138,7 @@ export function NetworkMap({ network, records }: { network: Network; records: Ne
               >
                 {selected.organization.name}
               </Link>
-              <p className="mt-1 text-fx-small text-fx-muted">{orgKindLabel(selected.organization.kind)}</p>
+              <p className="mt-1 text-fx-small text-fx-muted">{positionLabel(selected.organization)}</p>
               {selected.organization.address && (
                 <p className="mt-1 flex items-center gap-1.5 text-fx-small text-fx-ink2">
                   <MapPin aria-hidden className="size-3.5 shrink-0" />

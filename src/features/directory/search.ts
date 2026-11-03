@@ -3,10 +3,12 @@ import { z } from "zod";
 // Everything the directory shows is in the URL: a filtered view can be shared.
 export const directorySearchSchema = z.object({
   search: z.string().optional(),
-  /** Comma separated Organization#kind values — what an organisation *is*. */
-  kinds: z.string().optional(),
-  /** Comma separated listing types — what an organisation *does*, in value-chain terms. */
-  activities: z.string().optional(),
+  /** Comma separated value chain stages — where an organisation sits. */
+  stages: z.string().optional(),
+  /** Comma separated support roles — how it supports the chain. */
+  support: z.string().optional(),
+  /** Comma separated listing types — what it offers on the marketplace right now. */
+  offering: z.string().optional(),
   country: z.string().optional(),
   /** "claimed" = someone manages it; "unclaimed" = it is waiting for its team. */
   status: z.enum(["claimed", "unclaimed"]).optional(),

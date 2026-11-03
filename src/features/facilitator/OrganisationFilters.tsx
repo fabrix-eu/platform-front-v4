@@ -5,13 +5,10 @@ import { Button } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { EU_COUNTRIES } from "@/features/explore/countries";
-import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
+import { SUPPORT_ROLES, VALUE_CHAIN_STAGES } from "@/features/organizations/position";
 import { MultiSelectMenu } from "@/components/ui/MultiSelectMenu";
-import { SpecialtyFilterMenu } from "./SpecialtyFilterMenu";
 import { HEALTH_LABELS } from "./types";
 import { csvList, hasOrgFilters, toggleCsv, type NetworkSearch, type OrgView } from "./search";
-
-const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
 
 const VIEWS: { key: OrgView; label: string; icon: typeof Table2 }[] = [
   { key: "table", label: "Table", icon: Table2 },
@@ -55,10 +52,8 @@ function Select({ label, value, onChange, children }: { label: string; value: st
   );
 }
 
-/** What this network follows, narrowed by what the organisations actually are. */
+/** What this network follows, narrowed by where the organisations sit in the chain. */
 export function OrganisationFilters({ search, onChange }: FiltersProps) {
-  const kinds = csvList(search.kinds);
-  const specialties = csvList(search.specialties);
 
   return (
     <div className="grid gap-5 rounded-fx-lg border border-fx-line bg-fx-paper p-5">
@@ -71,23 +66,24 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          {/* A kind says what an organisation *is*; the specialities below say what it does. */}
-          <Eyebrow className="mb-2">What they are</Eyebrow>
+          <Eyebrow className="mb-2">In the value chain</Eyebrow>
           <MultiSelectMenu
-            label="What they are"
-            options={KIND_OPTIONS}
-            selected={kinds}
-            onToggle={(value) => onChange({ kinds: toggleCsv(search.kinds, value) })}
-            onClear={() => onChange({ kinds: undefined })}
+            label="Stage"
+            options={VALUE_CHAIN_STAGES}
+            selected={csvList(search.stages)}
+            onToggle={(value) => onChange({ stages: toggleCsv(search.stages, value) })}
+            onClear={() => onChange({ stages: undefined })}
           />
         </div>
 
         <div>
-          <Eyebrow className="mb-2">Specialities</Eyebrow>
-          <SpecialtyFilterMenu
-            selected={specialties}
-            onToggle={(value) => onChange({ specialties: toggleCsv(search.specialties, value) })}
-            onClear={() => onChange({ specialties: undefined })}
+          <Eyebrow className="mb-2">Supporting the chain</Eyebrow>
+          <MultiSelectMenu
+            label="How they support it"
+            options={SUPPORT_ROLES}
+            selected={csvList(search.support)}
+            onToggle={(value) => onChange({ support: toggleCsv(search.support, value) })}
+            onClear={() => onChange({ support: undefined })}
           />
         </div>
 
@@ -151,7 +147,7 @@ export function OrganisationFilters({ search, onChange }: FiltersProps) {
             variant="ghost"
             size="sm"
             onClick={() =>
-              onChange({ q: undefined, kinds: undefined, specialties: undefined, health: undefined, country: undefined, min_workers: undefined, max_workers: undefined })
+              onChange({ q: undefined, stages: undefined, support: undefined, health: undefined, country: undefined, min_workers: undefined, max_workers: undefined })
             }
           >
             Clear filters

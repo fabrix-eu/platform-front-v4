@@ -11,13 +11,11 @@ import { Pill } from "@/components/ui/Pill";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { EU_COUNTRIES } from "@/features/explore/countries";
-import { ORG_KIND_LABELS, orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel, VALUE_CHAIN_STAGES } from "@/features/organizations/position";
 import { adminOrganizationsQueryOptions } from "./api";
 import { AdminTable, Column, SortableColumn, TD } from "./AdminTable";
 import { Pagination } from "./Pagination";
 import { adminOrganizationParams, type AdminSearch } from "./search";
-
-const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
 
 const COUNTRY = new Map(EU_COUNTRIES.map((c) => [c.code, c.name]));
 
@@ -61,13 +59,13 @@ export function OrganizationsAdmin({ search, onChange }: Props) {
         </div>
 
         <div>
-          <Eyebrow className="mb-2">Kind</Eyebrow>
+          <Eyebrow className="mb-2">In the value chain</Eyebrow>
           <MultiSelectMenu
-            label="Kind"
-            options={KIND_OPTIONS}
-            selected={csvList(search.kinds)}
-            onToggle={(value) => refine({ kinds: toggleCsv(search.kinds, value) })}
-            onClear={() => refine({ kinds: undefined })}
+            label="Stage"
+            options={VALUE_CHAIN_STAGES}
+            selected={csvList(search.stages)}
+            onToggle={(value) => refine({ stages: toggleCsv(search.stages, value) })}
+            onClear={() => refine({ stages: undefined })}
           />
         </div>
 
@@ -92,7 +90,7 @@ export function OrganizationsAdmin({ search, onChange }: Props) {
             head={
               <>
                 <SortableColumn label="Organisation" field="name" current={search.sort_by} direction={search.sort_direction} onSort={sort} />
-                <SortableColumn label="Kind" field="kind" current={search.sort_by} direction={search.sort_direction} onSort={sort} />
+                <Column label="Position" />
                 <SortableColumn label="Country" field="country_code" current={search.sort_by} direction={search.sort_direction} onSort={sort} />
                 <SortableColumn label="Claimed" field="claimed_at" current={search.sort_by} direction={search.sort_direction} onSort={sort} />
                 <Column label="Links" align="right" />
@@ -111,7 +109,7 @@ export function OrganizationsAdmin({ search, onChange }: Props) {
                     </span>
                   </Link>
                 </td>
-                <td className={TD}>{orgKindLabel(org.kind)}</td>
+                <td className={TD}>{positionLabel(org) ?? "—"}</td>
                 <td className={TD}>{org.country_code ? (COUNTRY.get(org.country_code) ?? org.country_code) : "—"}</td>
                 <td className={TD}>
                   {org.claimed ? <Badge tone="green">Claimed</Badge> : <Badge tone="slate">Unclaimed</Badge>}

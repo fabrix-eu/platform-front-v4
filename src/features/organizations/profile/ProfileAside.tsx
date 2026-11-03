@@ -2,8 +2,8 @@ import type { ReactNode } from "react";
 import { AtSign, Globe, Link2, Mail, Phone } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { specialtyLabel } from "@/features/listings/taxonomy";
 import type { OrganizationProfile } from "../types";
+import { PositionCard } from "./PositionCard";
 
 const withProtocol = (url: string) => (/^https?:\/\//i.test(url) ? url : `https://${url}`);
 const hostOf = (url: string) => withProtocol(url).replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
@@ -23,7 +23,6 @@ function ContactLink({ href, icon, children, external }: { href: string; icon: R
 
 // Contact details, what it does, the networks that follow it — each card only when there is something to say.
 export function ProfileAside({ org }: { org: OrganizationProfile }) {
-  const specialties = org.specialties.map(specialtyLabel).filter((l): l is string => !!l);
   const hasContact = org.website || org.email || org.phone || org.linkedin || org.instagram;
   const icon = "size-4";
 
@@ -42,18 +41,7 @@ export function ProfileAside({ org }: { org: OrganizationProfile }) {
         </Card>
       )}
 
-      {specialties.length > 0 && (
-        <Card>
-          <Eyebrow>What they do</Eyebrow>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {specialties.map((label) => (
-              <span key={label} className="rounded-full bg-fx-slate-soft px-3 py-1 text-fx-small font-bold text-fx-ink2">
-                {label}
-              </span>
-            ))}
-          </div>
-        </Card>
-      )}
+      <PositionCard org={org} />
 
       {org.networks.length > 0 && (
         <Card>

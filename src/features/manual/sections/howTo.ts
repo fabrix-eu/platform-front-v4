@@ -39,7 +39,7 @@ export const howTo: ManualSection = {
       area: "Your organisation",
       page: "complete-your-profile",
       label: "Complete your profile",
-      summary: "Reach the six essentials that put you on the map, then add contacts, size and photos.",
+      summary: "Reach the five essentials that put you on the map, then add contacts, size and photos.",
     },
     {
       area: "Your organisation",

@@ -23,7 +23,8 @@ export interface DataSummary {
     organizations: number;
     organizations_geolocated: number;
     organizations_by_country: Count[];
-    organizations_by_kind: Count[];
+    organizations_by_stage: Count[];
+    organizations_by_support_role: Count[];
     relations: number;
     relations_by_type: Count[];
     listings: number;

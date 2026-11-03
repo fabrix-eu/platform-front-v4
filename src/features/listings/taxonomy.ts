@@ -1,59 +1,57 @@
 import type { BadgeTone } from "@/components/ui/Badge";
-import { SUBCATEGORY_LABELS } from "./subcategories";
 
-// Listing#LISTING_TYPES / CATEGORIES_BY_TYPE on the API, with their labels.
+// Listing#CATEGORIES_BY_TYPE on the API — the prototype's marketplace taxonomy,
+// in two levels. Every type ends with "other", and the "other" type has no other
+// category: either asks the poster to say what it is (`category_other`).
 
-export const LISTING_TYPES = ["material", "capacity", "service", "product", "distribution"] as const;
+export const LISTING_TYPES = ["materials", "capacities", "services", "products", "logistics", "other"] as const;
 export type ListingType = (typeof LISTING_TYPES)[number];
 
 export const LISTING_TYPE_META: Record<ListingType, { label: string; singular: string; tone: BadgeTone }> = {
-  material: { label: "Materials", singular: "material", tone: "green" },
-  capacity: { label: "Capacities", singular: "capacity", tone: "amber" },
-  service: { label: "Services", singular: "service", tone: "teal" },
-  product: { label: "Products", singular: "product", tone: "rose" },
-  distribution: { label: "Distribution", singular: "distribution channel", tone: "indigo" },
+  materials: { label: "Equipment, goods & materials", singular: "listing", tone: "amber" },
+  capacities: { label: "Capacities", singular: "capacity", tone: "violet" },
+  services: { label: "Services", singular: "service", tone: "teal" },
+  products: { label: "Products", singular: "product", tone: "rose" },
+  logistics: { label: "Logistics & storage", singular: "logistics offer", tone: "slate" },
+  other: { label: "Something else", singular: "listing", tone: "slate" },
 };
 
 export const CATEGORIES_BY_TYPE: Record<ListingType, string[]> = {
-  material: ["waste_streams", "raw_materials", "intermediate_materials", "certified_materials"],
-  capacity: ["equipment", "facilities", "open_spaces", "workforce", "financing_programs"],
-  service: [
-    "production_manufacturing",
-    "sorting_processing",
-    "design_development",
-    "logistics_collection",
-    "consulting_training",
-    "certification_auditing",
-    "end_of_life",
-  ],
-  product: ["apparel_accessories", "home_living", "technical_industrial", "upcycled_circular"],
-  distribution: ["retail_resale", "wholesale", "ecommerce_platforms"],
+  materials: ["fibres_yarn", "fabrics_textiles", "offcuts_deadstock", "trims_components", "recycled_feedstock", "other"],
+  capacities: ["machine_time", "production_space", "lab_testing", "storage_space", "specialised_tools", "other"],
+  services: ["research_design", "production_manufacturing", "repair_alteration", "consulting_technical", "content_media_sales", "other"],
+  products: ["apparel_accessories", "home_interior", "bags_leather", "footwear", "components_parts", "other"],
+  logistics: ["local_delivery", "freight_haulage", "warehousing_storage", "reverse_logistics", "export_customs", "other"],
+  other: ["other"],
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
-  waste_streams: "Waste streams",
-  raw_materials: "Raw materials",
-  intermediate_materials: "Intermediate materials",
-  certified_materials: "Certified materials",
-  equipment: "Equipment",
-  facilities: "Facilities",
-  open_spaces: "Open spaces",
-  workforce: "Workforce",
-  financing_programs: "Financing & programs",
+  fibres_yarn: "Fibres & yarn",
+  fabrics_textiles: "Fabrics & textiles",
+  offcuts_deadstock: "Offcuts, roll-ends & deadstock",
+  trims_components: "Trims & components",
+  recycled_feedstock: "Recycled feedstock",
+  machine_time: "Machine time",
+  production_space: "Production space",
+  lab_testing: "Lab & testing",
+  storage_space: "Storage space",
+  specialised_tools: "Specialised tools",
+  research_design: "Research & design",
   production_manufacturing: "Production & manufacturing",
-  sorting_processing: "Sorting & processing",
-  design_development: "Design & development",
-  logistics_collection: "Logistics & collection",
-  consulting_training: "Consulting & training",
-  certification_auditing: "Certification & auditing",
-  end_of_life: "End-of-life & second life",
+  repair_alteration: "Repair & alteration",
+  consulting_technical: "Consulting & technical services",
+  content_media_sales: "Content, media & sales",
   apparel_accessories: "Apparel & accessories",
-  home_living: "Home & living",
-  technical_industrial: "Technical & industrial",
-  upcycled_circular: "Upcycled & circular",
-  retail_resale: "Retail & resale",
-  wholesale: "Wholesale",
-  ecommerce_platforms: "E-commerce & platforms",
+  home_interior: "Home & interior",
+  bags_leather: "Bags & leather",
+  footwear: "Footwear",
+  components_parts: "Components & parts",
+  local_delivery: "Local delivery & last mile",
+  freight_haulage: "Freight & haulage",
+  warehousing_storage: "Warehousing & storage",
+  reverse_logistics: "Reverse logistics & take-back",
+  export_customs: "Export & customs",
+  other: "Something else",
 };
 
 export const isListingType = (value: string | undefined): value is ListingType =>
@@ -64,24 +62,9 @@ export const typeMeta = (type: string) =>
 
 export const categoryLabel = (category: string) => CATEGORY_LABELS[category] ?? category;
 
-export const subcategoryLabel = (category: string, subcategory: string) =>
-  SUBCATEGORY_LABELS[category]?.[subcategory] ?? subcategory;
-
-/** An organisation's specialty is a category or a subcategory key — the same vocabulary. */
-export const specialtyLabel = (key: string): string | null =>
-  CATEGORY_LABELS[key] ?? Object.values(SUBCATEGORY_LABELS).find((subs) => key in subs)?.[key] ?? null;
+/** What a listing is filed under: its category, or what its poster said when it is "something else". */
+export const listingCategoryLabel = (listing: { category: string; category_other: string | null }) =>
+  (listing.category === "other" && listing.category_other) || categoryLabel(listing.category);
 
 export const categoryOptions = (type: string) =>
   (isListingType(type) ? CATEGORIES_BY_TYPE[type] : []).map((value) => ({ value, label: categoryLabel(value) }));
-
-export const subcategoryOptions = (category: string) =>
-  Object.entries(SUBCATEGORY_LABELS[category] ?? {}).map(([value, label]) => ({ value, label }));
-
-/**
- * Every category under these activities. An organisation never stores an activity
- * in `specialties` — only categories and subcategories — and the API's filter is a
- * plain array overlap, so asking for "Materials" means asking for its four
- * categories by name.
- */
-export const categoriesForTypes = (types: string[]): string[] =>
-  types.flatMap((type) => (isListingType(type) ? CATEGORIES_BY_TYPE[type] : []));

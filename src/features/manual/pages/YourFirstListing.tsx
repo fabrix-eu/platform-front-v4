@@ -77,15 +77,14 @@ export function YourFirstListing() {
             ))}
           </div>
           <p>
-            Pick <strong>Materials</strong>. A <strong>Category</strong> list appears; choose the closest
-            one, then refine it with a <strong>Speciality</strong> if one fits — “General” is fine when
-            none does. This is the same vocabulary as{" "}
+            Pick <strong>Equipment, goods &amp; materials</strong>. A <strong>Category</strong> list appears;
+            choose the closest one — or <strong>Something else</strong>, and say what it is. The full list is in{" "}
             <Link to="/manual/$page" params={{ page: "what-you-do" }} className={link}>
               What you do
             </Link>
-            : a partner filtering the marketplace by a category finds your listing with it.
+            ; a partner filtering the marketplace by a category finds your listing with it.
           </p>
-          <Figure src={`${SHOT}03-activity.png`} alt="Materials selected, with the Category and Speciality lists below" caption="Materials, filed under Waste streams." />
+          <Figure src={`${SHOT}03-activity.png`} alt="An activity selected, with the Category list below" />
         </Step>
 
         <Step n={4} title="Describe it the way you would on the phone">

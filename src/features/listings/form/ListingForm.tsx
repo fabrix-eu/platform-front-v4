@@ -90,7 +90,7 @@ export function ListingForm({
           // An unchecked box sends nothing at all, which is the "no" it means.
           one_off: fd.get("one_off") != null,
           category: text(fd, "category") ?? "",
-          subcategory: text(fd, "subcategory"),
+          category_other: text(fd, "category_other"),
           title: text(fd, "title") ?? "",
           description: text(fd, "description") ?? "",
           quantity: text(fd, "quantity"),
@@ -120,7 +120,7 @@ export function ListingForm({
         mutation={mutation}
         initialType={listing?.listing_type ?? defaultType}
         initialCategory={listing?.category}
-        initialSubcategory={listing?.subcategory}
+        initialCategoryOther={listing?.category_other}
       />
 
       <Field label="Title" name="title" required defaultValue={listing?.title} placeholder="e.g. Organic cotton roll-ends — 500 kg a month" mutation={mutation} />

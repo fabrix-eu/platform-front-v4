@@ -11,7 +11,7 @@ import { DeleteListingButton } from "@/features/listings/DeleteListingButton";
 import type { Direction } from "@/features/listings/directions";
 import { EditListingDialog } from "@/features/listings/form/EditListingDialog";
 import { NewListingDialog } from "@/features/listings/form/NewListingDialog";
-import { categoryLabel, typeMeta } from "@/features/listings/taxonomy";
+import { listingCategoryLabel, typeMeta } from "@/features/listings/taxonomy";
 import type { Listing } from "@/features/listings/types";
 import { FormGroup } from "./FormGroup";
 
@@ -24,8 +24,8 @@ function ListingRow({ listing, organizations }: { listing: Listing; organization
           {listing.title}
         </Link>
         <div className="mt-1 flex flex-wrap items-center gap-2 text-fx-small text-fx-muted">
-          <Badge tone={meta.tone}>{meta.singular}</Badge>
-          {categoryLabel(listing.category)}
+          <Badge tone={meta.tone}>{meta.label}</Badge>
+          {listingCategoryLabel(listing)}
         </div>
       </div>
       <Badge tone="teal">

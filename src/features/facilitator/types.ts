@@ -18,14 +18,15 @@ export interface NetworkOrganizationOrg {
   id: string;
   name: string;
   slug: string | null;
-  kind: string | null;
+  value_chain_stages?: string[];
+  support_roles?: string[];
+  support_roles_other?: string | null;
   address: string | null;
   country_code: string | null;
   image_url: string | null;
   lon: number | null;
   lat: number | null;
   description?: string | null;
-  specialties?: string[];
 }
 
 /** Someone from the followed organisation who is on the platform. */

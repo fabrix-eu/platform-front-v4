@@ -6,7 +6,9 @@ export interface MeOrganization {
   organization_id: string;
   organization_name: string;
   organization_slug: string;
-  organization_kind: string;
+  organization_value_chain_stages: string[];
+  organization_support_roles: string[];
+  organization_support_roles_other: string | null;
   organization_image_url: string | null;
   organization_address: string | null;
   organization_country_code: string | null;

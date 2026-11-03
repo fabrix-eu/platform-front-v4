@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/Button";
 import { updateOrganization } from "../../api";
 import type { OrganizationProfile } from "../../types";
 import { FormGroup } from "./FormGroup";
-import { DEVELOPMENT_STAGES, sizeBand, TURNOVER_OPTIONS, turnoverBand } from "./sizeBands";
+import { DEVELOPMENT_STAGES, REACHES, sizeBand, TURNOVER_OPTIONS } from "./profileOptions";
+import { ReachGroup, readReaches } from "./ReachGroup";
 
 const privateBadge = (label: string) => (
   <Badge tone="slate">
@@ -20,17 +21,15 @@ const privateBadge = (label: string) => (
   </Badge>
 );
 
-// C · Size & reach — on existing attributes: headcount, turnover (as a band) and
-// development stage. The prototype's full-time equivalent and customer reach have no
-// field on the API yet. None of these is shown publicly: the API only returns them to
-// the organisation's team.
+// C · Size & reach — headcount, full-time equivalent, turnover band, development stage
+// and customer reach. None of these is shown publicly: the API only returns them to the
+// organisation's team (the public sees a size band at most).
 export function SizeReachForm({ org }: { org: OrganizationProfile }) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   // Ephemeral: the headcount as typed, only to show which band it falls in. The value
   // sent is read from the form.
   const [people, setPeople] = useState(org.number_of_workers ?? null);
-  const storedBand = turnoverBand(org.turnover);
   const mutation = useMutation({
     mutationFn: (payload: Parameters<typeof updateOrganization>[1]) => updateOrganization(org.id, payload),
     onSuccess: async () => {
@@ -52,17 +51,19 @@ export function SizeReachForm({ org }: { org: OrganizationProfile }) {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
         const workers = String(fd.get("number_of_workers") ?? "").trim();
+        const fte = String(fd.get("fte") ?? "").trim();
         const band = String(fd.get("turnover_band") ?? "");
         const stage = String(fd.get("development_stage") ?? "");
         mutation.mutate({
           number_of_workers: workers === "" ? null : Number(workers),
+          fte: fte === "" ? null : Number(fte),
           development_stage: stage || null,
-          // Unchanged band: keep whatever exact amount is stored.
-          ...(band !== storedBand ? { turnover: band === "" ? null : Number(band) } : {}),
+          turnover_band: band || null,
+          ...readReaches(fd),
         });
       }}
     >
-      <FormError mutation={mutation} fields={["number_of_workers", "development_stage", "turnover"]} />
+      <FormError mutation={mutation} fields={["number_of_workers", "fte", "development_stage", "turnover_band", ...REACHES.map((r) => r.name)]} />
 
       <FormGroup title="How big you are" description="Your exact numbers stay private." aside={privateBadge("Not public")}>
         <div className="grid gap-5 sm:grid-cols-2">
@@ -77,6 +78,15 @@ export function SizeReachForm({ org }: { org: OrganizationProfile }) {
               mutation={mutation}
             />
           </div>
+          <Field
+            label="Roughly what does that come to in full-time equivalent?"
+            name="fte"
+            type="number"
+            step="0.1"
+            defaultValue={org.fte?.toString()}
+            hint="What makes local employment figures comparable to official statistics."
+            mutation={mutation}
+          />
           <SelectField
             label="How long have you been going?"
             name="development_stage"
@@ -109,13 +119,15 @@ export function SizeReachForm({ org }: { org: OrganizationProfile }) {
             label="Approximate yearly turnover — a range is fine"
             name="turnover_band"
             placeholder="Prefer not to say"
-            defaultValue={storedBand}
+            defaultValue={org.turnover_band}
             options={TURNOVER_OPTIONS}
             hint="Optional"
             mutation={mutation}
           />
         </div>
       </FormGroup>
+
+      <ReachGroup org={org} mutation={mutation} />
 
       <div className="flex justify-end border-t border-fx-line pt-6">
         <Button type="submit" disabled={mutation.isPending}>

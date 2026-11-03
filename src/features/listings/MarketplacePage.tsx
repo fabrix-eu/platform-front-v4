@@ -30,7 +30,6 @@ export function MarketplacePage() {
     one_off: search.one_off,
     by_type: search.by_type,
     by_category: search.by_category,
-    by_subcategory: search.by_subcategory,
     ...geoParams(location, search.country),
   };
 

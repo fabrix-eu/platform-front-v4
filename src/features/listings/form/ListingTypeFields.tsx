@@ -1,24 +1,25 @@
 import { useState } from "react";
-import { labelClass } from "@/components/Field";
+import { Field, labelClass } from "@/components/Field";
 import { FieldError, type AnyMutation } from "@/components/FieldError";
 import { SelectField } from "@/components/SelectField";
 import { Pill } from "@/components/ui/Pill";
-import { categoryOptions, LISTING_TYPE_META, LISTING_TYPES, subcategoryOptions } from "../taxonomy";
+import { categoryOptions, LISTING_TYPE_META, LISTING_TYPES } from "../taxonomy";
 
 interface ListingTypeFieldsProps {
   mutation: AnyMutation;
   initialType?: string;
   initialCategory?: string;
-  initialSubcategory?: string | null;
+  initialCategoryOther?: string | null;
 }
 
-// The one controlled corner of the form: each level's options depend on the level
-// above, so type and category are mirrored in state. Their values still travel in
-// FormData (hidden input, native selects) like every other field.
-export function ListingTypeFields({ mutation, initialType = "", initialCategory = "", initialSubcategory }: ListingTypeFieldsProps) {
+// The one controlled corner of the form: the categories depend on the type, and
+// "Something else" (a type or a category) asks what it is. Type and category are
+// mirrored in state; their values still travel in FormData like every other field.
+export function ListingTypeFields({ mutation, initialType = "", initialCategory = "", initialCategoryOther }: ListingTypeFieldsProps) {
   const [type, setType] = useState(initialType);
   const [category, setCategory] = useState(initialCategory);
-  const subcategories = subcategoryOptions(category);
+  const otherType = type === "other";
+  const askPrecision = otherType || category === "other";
 
   return (
     <>
@@ -47,25 +48,29 @@ export function ListingTypeFields({ mutation, initialType = "", initialCategory 
 
       {type && (
         <div className="grid gap-5 sm:grid-cols-2">
-          <SelectField
-            key={`category-${type}`}
-            label="Category"
-            name="category"
-            required
-            placeholder="Choose a category"
-            defaultValue={category}
-            options={categoryOptions(type)}
-            onChange={setCategory}
-            mutation={mutation}
-          />
-          {subcategories.length > 0 && (
+          {otherType ? (
+            <input type="hidden" name="category" value="other" />
+          ) : (
             <SelectField
-              key={`subcategory-${category}`}
-              label="Speciality"
-              name="subcategory"
-              placeholder="General"
-              defaultValue={category === initialCategory ? initialSubcategory : ""}
-              options={subcategories}
+              key={`category-${type}`}
+              label="Category"
+              name="category"
+              required
+              placeholder="Choose a category"
+              defaultValue={category}
+              options={categoryOptions(type)}
+              onChange={setCategory}
+              mutation={mutation}
+            />
+          )}
+          {askPrecision && (
+            <Field
+              key={`other-${type}`}
+              label="Please specify"
+              name="category_other"
+              required
+              defaultValue={initialCategoryOther ?? ""}
+              placeholder="e.g. Dye recipes, cutting patterns…"
               mutation={mutation}
             />
           )}
