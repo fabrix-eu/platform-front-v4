@@ -60,7 +60,7 @@ export function CompletionCard({ org, orgSlug, firstIncomplete }: CompletionCard
               : `${left === 1 ? "One thing" : `${left === 2 ? "Two" : left} things`} left. A complete profile appears properly in the Directory, counts in the local picture, and can post to the Marketplace.`}
           </p>
           <p className="mt-1 text-fx-small text-fx-muted">
-            The ring counts only the six essentials — finish those and it reaches 100%. Photos, extra detail and anything that doesn’t apply to you never count against it.
+            The ring counts only the five essentials — finish those and it reaches 100%. Photos, extra detail and anything that doesn’t apply to you never count against it.
           </p>
         </div>
         {!complete && firstIncomplete && (
