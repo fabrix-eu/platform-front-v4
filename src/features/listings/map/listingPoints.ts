@@ -4,11 +4,11 @@ import type { Listing } from "../types";
 /** The colour of each listing type, matching its badge. */
 export function typeColors(): Record<string, string> {
   return {
-    material: token("--color-fx-green", "#2a9d63"),
-    capacity: token("--color-fx-amber", "#c07d15"),
-    service: token("--color-fx-teal", "#1d9c99"),
-    product: token("--color-fx-rose", "#cb4a86"),
-    distribution: token("--color-fx-indigo", "#554cc4"),
+    materials: token("--color-fx-amber", "#c07d15"),
+    capacities: token("--color-fx-emphasis", "#6c4cf1"),
+    services: token("--color-fx-teal", "#1d9c99"),
+    products: token("--color-fx-rose", "#cb4a86"),
+    logistics: token("--color-fx-ink2", "#4b4b57"),
   };
 }
 

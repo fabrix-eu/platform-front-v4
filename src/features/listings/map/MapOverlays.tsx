@@ -6,11 +6,12 @@ import { LISTING_TYPES, LISTING_TYPE_META, listingCategoryLabel, typeMeta } from
 import type { Listing } from "../types";
 
 const DOT: Record<string, string> = {
-  material: "bg-fx-green",
-  capacity: "bg-fx-amber",
-  service: "bg-fx-teal",
-  product: "bg-fx-rose",
-  distribution: "bg-fx-indigo",
+  materials: "bg-fx-amber",
+  capacities: "bg-fx-emphasis",
+  services: "bg-fx-teal",
+  products: "bg-fx-rose",
+  logistics: "bg-fx-ink2",
+  other: "bg-fx-muted",
 };
 
 /** What the colours on the map mean. */
