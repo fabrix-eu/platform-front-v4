@@ -24,7 +24,7 @@ function ListingRow({ listing, organizations }: { listing: Listing; organization
           {listing.title}
         </Link>
         <div className="mt-1 flex flex-wrap items-center gap-2 text-fx-small text-fx-muted">
-          <Badge tone={meta.tone}>{meta.singular}</Badge>
+          <Badge tone={meta.tone}>{meta.label}</Badge>
           {listingCategoryLabel(listing)}
         </div>
       </div>
