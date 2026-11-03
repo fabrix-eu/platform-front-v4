@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { specialtyLabel } from "@/features/listings/taxonomy";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionNames } from "@/features/organizations/position";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
@@ -12,7 +11,7 @@ import { UnfollowButton } from "./UnfollowButton";
 
 export function RecordHeader({ networkSlug, record }: { networkSlug: string; record: NetworkOrganization }) {
   const org = record.organization;
-  const specialties = (org.specialties ?? []).map(specialtyLabel).filter((label): label is string => !!label);
+  const position = positionNames(org);
 
   return (
     <>
@@ -32,14 +31,13 @@ export function RecordHeader({ networkSlug, record }: { networkSlug: string; rec
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="min-w-0 truncate font-fx-display text-fx-title text-fx-ink">{org.name}</h1>
-            <Badge tone="slate">{orgKindLabel(org.kind)}</Badge>
           </div>
           {org.address && <p className="mt-1 truncate text-fx-small text-fx-muted">{org.address}</p>}
 
-          {specialties.length > 0 && (
+          {position.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {specialties.map((label) => (
-                <Badge key={label} tone="teal">{label}</Badge>
+              {position.map((label) => (
+                <Badge key={label} tone="slate">{label}</Badge>
               ))}
             </div>
           )}

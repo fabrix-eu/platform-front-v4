@@ -1,13 +1,13 @@
 import { PillLink } from "@/components/ui/Pill";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { CATEGORIES_BY_TYPE, categoryLabel, isListingType, LISTING_TYPE_META, LISTING_TYPES, subcategoryOptions } from "../taxonomy";
+import { CATEGORIES_BY_TYPE, categoryLabel, isListingType, LISTING_TYPE_META, LISTING_TYPES } from "../taxonomy";
 import type { MarketplaceSearch } from "../search";
 
-// Activity → category → speciality, each level appearing once its parent is picked.
-// Clicking the active pill clears it and everything under it.
+// Activity → category, the categories appearing once an activity is picked.
+// Clicking the active pill clears it and everything under it. The "other"
+// activity has no category to pick.
 export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
-  const { by_type, by_category, by_subcategory } = search;
-  const subcategories = by_category ? subcategoryOptions(by_category) : [];
+  const { by_type, by_category } = search;
 
   return (
     <div className="space-y-5">
@@ -18,7 +18,7 @@ export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
             <PillLink
               key={type}
               to="/marketplace"
-              search={(prev) => ({ ...prev, by_type: by_type === type ? undefined : type, by_category: undefined, by_subcategory: undefined })}
+              search={(prev) => ({ ...prev, by_type: by_type === type ? undefined : type, by_category: undefined })}
               active={by_type === type}
               tone={LISTING_TYPE_META[type].tone}
               resetScroll={false}
@@ -29,7 +29,7 @@ export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
         </div>
       </div>
 
-      {isListingType(by_type) && (
+      {isListingType(by_type) && by_type !== "other" && (
         <div>
           <Eyebrow className="mb-3">Category</Eyebrow>
           <div className="flex flex-wrap gap-2">
@@ -37,7 +37,7 @@ export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
               <PillLink
                 key={category}
                 to="/marketplace"
-                search={(prev) => ({ ...prev, by_category: by_category === category ? undefined : category, by_subcategory: undefined })}
+                search={(prev) => ({ ...prev, by_category: by_category === category ? undefined : category })}
                 active={by_category === category}
                 resetScroll={false}
               >
@@ -48,24 +48,6 @@ export function TaxonomyFilter({ search }: { search: MarketplaceSearch }) {
         </div>
       )}
 
-      {subcategories.length > 0 && (
-        <div>
-          <Eyebrow className="mb-3">Speciality</Eyebrow>
-          <div className="flex flex-wrap gap-2">
-            {subcategories.map((sub) => (
-              <PillLink
-                key={sub.value}
-                to="/marketplace"
-                search={(prev) => ({ ...prev, by_subcategory: by_subcategory === sub.value ? undefined : sub.value })}
-                active={by_subcategory === sub.value}
-                resetScroll={false}
-              >
-                {sub.label}
-              </PillLink>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

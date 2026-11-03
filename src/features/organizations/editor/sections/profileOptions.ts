@@ -28,41 +28,8 @@ export const SITE_RELATIONS: SelectOption[] = [
   { value: "campus", label: "Campus" },
 ];
 
-export const VALUE_CHAIN_STAGES: SelectOption[] = [
-  { value: "raw_materials", label: "01 Raw materials" },
-  { value: "materials_processing", label: "02 Materials processing" },
-  { value: "making_assembly", label: "03 Making & assembly" },
-  { value: "distribution", label: "04 Distribution" },
-  { value: "retail", label: "05 Retail" },
-  { value: "use_upkeep", label: "06 Use & upkeep" },
-  { value: "collection_recovery", label: "07 Collection & recovery" },
-];
-
-export const SUPPORT_ROLES: SelectOption[] = [
-  { value: "logistics_transport", label: "Logistics & transport" },
-  { value: "machinery_equipment", label: "Machinery & equipment" },
-  { value: "design_creative", label: "Design & creative" },
-  { value: "technical_consulting", label: "Technical & consulting" },
-  { value: "research_education", label: "Research & education" },
-  { value: "finance_business", label: "Finance & business services" },
-  { value: "it_digital", label: "IT & digital" },
-  { value: "other", label: "Other / not listed" },
-];
-
-export const SECTORS: SelectOption[] = [
-  { value: "textile_clothing", label: "Textile & clothing" },
-  { value: "footwear_leather", label: "Footwear & leather" },
-  { value: "home_textiles_furniture", label: "Home textiles & furniture" },
-  { value: "technical_textiles", label: "Technical textiles" },
-  { value: "fashion_retail", label: "Fashion retail" },
-  { value: "waste_recycling", label: "Waste & recycling" },
-  { value: "logistics", label: "Logistics" },
-  { value: "education_research", label: "Education & research" },
-  { value: "public_sector", label: "Public sector" },
-  { value: "finance_business", label: "Finance & business services" },
-  { value: "digital", label: "Digital" },
-  { value: "other", label: "Other / not listed" },
-];
+// The value chain stages and support roles live in ../../position.ts: the directory and
+// every badge read them too.
 
 // Suggestions only: a material not listed is kept as typed.
 export const MATERIAL_SUGGESTIONS = [

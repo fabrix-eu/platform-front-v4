@@ -7,7 +7,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { listingQueryOptions } from "../api";
 import { directionMeta, ONE_OFF } from "../directions";
-import { categoryLabel, subcategoryLabel, typeMeta } from "../taxonomy";
+import { listingCategoryLabel, typeMeta } from "../taxonomy";
 import { ListingAside } from "./ListingAside";
 import { ListingGallery } from "./ListingGallery";
 
@@ -44,10 +44,7 @@ export function ListingDetailPage() {
             <Badge tone={direction.tone}>{direction.badge}</Badge>
             {listing.one_off && <Badge tone="slate">{ONE_OFF.badge}</Badge>}
             <Badge tone={type.tone}>{type.label}</Badge>
-            <span className="text-fx-small font-bold text-fx-ink2">{categoryLabel(listing.category)}</span>
-            {listing.subcategory && (
-              <span className="text-fx-small text-fx-muted">· {subcategoryLabel(listing.category, listing.subcategory)}</span>
-            )}
+            <span className="text-fx-small font-bold text-fx-ink2">{listingCategoryLabel(listing)}</span>
             {listing.status === "closed" && <Badge tone="slate">Closed</Badge>}
           </div>
           <h1 className="mt-4 text-fx-display text-fx-ink">{listing.title}</h1>

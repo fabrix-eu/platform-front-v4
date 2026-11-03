@@ -3,7 +3,7 @@ import { ImageIcon } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { directionMeta, ONE_OFF } from "./directions";
-import { categoryLabel, typeMeta } from "./taxonomy";
+import { listingCategoryLabel, typeMeta } from "./taxonomy";
 import type { Listing } from "./types";
 
 function Thumbnail({ listing, className }: { listing: Listing; className: string }) {
@@ -36,7 +36,7 @@ export function ListingCard({ listing }: { listing: Listing }) {
           <Badge tone={type.tone}>{type.label}</Badge>
           {listing.one_off && <Badge tone="slate">{ONE_OFF.badge}</Badge>}
         </div>
-        <span className="mt-2 truncate text-fx-small text-fx-muted">{categoryLabel(listing.category)}</span>
+        <span className="mt-2 truncate text-fx-small text-fx-muted">{listingCategoryLabel(listing)}</span>
         <h3 className="mt-3 line-clamp-2 text-fx-heading text-fx-ink group-hover:text-fx-emphasis">{listing.title}</h3>
         <p className="mt-2 line-clamp-2 text-fx-small text-fx-ink2">{listing.description}</p>
         <div className="mt-auto pt-4">
@@ -65,7 +65,7 @@ export function ListingRow({ listing }: { listing: Listing }) {
       <div className="min-w-0 flex-1">
         <h3 className="truncate text-fx-body font-bold text-fx-ink group-hover:text-fx-emphasis">{listing.title}</h3>
         <p className="mt-0.5 truncate text-fx-small text-fx-muted">
-          {listing.organization.name} · {categoryLabel(listing.category)}
+          {listing.organization.name} · {listingCategoryLabel(listing)}
         </p>
       </div>
       <div className="hidden shrink-0 items-center gap-2 sm:flex">

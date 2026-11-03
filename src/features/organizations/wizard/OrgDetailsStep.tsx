@@ -2,14 +2,10 @@ import { useState, type ReactNode } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Field } from "@/components/Field";
 import { FormError, type AnyMutation } from "@/components/FieldError";
-import { SelectField } from "@/components/SelectField";
 import { Button } from "@/components/ui/Button";
-import { ORG_KIND_LABELS } from "../kinds";
 import type { OrganizationDraft } from "../types";
 import { AddressField } from "./AddressField";
-import { SpecialtiesField } from "./SpecialtiesField";
-
-const KIND_OPTIONS = Object.entries(ORG_KIND_LABELS).map(([value, label]) => ({ value, label }));
+import { PositionFields } from "./PositionFields";
 
 export function readOrganizationDraft(fd: FormData): OrganizationDraft {
   const number = (key: string) => {
@@ -18,12 +14,13 @@ export function readOrganizationDraft(fd: FormData): OrganizationDraft {
   };
   return {
     name: String(fd.get("name") ?? "").trim(),
-    kind: String(fd.get("kind") ?? ""),
     address: String(fd.get("address") ?? ""),
     country_code: String(fd.get("country_code") ?? ""),
     lat: number("lat"),
     lon: number("lon"),
-    specialties: fd.getAll("specialties").map(String),
+    value_chain_stages: fd.getAll("value_chain_stages").map(String),
+    support_roles: fd.getAll("support_roles").map(String),
+    support_roles_other: String(fd.get("support_roles_other") ?? "").trim() || null,
   };
 }
 
@@ -41,6 +38,9 @@ interface OrgDetailsStepProps {
 export function OrgDetailsStep({ draft, mutation, submitLabel, onBack, onSubmit, children }: OrgDetailsStepProps) {
   // Ephemeral: an address typed but not picked cannot be placed on the map.
   const [addressError, setAddressError] = useState<string | null>(null);
+  // Ephemeral too: the API asks for a position, but on sign-up it is only sent
+  // after the account step — so say it here, where it can be answered.
+  const [positionError, setPositionError] = useState<string | null>(null);
 
   return (
     <form
@@ -49,18 +49,18 @@ export function OrgDetailsStep({ draft, mutation, submitLabel, onBack, onSubmit,
         e.preventDefault();
         const form = new FormData(e.currentTarget);
         const next = readOrganizationDraft(form);
-        if (next.lat === null || next.lon === null) {
-          setAddressError("Pick the address from the suggestions, so partners can find you on the map.");
-          return;
-        }
+        const placed = next.lat !== null && next.lon !== null;
+        const positioned = next.value_chain_stages.length > 0 || next.support_roles.length > 0;
+        setAddressError(placed ? null : "Pick the address from the suggestions, so partners can find you on the map.");
+        setPositionError(positioned ? null : "Pick where you sit in the value chain, or how you support it.");
+        if (!placed || !positioned) return;
         onSubmit(next, form);
       }}
     >
-      <FormError mutation={mutation} fields={["name", "kind", "address", "country_code", "owner_email"]} />
+      <FormError mutation={mutation} fields={["name", "address", "country_code", "value_chain_stages", "support_roles", "support_roles_other", "owner_email"]} />
       <Field label="Organisation name" name="name" required defaultValue={draft.name} mutation={mutation} />
-      <SelectField label="Type" name="kind" required placeholder="Choose a type" defaultValue={draft.kind} options={KIND_OPTIONS} mutation={mutation} />
       <AddressField initial={draft} error={addressError} onPicked={() => setAddressError(null)} mutation={mutation} />
-      <SpecialtiesField initial={draft.specialties} />
+      <PositionFields initial={draft} mutation={mutation} error={positionError} />
       {children}
       <div className="flex flex-wrap justify-between gap-3 border-t border-fx-line pt-6">
         <Button variant="ghost" onClick={onBack}>

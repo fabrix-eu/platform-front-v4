@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { FormError, type AnyMutation } from "@/components/FieldError";
 import { Button } from "@/components/ui/Button";
 import type { OrganizationSummary } from "@/features/organizations/types";
+import { positionLabel } from "@/features/organizations/position";
 import { OrgSummaryCard } from "@/features/organizations/wizard/OrgSummaryCard";
 import { OwnerEmailField, readOwnerEmail } from "./OwnerEmailField";
 
@@ -23,7 +24,7 @@ export function PickedStep({ organization, mutation, onBack, onAdd }: PickedStep
       }}
     >
       <FormError mutation={mutation} fields={["owner_email"]} />
-      <OrgSummaryCard name={organization.name} kind={organization.kind} address={organization.address} imageUrl={organization.image_url} />
+      <OrgSummaryCard name={organization.name} position={positionLabel(organization)} address={organization.address} imageUrl={organization.image_url} />
       {organization.claimed ? (
         <p className="text-fx-small text-fx-muted">Its team manages this profile already.</p>
       ) : (

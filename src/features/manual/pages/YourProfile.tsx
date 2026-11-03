@@ -1,13 +1,12 @@
-import { Badge } from "@/components/ui/Badge";
 import { Banner } from "@/components/ui/Banner";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
+import { stageName, VALUE_CHAIN_STAGES } from "@/features/organizations/position";
 
 const PUBLIC_PARTS = [
   ["Identity", "Name, what you do, your logo and cover, your description."],
   ["Where you are", "Your address, and the point it puts you on the map."],
-  ["What you do", "The areas you work in — the page after this one."],
+  ["What you do", "Where you sit in the value chain, and the materials you work with."],
   ["Offers and needs", "Your marketplace listings: what you have, what you look for."],
   ["Connections", "The organisations you work with, and how."],
   ["Photos", "Your site, your products, your team."],
@@ -40,19 +39,12 @@ export function YourProfile() {
         what a partner reads before deciding to get in touch.
       </p>
 
-      <Eyebrow className="mt-10 mb-3">What your organisation is</Eyebrow>
+      <Eyebrow className="mt-10 mb-3">Where your organisation sits</Eyebrow>
       <p className="text-fx-body text-fx-ink2">
-        Your organisation has one nature, shown next to its name. It says what you <em>are</em> — where the
-        areas you pick under <em>What you do</em> say what you <em>make, offer or need</em>. You do not pick
-        it: it follows from where you come in the making process and how you support others.
+        Your organisation is shown by its place in the value chain — the first stage you work in, or how
+        you support the chain — next to its name, on its card and on the map. You pick it at sign-up and
+        change it under <em>What you do</em>: {VALUE_CHAIN_STAGES.map((s) => stageName(s.value)).join(", ")}.
       </p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {Object.entries(ORG_KIND_LABELS).map(([kind, label]) => (
-          <Badge key={kind} tone="slate">
-            {label}
-          </Badge>
-        ))}
-      </div>
 
       <Card className="mt-10 p-5">
         <Eyebrow>What everyone sees</Eyebrow>

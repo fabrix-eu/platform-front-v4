@@ -6,7 +6,7 @@ import { token } from "@/features/explore/map/mapTokens";
 import { PointsMap, type MapPoint } from "@/features/explore/map/PointsMap";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 import type { DirectoryMapOrganization } from "./types";
 
 function Legend() {
@@ -88,7 +88,7 @@ export function DirectoryMap({
               >
                 {selected.name}
               </Link>
-              <p className="mt-1 text-fx-small text-fx-muted">{orgKindLabel(selected.kind)}</p>
+              <p className="mt-1 text-fx-small text-fx-muted">{positionLabel(selected)}</p>
               {selected.address && (
                 <p className="mt-1 flex items-center gap-1.5 text-fx-small text-fx-ink2">
                   <MapPin aria-hidden className="size-3.5 shrink-0" />

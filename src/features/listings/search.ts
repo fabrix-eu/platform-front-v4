@@ -11,7 +11,6 @@ export const marketplaceSearchSchema = z.object({
   one_off: urlBoolean,
   by_type: z.string().optional(),
   by_category: z.string().optional(),
-  by_subcategory: z.string().optional(),
   country: z.string().optional(),
   /** "all" = the visitor cleared the default "near my organisation" filter. */
   near: z.literal("all").optional(),

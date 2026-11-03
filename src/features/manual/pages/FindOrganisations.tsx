@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Banner } from "@/components/ui/Banner";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { ORG_KIND_LABELS } from "@/features/organizations/kinds";
 import { Figure } from "../Figure";
 import { FactList, proseLink as link, Step } from "../parts";
 
@@ -9,14 +8,15 @@ const SHOT = "/manual/find-organisations/";
 
 const FILTERS = [
   ["Search", "Words in the name or description."],
-  ["What they are", `Their type, several at once — ${Object.keys(ORG_KIND_LABELS).length} to choose from, from designer to recycler.`],
-  ["What they do", "One of the five activities: the organisations that declared a category in it."],
+  ["In the value chain", "The stages they work in, from raw materials to collection & recovery — several at once."],
+  ["Supporting the chain", "How they support it: logistics, machinery, design, consulting, research, finance, digital…"],
+  ["On the marketplace", "What they offer or look for right now: the organisations with a live listing of that activity."],
   ["Where", "Near my organisation with a radius, or Everywhere, plus a country — as on the marketplace."],
   ["Status", "All, On FABRIX (someone manages the profile), or Claimable (on the map, nobody has claimed it yet)."],
 ];
 
 const CARD = [
-  ["Type and badge", "What the organisation is, and Claimable when nobody runs the profile yet."],
+  ["Position and badge", "Where the organisation sits in the value chain, and Claimable when nobody runs the profile yet."],
   ["Description and address", "The first lines of their About, and where they are."],
   ["Connections", "How many organisations they are linked to — a quick read of how active they are on FABRIX."],
 ];

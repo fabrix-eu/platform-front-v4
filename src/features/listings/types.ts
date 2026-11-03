@@ -11,7 +11,9 @@ export interface ListingOrganization {
   name: string;
   slug: string;
   image_url: string | null;
-  kind: string | null;
+  value_chain_stages: string[];
+  support_roles: string[];
+  support_roles_other: string | null;
   address: string | null;
   lon: number | null;
   lat: number | null;
@@ -25,7 +27,8 @@ export interface Listing {
   /** A single occasion rather than a standing arrangement. */
   one_off: boolean;
   category: string;
-  subcategory: string | null;
+  /** What it is, when the category is "other". */
+  category_other: string | null;
   title: string;
   description: string;
   status: "active" | "closed";
@@ -45,7 +48,7 @@ export interface ListingPayload {
   direction: string;
   one_off: boolean;
   category: string;
-  subcategory: string | null;
+  category_other: string | null;
   title: string;
   description: string;
   quantity: string | null;

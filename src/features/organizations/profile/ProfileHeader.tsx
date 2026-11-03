@@ -4,7 +4,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { orgKindLabel } from "../kinds";
+import { positionLabel } from "../position";
 import type { OrganizationProfile } from "../types";
 import { ProfileActions } from "./ProfileActions";
 
@@ -44,7 +44,7 @@ export function ProfileHeader({ org, me, membership, preview }: ProfileHeaderPro
         <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              <Eyebrow>{orgKindLabel(org.kind)}</Eyebrow>
+              <Eyebrow>{positionLabel(org)}</Eyebrow>
               {membership && <Badge tone="violet">Your organisation</Badge>}
               {!org.claimed && <Badge tone="amber">Unclaimed</Badge>}
             </div>

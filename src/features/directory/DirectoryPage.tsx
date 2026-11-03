@@ -1,7 +1,6 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { csvList } from "@/lib/csv";
 import { useOptionalMe } from "@/lib/useOptionalMe";
 import { Banner } from "@/components/ui/Banner";
 import { ButtonLink } from "@/components/ui/Button";
@@ -9,11 +8,11 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { InfiniteScrollSentinel } from "@/features/explore/InfiniteScrollSentinel";
 import { geoParams, myOrgLocation, resolveLocation } from "@/features/explore/location";
-import { categoriesForTypes } from "@/features/listings/taxonomy";
 import { directoryInfiniteQueryOptions, directoryMapQueryOptions } from "./api";
-import { ActivityFilter, DirectoryPlaceFilter, DirectorySearchBox, DirectoryViewToggle, KindFilter, StatusFilter } from "./DirectoryFilters";
+import { DirectoryPlaceFilter, DirectorySearchBox, DirectoryViewToggle, StatusFilter } from "./DirectoryFilters";
 import { DirectoryMap } from "./DirectoryMap";
 import { OrganizationCard, OrganizationGridSkeleton, OrganizationRow } from "./OrganizationCard";
+import { OfferingFilter, StageFilter, SupportFilter } from "./PositionFilters";
 
 export function DirectoryPage() {
   const search = useSearch({ from: "/_auth/global" });
@@ -23,14 +22,11 @@ export function DirectoryPage() {
   const view = search.view ?? "cards";
   const onMap = view === "map";
 
-  // An activity is a heading, never a stored value: organisations keep categories in
-  // `specialties`, so each picked activity travels as the categories underneath it.
-  const activities = csvList(search.activities);
-
   const filters = {
     search: search.search,
-    kinds: search.kinds,
-    specialties: activities.length > 0 ? categoriesForTypes(activities).join(",") : undefined,
+    stages: search.stages,
+    support: search.support,
+    offering: search.offering,
     ...(search.status ? { by_claimed: search.status === "claimed" } : {}),
     ...geoParams(location, search.country),
   };
@@ -45,7 +41,7 @@ export function DirectoryPage() {
   const pending = onMap ? mapQuery.isPending : listQuery.isPending;
   const failed = onMap ? mapQuery.isError : listQuery.isError;
   const fetching = onMap ? mapQuery.isFetching : listQuery.isFetching;
-  const filtered = !!(search.search || search.kinds || search.activities || search.country || search.status || location.active);
+  const filtered = !!(search.search || search.stages || search.support || search.offering || search.country || search.status || location.active);
 
   // The map payload has no `claimed`, so whatever the list already knows is reused.
   const claimedById = new Map(organizations.map((org) => [org.id, org.claimed]));
@@ -66,8 +62,9 @@ export function DirectoryPage() {
       <div className="mt-10 grid gap-10 lg:grid-cols-[280px_minmax(0,1fr)]">
         <aside aria-label="Filters" className="space-y-7">
           <DirectorySearchBox key={search.search ?? ""} value={search.search} />
-          <KindFilter kinds={search.kinds} />
-          <ActivityFilter activities={search.activities} />
+          <StageFilter stages={search.stages} />
+          <SupportFilter support={search.support} />
+          <OfferingFilter offering={search.offering} />
           <DirectoryPlaceFilter search={search} location={location} hasMyLocation={mine !== null} />
           <StatusFilter status={search.status} />
         </aside>

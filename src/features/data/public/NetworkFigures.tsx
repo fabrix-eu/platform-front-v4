@@ -1,4 +1,4 @@
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { roleName, stageName } from "@/features/organizations/position";
 import { relationLabel } from "@/features/organizations/relations";
 import { typeMeta } from "@/features/listings/taxonomy";
 import { type Count, type DataSummary, formatCount } from "./api";
@@ -51,7 +51,8 @@ export function NetworkFigures({ network }: { network: DataSummary["network"] })
     <>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         <BarList title="Organisations by country" rows={network.organizations_by_country} total={network.organizations} label={countryLabel} />
-        <BarList title="Organisations by kind" rows={network.organizations_by_kind} total={network.organizations} label={orgKindLabel} />
+        <BarList title="Organisations by value chain stage" rows={network.organizations_by_stage} total={network.organizations} label={stageName} />
+        <BarList title="Organisations supporting the chain" rows={network.organizations_by_support_role} total={network.organizations} label={(key) => roleName(key)} />
         <BarList title="Relations by type" rows={network.relations_by_type} total={network.relations} label={relationLabel} />
         <BarList title="Listings by type" rows={network.listings_by_type} total={network.listings} label={(key) => typeMeta(key).label} />
       </div>

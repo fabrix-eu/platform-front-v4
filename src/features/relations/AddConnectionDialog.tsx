@@ -9,7 +9,7 @@ import { useToast } from "@/components/Toast";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 import { createRelation, RELATION_TYPES } from "@/features/organizations/relations";
 import type { OrganizationProfile, OrganizationSummary } from "@/features/organizations/types";
 import { OrgSearchStep } from "@/features/organizations/wizard/OrgSearchStep";
@@ -90,7 +90,7 @@ export function AddConnectionDialog({ org }: { org: OrganizationProfile }) {
               <Avatar name={picked.name} src={picked.image_url} />
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-fx-body font-bold text-fx-ink">{picked.name}</span>
-                <span className="block truncate text-fx-small text-fx-muted">{[orgKindLabel(picked.kind), picked.address].filter(Boolean).join(" · ")}</span>
+                <span className="block truncate text-fx-small text-fx-muted">{[positionLabel(picked), picked.address].filter(Boolean).join(" · ")}</span>
               </span>
               <Button variant="ghost" size="sm" onClick={() => setPicked(null)}>
                 Change

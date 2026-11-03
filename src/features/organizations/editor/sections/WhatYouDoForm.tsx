@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Field } from "@/components/Field";
 import { FormError } from "@/components/FieldError";
 import { useToast } from "@/components/Toast";
 import { Badge } from "@/components/ui/Badge";
@@ -8,19 +7,19 @@ import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Toggles";
 import { updateOrganization } from "../../api";
 import type { OrganizationProfile } from "../../types";
-import { SpecialtiesField } from "../../wizard/SpecialtiesField";
+import { VALUE_CHAIN_STAGES } from "../../position";
+import { SupportRolesField } from "../../wizard/SupportRolesField";
 import { ChoiceChips } from "./ChoiceChips";
 import { FormGroup } from "./FormGroup";
-import { MATERIAL_SUGGESTIONS, SECTORS, SUPPORT_ROLES, VALUE_CHAIN_STAGES } from "./profileOptions";
+import { MATERIAL_SUGGESTIONS } from "./profileOptions";
 import { TagListField } from "./TagListField";
 
-const FIELDS = ["support_only", "value_chain_stages", "support_roles", "support_roles_other", "sectors", "materials", "specialties"];
+const FIELDS = ["support_only", "value_chain_stages", "support_roles", "support_roles_other", "materials"];
 
 const publicBadge = <Badge tone="slate">Public</Badge>;
 
-// B · What you do — where the organisation comes in the making process, how it supports
-// others, its sectors, materials and specialties (on the listing taxonomy). The API
-// derives the organisation type from these answers.
+// B · What you do — where the organisation sits in the value chain, how it supports
+// others, and the materials it works with. The directory filters on the first two.
 export function WhatYouDoForm({ org }: { org: OrganizationProfile }) {
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -47,9 +46,7 @@ export function WhatYouDoForm({ org }: { org: OrganizationProfile }) {
           value_chain_stages: list("value_chain_stages"),
           support_roles: list("support_roles"),
           support_roles_other: other || null,
-          sectors: list("sectors"),
           materials: list("materials"),
-          specialties: list("specialties"),
         });
       }}
     >
@@ -72,25 +69,13 @@ export function WhatYouDoForm({ org }: { org: OrganizationProfile }) {
             mutation={mutation}
           />
         )}
-        <ChoiceChips
+        <SupportRolesField
           label="Do you support others who make things? How?"
-          name="support_roles"
-          options={SUPPORT_ROLES}
-          defaultValue={org.support_roles}
           hint="Choose as many as apply — a maker can hold a supporting role too."
+          defaultValue={org.support_roles}
+          defaultOther={org.support_roles_other}
           mutation={mutation}
         />
-        <Field
-          label="Not listed? Tell us how"
-          name="support_roles_other"
-          defaultValue={org.support_roles_other}
-          hint="We log what you write here to improve the list."
-          mutation={mutation}
-        />
-      </FormGroup>
-
-      <FormGroup title="Sectors" description="A broad signal to help people find you. Most organisations pick one or two." aside={publicBadge}>
-        <ChoiceChips label="Sectors" name="sectors" options={SECTORS} defaultValue={org.sectors} mutation={mutation} />
       </FormGroup>
 
       <FormGroup title="Materials & products" aside={publicBadge}>
@@ -103,10 +88,6 @@ export function WhatYouDoForm({ org }: { org: OrganizationProfile }) {
           hint="Pick a suggestion where you can — it is what lets someone searching for “linen in Rotterdam” find you."
           mutation={mutation}
         />
-      </FormGroup>
-
-      <FormGroup title="Your specialties" description="The same vocabulary as the Marketplace, so a search for a category of listing finds you too." aside={publicBadge}>
-        <SpecialtiesField initial={org.specialties} legend="Areas of work" />
       </FormGroup>
 
       <div className="flex justify-end border-t border-fx-line pt-6">

@@ -28,10 +28,10 @@ export const networkSearchSchema = z.object({
    * Widening theirs would let `?view=table` into pages that cannot render it.
    */
   org_view: z.enum(ORG_VIEWS).optional(),
-  /** Comma separated Organization#kind values. */
-  kinds: z.string().optional(),
-  /** Comma separated specialty keys. */
-  specialties: z.string().optional(),
+  /** Comma separated value chain stages. */
+  stages: z.string().optional(),
+  /** Comma separated support roles. */
+  support: z.string().optional(),
   /** One NetworkOrganization#economic_health value. */
   health: z.string().optional(),
   country: z.string().optional(),
@@ -47,7 +47,7 @@ export { csvList, toggleCsv } from "@/lib/csv";
 
 /** True when anything narrows the list — drives the "Clear" control. */
 export const hasOrgFilters = (search: NetworkSearch): boolean =>
-  !!(search.q || search.kinds || search.specialties || search.health || search.country || search.min_workers || search.max_workers);
+  !!(search.q || search.stages || search.support || search.health || search.country || search.min_workers || search.max_workers);
 
 /**
  * The API params behind the filters. `within_organization_workers` is a has_scope
@@ -57,8 +57,8 @@ export const hasOrgFilters = (search: NetworkSearch): boolean =>
 export function orgFilterParams(search: NetworkSearch): Record<string, string | number | undefined> {
   return {
     search: search.q || undefined,
-    kinds: search.kinds || undefined,
-    specialties: search.specialties || undefined,
+    stages: search.stages || undefined,
+    support: search.support || undefined,
     economic_health: search.health || undefined,
     country: search.country || undefined,
     "within_organization_workers[min_workers]": search.min_workers,

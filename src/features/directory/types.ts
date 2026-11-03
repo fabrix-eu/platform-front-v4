@@ -6,14 +6,15 @@ export interface DirectoryOrganization {
   name: string;
   slug: string;
   description: string | null;
-  kind: string | null;
+  value_chain_stages: string[];
+  support_roles: string[];
+  support_roles_other: string | null;
   address: string | null;
   country_code: string | null;
   lon: number | null;
   lat: number | null;
   image_url: string | null;
   website: string | null;
-  specialties: string[];
   /** Someone manages it: it can be joined, not claimed. */
   claimed: boolean;
   relations_count: number;
@@ -24,7 +25,9 @@ export interface DirectoryMapOrganization {
   id: string;
   name: string;
   slug: string;
-  kind: string | null;
+  value_chain_stages: string[];
+  support_roles: string[];
+  support_roles_other: string | null;
   address: string | null;
   image_url: string | null;
   lon: number | null;

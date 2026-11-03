@@ -3,7 +3,7 @@ import { MapPin, Network } from "lucide-react";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 import type { DirectoryOrganization } from "./types";
 
 function Meta({ org }: { org: DirectoryOrganization }) {
@@ -35,7 +35,7 @@ export function OrganizationCard({ org }: { org: DirectoryOrganization }) {
           <div className="min-w-0 flex-1">
             <h3 className="line-clamp-2 text-fx-heading text-fx-ink group-hover:text-fx-emphasis">{org.name}</h3>
             <div className="mt-1 flex flex-wrap items-center gap-2">
-              <span className="text-fx-small text-fx-muted">{orgKindLabel(org.kind)}</span>
+              <span className="text-fx-small text-fx-muted">{positionLabel(org)}</span>
               {!org.claimed && <Badge tone="violet">Claimable</Badge>}
             </div>
           </div>
@@ -64,7 +64,7 @@ export function OrganizationRow({ org }: { org: DirectoryOrganization }) {
       <span className="min-w-0 flex-1">
         <span className="block truncate text-fx-body font-bold text-fx-ink group-hover:text-fx-emphasis">{org.name}</span>
         <span className="mt-0.5 flex flex-wrap items-center gap-x-3 text-fx-small text-fx-muted">
-          {orgKindLabel(org.kind)}
+          {positionLabel(org)}
           <Meta org={org} />
         </span>
       </span>

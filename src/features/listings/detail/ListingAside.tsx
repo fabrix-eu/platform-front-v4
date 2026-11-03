@@ -5,7 +5,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { orgKindLabel } from "@/features/organizations/kinds";
+import { positionLabel } from "@/features/organizations/position";
 import { DeleteListingButton } from "../DeleteListingButton";
 import type { Listing } from "../types";
 import { ContactDialog } from "./ContactDialog";
@@ -43,7 +43,7 @@ export function ListingAside({ listing, me }: { listing: Listing; me: User | und
           <Avatar name={org.name} src={org.image_url} />
           <div className="min-w-0">
             <p className="truncate text-fx-body font-bold text-fx-ink group-hover:text-fx-emphasis">{org.name}</p>
-            <p className="truncate text-fx-small text-fx-muted">{orgKindLabel(org.kind)}</p>
+            <p className="truncate text-fx-small text-fx-muted">{positionLabel(org)}</p>
           </div>
         </Link>
         {org.address && (

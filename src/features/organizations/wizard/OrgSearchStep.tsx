@@ -6,7 +6,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { organizationSearchQueryOptions } from "../api";
-import { orgKindLabel } from "../kinds";
+import { positionLabel } from "../position";
 import type { OrganizationSummary } from "../types";
 
 interface OrgSearchStepProps {
@@ -51,7 +51,7 @@ export function OrgSearchStep({
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-fx-body font-bold text-fx-ink">{org.name}</span>
                   <span className="block truncate text-fx-small text-fx-muted">
-                    {[orgKindLabel(org.kind), org.address].filter(Boolean).join(" · ")}
+                    {[positionLabel(org), org.address].filter(Boolean).join(" · ")}
                   </span>
                 </span>
                 {org.claimed ? <Badge tone="slate">Managed</Badge> : <Badge tone="violet">Claimable</Badge>}

@@ -11,7 +11,7 @@ const FILTERS = [
   ["Search", "Words in the title or description. Results refresh as you type."],
   ["Offered or wanted", "Either, Offered, Wanted — whether the listing gives or asks."],
   ["Timing", "Any, One-off, Ongoing — a single occasion, or something supplied or needed again."],
-  ["Activity → Category → Speciality", "The vocabulary listings are filed in. Pick an activity and its categories appear; pick a category and its specialities do. Each level narrows the last."],
+  ["Activity → Category", "The vocabulary listings are filed in. Pick an activity and its categories appear; a category narrows the activity."],
   ["Location", `Near my organisation, within a radius of ${RADIUS_OPTIONS.join(", ")} km (${DEFAULT_RADIUS_KM} by default), or Everywhere. Plus a country, which applies either way.`],
 ];
 
@@ -49,9 +49,9 @@ export function SearchTheMarketplace() {
 
         <Step n={2} title="Narrow it">
           <p>
-            The filters are on the left, each one a row of choices. They combine: Offered, Materials,
-            Waste streams, within 50 km, Netherlands. Picking an activity reveals its categories; picking a
-            category reveals its specialities.
+            The filters are on the left, each one a row of choices. They combine: Offered, Equipment, goods
+            &amp; materials, Offcuts, roll-ends &amp; deadstock, within 50 km, Netherlands. Picking an activity
+            reveals its categories.
           </p>
           <Figure src={`${SHOT}02-filters.png`} alt="The filter column with Materials selected: the four categories of Materials appear, then the location choices" />
           <FactList rows={FILTERS} />

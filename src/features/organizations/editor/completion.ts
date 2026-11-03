@@ -7,7 +7,7 @@ export interface Essential {
   done: boolean;
 }
 
-/** The six essentials the ring counts — nothing else counts for or against it. */
+/** The five essentials the ring counts — nothing else counts for or against it. */
 export function essentials(org: OrganizationProfile): Essential[] {
   return [
     { key: "name", label: "Name", done: !!org.name?.trim() },
@@ -18,7 +18,6 @@ export function essentials(org: OrganizationProfile): Essential[] {
       label: "Your part in the making process",
       done: org.value_chain_stages.length > 0 || org.support_roles.length > 0 || org.support_only,
     },
-    { key: "sector", label: "One sector", done: org.sectors.length > 0 },
     { key: "size", label: "How many people work here", done: org.number_of_workers != null },
   ];
 }
@@ -56,7 +55,7 @@ export function editorSections(org: OrganizationProfile): EditorSection[] {
       letter: "B",
       title: "What you do",
       group: "required",
-      status: statusOf([done.role, done.sector, org.materials.length > 0 || org.specialties.length > 0]),
+      status: statusOf([done.role, org.materials.length > 0]),
       description:
         "How the platform knows who to put in front of you — matchmaking, and which searches you show up in. The single biggest driver of relevant matches.",
     },

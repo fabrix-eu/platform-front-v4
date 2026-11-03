@@ -5,7 +5,7 @@ import { z } from "zod";
  * search param names are shared across the whole router anyway — giving each list its
  * own would only invent collisions.
  *
- * `q`, `kinds`, `status` and `country` already exist elsewhere with these exact types;
+ * `q`, `stages`, `status` and `country` already exist elsewhere with these exact types;
  * only the sorting and paging names are new.
  */
 export const adminSearchSchema = z.object({
@@ -15,8 +15,8 @@ export const adminSearchSchema = z.object({
   /** Validated server-side against Organization::SORTABLE — a bad column falls back. */
   sort_by: z.string().optional(),
   sort_direction: z.enum(["asc", "desc"]).optional(),
-  /** Organisations: comma separated Organization#kind values. */
-  kinds: z.string().optional(),
+  /** Organisations: comma separated value chain stages. */
+  stages: z.string().optional(),
   status: z.enum(["claimed", "unclaimed"]).optional(),
   country: z.string().optional(),
   /**
@@ -44,7 +44,7 @@ const common = (search: AdminSearch): Params => ({
 
 export const adminOrganizationParams = (search: AdminSearch): Params => ({
   ...common(search),
-  kinds: search.kinds || undefined,
+  stages: search.stages || undefined,
   by_claimed: search.status ? String(search.status === "claimed") : undefined,
   by_country: search.country || undefined,
 });

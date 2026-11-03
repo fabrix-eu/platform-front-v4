@@ -66,10 +66,9 @@ export function CompleteYourProfile() {
 
         <Step n={4} title="B · What you do">
           <p>
-            Where you come in the making process — from raw materials to collection and recovery — and how
-            you support others who make things. Then your sectors, the materials you work with, and your
-            specialties, in the same vocabulary as the Marketplace. Searches and matches run on them, so the
-            more precise the better. All are public. Your organisation type follows from these answers.
+            Where you sit in the value chain — from raw materials to collection and recovery — and how you
+            support others who make things, then the materials you work with. The Directory filters on your
+            place in the chain, and your badge shows it, so the more precise the better. All are public.
           </p>
           <Figure src={`${SHOT}06-what-you-do.png`} alt="The What you do section open: the sector field, then the specialties as pills by category, with the chosen categories refined below" />
         </Step>
