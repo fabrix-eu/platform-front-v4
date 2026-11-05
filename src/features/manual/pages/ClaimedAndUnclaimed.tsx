@@ -13,7 +13,7 @@ const LIFE = [
 const KEEPS = [
   ["What an unclaimed profile has", "A name, a type, an address on the map, sometimes a description, a website and what it does — whatever whoever added it knew. Connections declared toward it. Possibly a pending claim."],
   ["What it cannot have", "A team, listings, Compass answers, a mailbox. It appears in the Directory as Claimable and on its page as Unclaimed; its Message button is absent, because there is nobody to read."],
-  ["What claiming changes", "Nothing on the public side: the same profile, now with a team behind it. The badge goes; the Message button appears; the six essentials start being counted."],
+  ["What claiming changes", "Nothing on the public side: the same profile, now with a team behind it. The badge goes; the Message button appears; the five essentials start being counted."],
   ["What giving back deletes", "Listings, Compass answers, invitations, join requests, the team itself, and the private figures — size, turnover, stage, registration details. Not the profile, its address, its photos, or the connections others declared to it — those belong to the map as much as to the organisation."],
 ];
 

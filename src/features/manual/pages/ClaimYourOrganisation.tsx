@@ -68,7 +68,7 @@ export function ClaimYourOrganisation() {
       <FactList rows={AFTER} />
 
       <Banner tone="info" className="mt-10">
-        Once the profile is yours, its six essentials are probably not all there:{" "}
+        Once the profile is yours, its five essentials are probably not all there:{" "}
         <Link to="/manual/$page" params={{ page: "complete-your-profile" }} className={link}>
           Complete your profile
         </Link>{" "}

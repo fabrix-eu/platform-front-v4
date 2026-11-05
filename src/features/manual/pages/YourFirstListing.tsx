@@ -67,7 +67,7 @@ export function YourFirstListing() {
 
         <Step n={3} title="File it where partners will look">
           <p>
-            <strong>What is it?</strong> is one of five activities:
+            <strong>What is it?</strong> is one of five activities — or Something else:
           </p>
           <div className="flex flex-wrap gap-2">
             {LISTING_TYPES.map((type) => (

@@ -87,7 +87,7 @@ export const howTo: ManualSection = {
       area: "Directory and connections",
       page: "find-organisations",
       label: "Find organisations",
-      summary: "Search the directory by kind, activity and distance, on the map or in a list.",
+      summary: "Search the directory by place in the value chain, activity and distance, on the map or in a list.",
     },
     {
       area: "Directory and connections",
