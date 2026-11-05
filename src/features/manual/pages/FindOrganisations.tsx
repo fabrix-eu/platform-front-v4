@@ -77,7 +77,7 @@ export function FindOrganisations() {
       <p className="text-fx-body text-fx-ink2">
         No bookmarks or saved lists yet: the connection you declare is how you keep an organisation close.
         No sorting either: results are alphabetical, and the filters decide what is in. The vocabulary
-        behind What they do is in{" "}
+        behind In the value chain and On the marketplace is in{" "}
         <Link to="/manual/$page" params={{ page: "what-you-do" }} className={link}>
           What you do
         </Link>
