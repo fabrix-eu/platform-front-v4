@@ -12,8 +12,7 @@ export const marketplaceSearchSchema = z.object({
   by_type: z.string().optional(),
   by_category: z.string().optional(),
   country: z.string().optional(),
-  /** "all" = the visitor cleared the default "near my organisation" filter. */
-  near: z.literal("all").optional(),
+  /** Set = only what is within that many km of my organisation. Unset = everything, nearest first. */
   radius: z.number().optional(),
   view: z.enum(["cards", "list", "map"]).optional(),
 });

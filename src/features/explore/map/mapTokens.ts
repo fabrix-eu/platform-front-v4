@@ -6,6 +6,17 @@ export function token(name: string, fallback: string): string {
   return value || fallback;
 }
 
+/** The points closest to a place: enough to frame "around here" when there is no radius. */
+export function nearestCoords(points: { lon: number; lat: number }[], from: { lon: number; lat: number }, count: number): [number, number][] {
+  // Flat-earth distance, with the longitudes squeezed for the latitude: only the ranking matters.
+  const squeeze = Math.cos((from.lat * Math.PI) / 180);
+  const distance = (point: { lon: number; lat: number }) => ((point.lon - from.lon) * squeeze) ** 2 + (point.lat - from.lat) ** 2;
+  return [...points]
+    .sort((a, b) => distance(a) - distance(b))
+    .slice(0, count)
+    .map((point) => [point.lon, point.lat]);
+}
+
 /** A circle on the sphere, to show the "within N km" filter. */
 export function circlePolygon(center: [number, number], radiusKm: number, steps = 96) {
   const [lonDeg, latDeg] = center;

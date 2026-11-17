@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
-import type { ResolvedLocation } from "@/features/explore/location";
+import type { Proximity } from "@/features/explore/location";
 import { PointsMap, type MapPoint } from "@/features/explore/map/PointsMap";
 import type { Listing } from "../types";
 import { listingPoints, otherColor, typeColors } from "./listingPoints";
 import { MapLegend, MapSelection } from "./MapOverlays";
 
 /** The marketplace on a map: one pill per listing, coloured like its badge. */
-export function ListingsMap({ listings, location }: { listings: Listing[]; location: ResolvedLocation }) {
+export function ListingsMap({ listings, proximity }: { listings: Listing[]; proximity: Proximity }) {
   // Ephemeral: the marker someone clicked.
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -27,7 +27,8 @@ export function ListingsMap({ listings, location }: { listings: Listing[]; locat
   return (
     <PointsMap
       points={points}
-      location={location}
+      location={proximity.area}
+      focus={proximity.origin}
       selectedId={selectedId}
       onSelect={setSelectedId}
       legend={<MapLegend />}
