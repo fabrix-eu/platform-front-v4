@@ -7,7 +7,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { InfiniteScrollSentinel } from "@/features/explore/InfiniteScrollSentinel";
-import { geoParams, myOrgLocation, resolveLocation } from "@/features/explore/location";
+import { myOrgLocation, proximityLabel, proximityParams, resolveProximity } from "@/features/explore/location";
 import { directoryInfiniteQueryOptions, directoryMapQueryOptions } from "./api";
 import { DirectoryPlaceFilter, DirectorySearchBox, DirectoryViewToggle, StatusFilter } from "./DirectoryFilters";
 import { DirectoryMap } from "./DirectoryMap";
@@ -18,7 +18,9 @@ export function DirectoryPage() {
   const search = useSearch({ from: "/_auth/global" });
   const me = useOptionalMe();
   const mine = myOrgLocation(me);
-  const location = resolveLocation(search, mine);
+  // Everything, the closest first; `location` is the "within N km" filter, off by default.
+  const proximity = resolveProximity(search, mine);
+  const location = proximity.area;
   const view = search.view ?? "cards";
   const onMap = view === "map";
 
@@ -28,7 +30,7 @@ export function DirectoryPage() {
     support: search.support,
     offering: search.offering,
     ...(search.status ? { by_claimed: search.status === "claimed" } : {}),
-    ...geoParams(location, search.country),
+    ...proximityParams(proximity, search.country),
   };
 
   // Page by page while scrolling a list; all of them at once on the map.
@@ -73,12 +75,7 @@ export function DirectoryPage() {
           <div className="mb-5 flex items-center justify-between gap-4">
             <p className="text-fx-small font-bold text-fx-ink2">
               {total === undefined ? "Loading…" : `${total} organisation${total === 1 ? "" : "s"}`}
-              {location.active && (
-                <span className="font-normal text-fx-muted">
-                  {" "}
-                  within {location.radius} km of {location.label}
-                </span>
-              )}
+              <span className="font-normal text-fx-muted">{proximityLabel(proximity)}</span>
             </p>
             <DirectoryViewToggle view={view} />
           </div>
@@ -92,7 +89,7 @@ export function DirectoryPage() {
           ) : failed ? (
             <Banner tone="danger">The directory could not be loaded. Try again in a moment.</Banner>
           ) : onMap ? (
-            <DirectoryMap organizations={mapOrganizations} location={location} claimedById={claimedById} />
+            <DirectoryMap organizations={mapOrganizations} proximity={proximity} claimedById={claimedById} />
           ) : organizations.length === 0 ? (
             <EmptyState
               title={filtered ? "No organisation matches" : "Nobody here yet"}

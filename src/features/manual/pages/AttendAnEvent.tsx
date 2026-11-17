@@ -9,7 +9,7 @@ const SHOT = "/manual/attend-an-event/";
 
 const FILTERS = [
   ["When", "Upcoming, the default, or Past. An event moves from one to the other at its date and time."],
-  ["Location", "Near my organisation with a radius, or Everywhere, plus a country — the same rule as the marketplace. Online events are listed wherever you are, and have no pin on the map."],
+  ["Location", "Near my organisation with a radius — where the page opens — or Everywhere, plus a country. Online events are listed wherever you are, and have no pin on the map."],
   ["Views", "Cards, List, Map. Past events carry a Past badge."],
 ];
 

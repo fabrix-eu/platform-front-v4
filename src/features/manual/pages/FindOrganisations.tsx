@@ -11,7 +11,7 @@ const FILTERS = [
   ["In the value chain", "The stages they work in, from raw materials to collection & recovery — several at once."],
   ["Supporting the chain", "How they support it: logistics, machinery, design, consulting, research, finance, digital…"],
   ["On the marketplace", "What they offer or look for right now: the organisations with a live listing of that activity."],
-  ["Where", "Near my organisation with a radius, or Everywhere, plus a country — as on the marketplace."],
+  ["Where", "Everywhere — all of them, the closest first — or Near my organisation with a radius, plus a country — as on the marketplace."],
   ["Status", "All, On FABRIX (someone manages the profile), or Claimable (on the map, nobody has claimed it yet)."],
 ];
 
@@ -39,10 +39,10 @@ export function FindOrganisations() {
       <ol className="mt-8 flex flex-col gap-4">
         <Step n={1} title="Open the Directory">
           <p>
-            <strong>Directory</strong> in the sidebar. Like the marketplace, it opens on what is near your
-            organisation, {`100`} km around, and every choice is in the page's address.
+            <strong>Directory</strong> in the sidebar. Like the marketplace, it opens on every
+            organisation, the closest to yours first, and every choice is in the page's address.
           </p>
-          <Figure src={`${SHOT}01-directory.png`} alt="The Directory in cards view: filters on the left, the count within 100 km, organisation cards" />
+          <Figure src={`${SHOT}01-directory.png`} alt="The Directory in cards view: filters on the left, the count, organisation cards" />
         </Step>
 
         <Step n={2} title="Narrow it">
@@ -53,8 +53,9 @@ export function FindOrganisations() {
         <Step n={3} title="Read the cards, or the map">
           <FactList rows={CARD} />
           <p>
-            <strong>Map</strong> colours the pins by status — On FABRIX or Claimable — with your radius
-            drawn. Click a pin for the organisation's card.
+            <strong>Map</strong> colours the pins by status — On FABRIX or Claimable. It opens around
+            your organisation, and draws your radius when you set one. Click a pin for the
+            organisation's card.
           </p>
           <Figure src={`${SHOT}03-map.png`} alt="The Directory map, filtered on Claimable, with the legend On FABRIX / Claimable" />
         </Step>
@@ -76,8 +77,8 @@ export function FindOrganisations() {
       <Eyebrow className="mt-12 mb-3">What the Directory does not do</Eyebrow>
       <p className="text-fx-body text-fx-ink2">
         No bookmarks or saved lists yet: the connection you declare is how you keep an organisation close.
-        No sorting either: results are alphabetical, and the filters decide what is in. The vocabulary
-        behind What they do is in{" "}
+        No sorting of your own either: the closest come first, and the filters decide what is in. The
+        vocabulary behind What they do is in{" "}
         <Link to="/manual/$page" params={{ page: "what-you-do" }} className={link}>
           What you do
         </Link>

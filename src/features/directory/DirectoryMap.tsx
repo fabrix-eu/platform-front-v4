@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { MapPin, X } from "lucide-react";
-import type { ResolvedLocation } from "@/features/explore/location";
+import type { Proximity } from "@/features/explore/location";
 import { token } from "@/features/explore/map/mapTokens";
 import { PointsMap, type MapPoint } from "@/features/explore/map/PointsMap";
 import { Avatar } from "@/components/ui/Avatar";
@@ -29,11 +29,12 @@ function Legend() {
 /** The directory on a map: one pill per organisation. */
 export function DirectoryMap({
   organizations,
-  location,
+  proximity,
   claimedById,
 }: {
   organizations: DirectoryMapOrganization[];
-  location: ResolvedLocation;
+  /** The radius when one is set; otherwise the map opens around the current organisation. */
+  proximity: Proximity;
   /** The map payload leaves `claimed` out, so the list view's knowledge is passed in. */
   claimedById?: Map<string, boolean>;
 }) {
@@ -55,7 +56,8 @@ export function DirectoryMap({
   return (
     <PointsMap
       points={points}
-      location={location}
+      location={proximity.area}
+      focus={proximity.origin}
       selectedId={selectedId}
       onSelect={setSelectedId}
       legend={<Legend />}

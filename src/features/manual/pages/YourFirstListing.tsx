@@ -10,7 +10,7 @@ import { FactList, proseLink as link, Step } from "../parts";
 const SHOT = "/manual/your-first-listing/";
 
 const WHERE = [
-  ["The marketplace", "Everyone who opens it. By default it shows what is within 100 km of the reader's organisation, so your neighbours see it first; “Everywhere” shows it to all."],
+  ["The marketplace", "Everyone who opens it. It shows every listing, the closest to the reader's organisation first — so your neighbours see yours at the top."],
   ["Your profile", "Its Listings section, on the public page every visitor can read."],
   ["The feeds around you", "The home page of organisations near yours lists what was posted around them, and your listing is now one of those things."],
 ];

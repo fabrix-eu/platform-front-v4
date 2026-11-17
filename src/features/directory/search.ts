@@ -12,8 +12,7 @@ export const directorySearchSchema = z.object({
   country: z.string().optional(),
   /** "claimed" = someone manages it; "unclaimed" = it is waiting for its team. */
   status: z.enum(["claimed", "unclaimed"]).optional(),
-  /** "all" = the visitor cleared the default "near my organisation" filter. */
-  near: z.literal("all").optional(),
+  /** Set = only what is within that many km of my organisation. Unset = everything, nearest first. */
   radius: z.number().optional(),
   view: z.enum(["cards", "list", "map"]).optional(),
 });

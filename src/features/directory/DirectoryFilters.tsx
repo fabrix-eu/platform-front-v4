@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PillLink } from "@/components/ui/Pill";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { EU_COUNTRIES } from "@/features/explore/countries";
-import { RADIUS_OPTIONS, type ResolvedLocation } from "@/features/explore/location";
+import { DEFAULT_RADIUS_KM, RADIUS_OPTIONS, type ResolvedLocation } from "@/features/explore/location";
 import { type DirectorySearch } from "./search";
 
 /** Uncontrolled, debounced into ?search= — the URL is the only place the term lives. */
@@ -55,12 +55,17 @@ export function DirectoryPlaceFilter({ search, location, hasMyLocation }: { sear
       <div className="space-y-3">
         {hasMyLocation && (
           <div className="flex flex-wrap gap-2">
-            <PillLink to="/global" search={(prev) => ({ ...prev, near: undefined })} active={location.active} resetScroll={false}>
+            <PillLink to="/global" search={(prev) => ({ ...prev, radius: undefined })} active={!location.active} resetScroll={false}>
+              Everywhere
+            </PillLink>
+            <PillLink
+              to="/global"
+              search={(prev) => ({ ...prev, radius: prev.radius ?? DEFAULT_RADIUS_KM })}
+              active={location.active}
+              resetScroll={false}
+            >
               <MapPin className="size-3.5" />
               Near my organisation
-            </PillLink>
-            <PillLink to="/global" search={(prev) => ({ ...prev, near: "all" as const })} active={!location.active} resetScroll={false}>
-              Everywhere
             </PillLink>
           </div>
         )}
