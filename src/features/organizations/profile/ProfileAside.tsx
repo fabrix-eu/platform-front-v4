@@ -21,7 +21,8 @@ function ContactLink({ href, icon, children, external }: { href: string; icon: R
   );
 }
 
-// Contact details, what it does, the networks that follow it — each card only when there is something to say.
+// Contact details and what it does — each card only when there is something to say. Never the networks
+// that follow it: those are a facilitator's private CRM, the organisation is not told (FBX-123).
 export function ProfileAside({ org }: { org: OrganizationProfile }) {
   const hasContact = org.website || org.email || org.phone || org.linkedin || org.instagram;
   const icon = "size-4";
@@ -42,19 +43,6 @@ export function ProfileAside({ org }: { org: OrganizationProfile }) {
       )}
 
       <PositionCard org={org} />
-
-      {org.networks.length > 0 && (
-        <Card>
-          <Eyebrow>In the networks of</Eyebrow>
-          <ul className="mt-4 space-y-2">
-            {org.networks.map((network) => (
-              <li key={network.id} className="text-fx-body font-bold text-fx-ink2">
-                {network.name}
-              </li>
-            ))}
-          </ul>
-        </Card>
-      )}
     </aside>
   );
 }

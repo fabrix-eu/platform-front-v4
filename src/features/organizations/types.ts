@@ -86,7 +86,6 @@ export interface OrganizationProfile {
   /** :basic view, which also carries the default fields (slug, claimed…). */
   related_organizations: (OrganizationSummary & { slug: string })[];
   organization_photos: OrganizationPhoto[];
-  networks: { id: string; name: string; slug: string }[];
   profile_completion?: { sections: Record<string, boolean>; completed: number; total: number };
 }
 

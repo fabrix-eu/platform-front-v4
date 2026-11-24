@@ -49,7 +49,8 @@ function ActivityRow({ activity }: { activity: FeedActivity }) {
   );
 }
 
-// "Around you": what the organisation and the networks it belongs to post.
+// "Around you": listings and events near the organisation. Never says which networks follow it —
+// those are a facilitator's private CRM (FBX-123).
 export function ActivityList({ organizationId }: { organizationId: string }) {
   const query = useInfiniteQuery(orgFeedQueryOptions(organizationId));
   const activities = query.data?.pages.flatMap((page) => page.data) ?? [];
@@ -64,7 +65,7 @@ export function ActivityList({ organizationId }: { organizationId: string }) {
           The activity could not be loaded. Try again in a moment.
         </Banner>
       ) : activities.length === 0 ? (
-        <p className="mt-3 text-fx-body text-fx-ink2">Nothing yet. Listings and events from your organisation and its networks show up here.</p>
+        <p className="mt-3 text-fx-body text-fx-ink2">Nothing yet. Listings and events from your organisation and around it show up here.</p>
       ) : (
         <ul className="mt-1">
           {activities.map((activity) => (

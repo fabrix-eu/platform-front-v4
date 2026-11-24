@@ -3,7 +3,8 @@ import { api, type Paginated } from "@/lib/api";
 import type { MeOrganization } from "@/lib/auth";
 
 // ActivityBlueprint — GET /feed?organization_id= : the listings and events of the
-// organisation and of the networks it belongs to.
+// organisation and around it (the back end also picks events by facilitator network,
+// which the organisation is never shown).
 export interface FeedActivity {
   id: string;
   action: string;
