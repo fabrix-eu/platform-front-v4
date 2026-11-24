@@ -1,3 +1,4 @@
+import { LISTING_TYPES } from "@/features/listings/taxonomy";
 import type { OrganizationProfile } from "../types";
 import type { EditorSectionKey } from "./search";
 
@@ -39,7 +40,7 @@ const statusOf = (checks: boolean[]): SectionStatus =>
 
 export function editorSections(org: OrganizationProfile): EditorSection[] {
   const done = Object.fromEntries(essentials(org).map((e) => [e.key, e.done]));
-  const hasListings = ["services", "materials", "capacities", "products"].some((k) => org.profile_completion?.sections[k]);
+  const hasListings = LISTING_TYPES.some((type) => org.profile_completion?.sections[type]);
 
   return [
     {

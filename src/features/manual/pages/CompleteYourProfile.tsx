@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { Banner } from "@/components/ui/Banner";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Figure } from "../Figure";
 import { FactList, proseLink as link, Step } from "../parts";
@@ -79,16 +78,39 @@ export function CompleteYourProfile() {
             private: the Directory only ever uses the size band, and the Compass uses them to compare you
             with organisations like yours.
           </p>
-          <Figure src={`${SHOT}04-size-reach.png`} alt="The Size & reach section open: number of people, development stage, turnover band" />
+          <Figure src={`${SHOT}04-size-reach.png`} alt="The Size & reach section open: people, full-time equivalent, development stage, turnover band, customer reach" />
         </Step>
 
-        <Step n={6} title="Photos &amp; media">
+        <Step n={6} title="D · Offers &amp; needs">
           <p>
-            A logo, a banner, and a gallery of photos with a caption each — JPG, PNG or WebP. This section
-            does not count in the ring, but it is the first thing a partner looks at. Make sure people shown
-            in a photo agree to be there.
+            Two lists: what you offer, and what you are looking for. <strong>Add an offer</strong> and{" "}
+            <strong>Add a need</strong> open the listing form with the side already chosen; each one goes on
+            the Marketplace as a listing, and can be edited or deleted from here. Nothing in this section is
+            private: it holds only what you publish. The fields are in{" "}
+            <Link to="/manual/$page" params={{ page: "listing-fields" }} className={link}>
+              Listing fields
+            </Link>
+            .
           </p>
-          <Figure src={`${SHOT}05-photos.png`} alt="The Photos & media section open: logo, banner and gallery" />
+          <Figure src={`${SHOT}08-offers-needs.png`} alt="The Offers & needs section open: the offers with their activity badge, then the needs" />
+        </Step>
+
+        <Step n={7} title="E · Certifications">
+          <p>
+            The common certifications and standards as choices, and any other one typed in below.{" "}
+            <strong>None</strong> is an answer too, and clears the others. Press{" "}
+            <strong>Save certifications</strong>.
+          </p>
+          <Figure src={`${SHOT}09-certifications.png`} alt="The Certifications section open: the common certifications as choices, then Another one" />
+        </Step>
+
+        <Step n={8} title="Photos &amp; media">
+          <p>
+            A gallery of photos with a caption each — JPG, PNG or WebP — links to videos hosted elsewhere,
+            a logo and a banner. Each part saves on its own. This section does not count in the ring, but it
+            is the first thing a partner looks at. Make sure people shown in a photo agree to be there.
+          </p>
+          <Figure src={`${SHOT}05-photos.png`} alt="The Photos & media section open: gallery, videos, logo and banner" />
         </Step>
       </ol>
 
@@ -98,13 +120,13 @@ export function CompleteYourProfile() {
       <Eyebrow className="mt-12 mb-3">What the badges mean</Eyebrow>
       <FactList rows={STATUSES} />
 
-      <Banner tone="info" label="Not yet editable" className="mt-10">
-        <strong>E · Certifications</strong> has no form yet. The vocabulary of section B is in{" "}
+      <p className="mt-10 text-fx-body text-fx-ink2">
+        The vocabulary of section B is in{" "}
         <Link to="/manual/$page" params={{ page: "what-you-do" }} className={link}>
           What you do
         </Link>
         .
-      </Banner>
+      </p>
 
       <Eyebrow className="mt-12 mb-3">Check the result</Eyebrow>
       <p className="text-fx-body text-fx-ink2">

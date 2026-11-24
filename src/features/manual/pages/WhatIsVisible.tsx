@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { FactList, proseLink as link } from "../parts";
 
 const CIRCLES = [
-  ["Everyone, including visitors", "Your profile's public part: name, type, address on the map, description, what you do, contacts, photos, logo, listings, connections. The marketplace and the events, with their organisers' names."],
+  ["Everyone, including visitors", "Your profile's public part: name, address on the map, description, your place in the value chain, contacts, photos, logo, listings, connections. The marketplace and the events, with their organisers' names."],
   ["Everyone signed in", "The Directory, with the same profiles searchable and mapped. Who answered an event, and its online link. The name of the person behind each thing an organisation did — who posted a listing, who wrote a message — where that thing is shown."],
   ["Your organisation's team", "The private part of the profile: how many people, turnover, development stage, registration details. Your Compass answers and scores. Your mailbox. Your team list, invitations and join requests. The essentials ring."],
   ["The facilitators of a network you are in", "What everyone sees, plus your members' names and emails, and your answers to the Compass questionnaire on needs and opportunities. Their own record on you — health, notes, needs, interactions — is theirs, not yours: you never see it."],
