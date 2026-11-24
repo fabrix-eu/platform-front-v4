@@ -49,8 +49,7 @@ function ActivityRow({ activity }: { activity: FeedActivity }) {
   );
 }
 
-// "Around you": listings and events near the organisation. Never says which networks follow it —
-// those are a facilitator's private CRM (FBX-123).
+// "Around you": the organisation's listings and events, and those posted near it (see api.ts).
 export function ActivityList({ organizationId }: { organizationId: string }) {
   const query = useInfiniteQuery(orgFeedQueryOptions(organizationId));
   const activities = query.data?.pages.flatMap((page) => page.data) ?? [];

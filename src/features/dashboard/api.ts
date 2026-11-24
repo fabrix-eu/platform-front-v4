@@ -3,8 +3,8 @@ import { api, type Paginated } from "@/lib/api";
 import type { MeOrganization } from "@/lib/auth";
 
 // ActivityBlueprint — GET /feed?organization_id= : the listings and events of the
-// organisation and around it (the back end also picks events by facilitator network,
-// which the organisation is never shown).
+// organisation and those posted within 100 km of it, plus online events. Picked by
+// distance, never by the facilitator networks following it (FBX-123).
 export interface FeedActivity {
   id: string;
   action: string;
