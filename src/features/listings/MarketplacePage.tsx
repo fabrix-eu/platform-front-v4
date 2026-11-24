@@ -5,7 +5,7 @@ import { Banner } from "@/components/ui/Banner";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { InfiniteScrollSentinel } from "@/features/explore/InfiniteScrollSentinel";
-import { geoParams, myOrgLocation, resolveLocation } from "@/features/explore/location";
+import { myOrgLocation, proximityLabel, proximityParams, resolveProximity } from "@/features/explore/location";
 import { listingsInfiniteQueryOptions, listingsMapQueryOptions } from "./api";
 import { DirectionFilter } from "./filters/DirectionFilter";
 import { LocationFilter } from "./filters/LocationFilter";
@@ -20,7 +20,9 @@ export function MarketplacePage() {
   const search = useSearch({ from: "/_open/marketplace/" });
   const me = useOptionalMe();
   const mine = myOrgLocation(me);
-  const location = resolveLocation(search, mine);
+  // Everything, the closest first; `location` is the "within N km" filter, off by default.
+  const proximity = resolveProximity(search, mine);
+  const location = proximity.area;
   const view = search.view ?? "cards";
   const onMap = view === "map";
 
@@ -30,7 +32,7 @@ export function MarketplacePage() {
     one_off: search.one_off,
     by_type: search.by_type,
     by_category: search.by_category,
-    ...geoParams(location, search.country),
+    ...proximityParams(proximity, search.country),
   };
 
   // Page by page while scrolling a list; all of them at once on the map.
@@ -71,7 +73,7 @@ export function MarketplacePage() {
           <div className="mb-5 flex items-center justify-between gap-4">
             <p className="text-fx-small font-bold text-fx-ink2">
               {total === undefined ? "Loading…" : `${total} listing${total === 1 ? "" : "s"}`}
-              {location.active && <span className="font-normal text-fx-muted"> within {location.radius} km of {location.label}</span>}
+              <span className="font-normal text-fx-muted">{proximityLabel(proximity)}</span>
             </p>
             <ViewToggle view={view} />
           </div>
@@ -95,7 +97,7 @@ export function MarketplacePage() {
               action={<PostListingAction me={me} />}
             />
           ) : onMap ? (
-            <ListingsMap listings={listings} location={location} />
+            <ListingsMap listings={listings} proximity={proximity} />
           ) : view === "cards" ? (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {listings.map((listing) => (

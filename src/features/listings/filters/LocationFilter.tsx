@@ -5,7 +5,7 @@ import { inputClass } from "@/components/Field";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PillLink } from "@/components/ui/Pill";
 import { EU_COUNTRIES } from "@/features/explore/countries";
-import { RADIUS_OPTIONS, type ResolvedLocation } from "@/features/explore/location";
+import { DEFAULT_RADIUS_KM, RADIUS_OPTIONS, type ResolvedLocation } from "@/features/explore/location";
 import type { MarketplaceSearch } from "../search";
 
 const selectClass = cn(inputClass, "appearance-none py-2.5 pr-10");
@@ -38,12 +38,17 @@ export function LocationFilter({ search, location, hasMyLocation }: LocationFilt
       <div className="space-y-3">
         {hasMyLocation && (
           <div className="flex flex-wrap gap-2">
-            <PillLink to="/marketplace" search={(prev) => ({ ...prev, near: undefined })} active={location.active} resetScroll={false}>
+            <PillLink to="/marketplace" search={(prev) => ({ ...prev, radius: undefined })} active={!location.active} resetScroll={false}>
+              Everywhere
+            </PillLink>
+            <PillLink
+              to="/marketplace"
+              search={(prev) => ({ ...prev, radius: prev.radius ?? DEFAULT_RADIUS_KM })}
+              active={location.active}
+              resetScroll={false}
+            >
               <MapPin className="size-3.5" />
               Near my organisation
-            </PillLink>
-            <PillLink to="/marketplace" search={(prev) => ({ ...prev, near: "all" as const })} active={!location.active} resetScroll={false}>
-              Everywhere
             </PillLink>
           </div>
         )}
